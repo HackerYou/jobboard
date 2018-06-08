@@ -5,7 +5,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        Hello
+        This is our job board!
       </div>
     )
   }

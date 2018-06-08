@@ -1,7 +1,7 @@
 {
-  "name": "react-boilerplate",
+  "name": "HY Alumni Job Board",
   "version": "1.0.0",
-  "description": "",
+  "description": "A job board for the HY community",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
