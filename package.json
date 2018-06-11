@@ -1,5 +1,5 @@
 {
-  "name": "HY Alumni Job Board",
+  "name": "HY-Job-Board",
   "version": "1.0.0",
   "description": "A job board for the HY community",
   "main": "gulpfile.js",
@@ -10,24 +10,27 @@
   "license": "ISC",
   "devDependencies": {
     "axios": "^0.17.1",
-    "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.24.1",
-    "babelify": "^7.3.0",
-    "browser-sync": "^2.18.6",
-    "browserify": "^13.3.0",
-    "gulp": "^3.9.1",
+    "babelify": "^8.0.0",
+    "browser-sync": "^2.24.4",
+    "browserify": "^16.2.2",
     "gulp-concat": "^2.6.1",
-    "gulp-notify": "^2.2.0",
+    "gulp-notify": "^3.2.0",
     "gulp-plumber": "^1.1.0",
-    "gulp-sass": "^3.1.0",
-    "react": "^16.1.1",
+    "gulp-sass": "^4.0.1",
+    "plumber": "^0.4.8",
+    "react": "^16.4.0",
     "react-dom": "^16.1.1",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "react-router-dom": "^4.3.1",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
+    "gulp": "^3.9.1",
+    "i": "^0.3.6",
     "node-sass": "^4.7.1"
   }
 }
