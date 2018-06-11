@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Link, NavLink, Route} from 'react-router-dom';
 import axios from 'axios';
+import firebase from 'firebase';
 
 var config = {
   apiKey: "AIzaSyD2e9M8yWeL6_pQCH9PKoEE4Uvnseciahk",
