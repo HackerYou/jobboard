@@ -72,10 +72,10 @@ loginWithReadme(e) {
   render() {
     return (
       <div>
-        This is our job board!
         <div>
             {this.state.loggedIn ? (
-              <div>i am logged in 
+              <div>
+                i am logged in 
 
               <button onClick={this.logOut}>{this.state.buttonText}</button>
 
@@ -83,7 +83,7 @@ loginWithReadme(e) {
             ) : (
               <div>
 
-              <LoginForm />
+                <LoginForm />
               </div>
               )
             }
