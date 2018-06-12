@@ -32,27 +32,35 @@ class App extends React.Component {
 
   }
   componentDidMount(){
-  const dbRef = firebase.database().ref();
+    // const dbRef = firebase.database().ref();
 
-  firebase.auth().onAuthStateChanged(user => {
+    // dbRef.on("value", function (snapshot) {
+    //   console.log(snapshot.val());
+    // }, function (errorObject) {
+    //   console.log("The read failed: " + errorObject.code);
+    // });
+    firebase.auth().onAuthStateChanged(user => {
+
       if (user !== null) {
-        console.log(user)
+        // console.log(user)
         dbRef.on('value', snapshot => { });
-          this.setState({
-            loggedIn: true,
-            userId: user.uid,
-            userName: user.displayName            // provider won't stay on page reload
-          });
+        this.setState({
+          loggedIn: true,
+          userId: user.uid,
+          userName: user.displayName            // provider won't stay on page reload
+        });
       } else {
         this.setState({
           loggedIn: false,
           userId: '',
           userName: ''
         });
-      }   
+      }
     });
-  }
+  } 
+
   
+
   onChangeEmail(e){
     this.setState({
       email:e.target.value
@@ -105,8 +113,7 @@ class App extends React.Component {
         <div>
           {this.state.loggedIn ? (
             <div>
-            <h1>you are logged in!</h1>
-            <UserBar userName={this.state.userName} provider={this.state.provider}/>
+            <UserBar userId={this.state.userId} userName={this.state.userName} view={this.state.userView}/>
             </div>
           ) : (
               <div>
