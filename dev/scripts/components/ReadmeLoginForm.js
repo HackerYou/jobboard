@@ -14,7 +14,7 @@ class ReadmeLoginForm extends React.Component {
     }
     this.onChangeEmail = this.onChangeEmail.bind(this)
     this.onChangePassword = this.onChangePassword.bind(this)
-    this.onChangePass = this.onChangePass.bind(this)
+    this.signInWithReadme = this.signInWithReadme.bind(this)
 
   }
   componentDidMount() {
