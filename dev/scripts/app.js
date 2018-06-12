@@ -32,13 +32,13 @@ class App extends React.Component {
 
   }
   componentDidMount(){
-    const dbRef = firebase.database().ref();
+    // const dbRef = firebase.database().ref();
 
-    dbRef.on("value", function (snapshot) {
-      console.log(snapshot.val());
-    }, function (errorObject) {
-      console.log("The read failed: " + errorObject.code);
-    });
+    // dbRef.on("value", function (snapshot) {
+    //   console.log(snapshot.val());
+    // }, function (errorObject) {
+    //   console.log("The read failed: " + errorObject.code);
+    // });
     firebase.auth().onAuthStateChanged(user => {
 
       if (user !== null) {
