@@ -36,6 +36,7 @@ class App extends React.Component {
 
   firebase.auth().onAuthStateChanged(user => {
       if (user !== null) {
+        console.log(user)
         dbRef.on('value', snapshot => { });
           this.setState({
             loggedIn: true,
@@ -75,28 +76,30 @@ class App extends React.Component {
 
   loginWithGoogle(e) {
     e.preventDefault();
-
+    
     this.setState({
       provider: 'google'
     })
-      const provider = new firebase.auth.GoogleAuthProvider();
 
-      firebase.auth().signInWithPopup(provider)
-        .then(user => {
-          this.setState({
-            loggedIn: true
-          });
-        })
-        .catch(err => {
-
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider)
+      .then(user => {
+        this.setState({
+          loggedIn: true
         });
+      })
+      .catch(err => {
+
+      });
   }
+
   loginWithEmail(e) {
     e.preventDefault();
     this.setState({
       provider: 'email'
     })
   }
+
   signOut() {
     const dbRef = firebase.database().ref();
 
@@ -113,7 +116,7 @@ class App extends React.Component {
           {this.state.loggedIn ? (
             <div>
             <h1>you are logged in!</h1>
-            <button onClick={this.signOut}>Sign out (of Gmail/Readme?)</button>
+            <button onClick={this.signOut}>Sign out</button>
             </div>
           ) : (
               <div>
