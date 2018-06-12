@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Link, NavLink, Route} from 'react-router-dom';
 import firebase from 'firebase';
 import ReadmeLoginForm from './components/ReadmeLoginForm';
-import GoogleLoginForm from './components/GoogleLoginForm';
 import EmailLoginForm from './components/EmailLoginForm';
 
 const config = {
