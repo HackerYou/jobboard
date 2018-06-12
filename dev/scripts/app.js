@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Link, NavLink, Route} from 'react-router-dom';
 import firebase from 'firebase';
 import ReadmeLoginForm from './components/ReadmeLoginForm';
 import EmailLoginForm from './components/EmailLoginForm';
+import UserBar from './components/UserBar';
 
 const config = {
   apiKey: "AIzaSyDhpZQDqygKV1G_ne9JJwxxWPnYYKxaX0Q",
@@ -21,14 +22,13 @@ class App extends React.Component {
     super();
     this.state = {
       loggedIn: false,
-      userID: ''    
+      userId: '', 
+      provider:''    
     }
 
     this.loginWithReadme = this.loginWithReadme.bind(this)
     this.loginWithGoogle = this.loginWithGoogle.bind(this)
     this.loginWithEmail = this.loginWithEmail.bind(this)
-    // this.onChangeEmail = this.onChangeEmail.bind(this)
-    // this.onChangePassword = this.onChangePassword.bind(this)
 
   }
   componentDidMount(){
@@ -40,13 +40,13 @@ class App extends React.Component {
         dbRef.on('value', snapshot => { });
           this.setState({
             loggedIn: true,
-            userID: user.uid,
-            userName: user.displayName  
+            userId: user.uid,
+            userName: user.displayName            // provider won't stay on page reload
           });
       } else {
         this.setState({
           loggedIn: false,
-          userID: '',
+          userId: '',
           userName: ''
         });
       }   
@@ -100,23 +100,13 @@ class App extends React.Component {
     })
   }
 
-  signOut() {
-    const dbRef = firebase.database().ref();
-
-    firebase.auth().signOut();
-    dbRef.off('value');
-    this.setState({
-      loggedIn: false,
-      userID: ''
-    });
-  }
   render() {
     return (
         <div>
           {this.state.loggedIn ? (
             <div>
             <h1>you are logged in!</h1>
-            <button onClick={this.signOut}>Sign out</button>
+            <UserBar userName={this.state.userName} provider={this.state.provider}/>
             </div>
           ) : (
               <div>
