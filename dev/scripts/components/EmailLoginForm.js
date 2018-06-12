@@ -50,13 +50,16 @@ class EmailLoginForm extends React.Component {
   
   render(){
     return(
-      <form action="" id="emailSignInForm">
-        <label htmlFor="">email:</label>
-        <input type="email" name="email" id="" placeholder="enter your email" onChange={this.onChangeEmail} value={this.state.email} />
-        <label htmlFor="">password:</label>
-        <input type="password" name="password" placeholder="enter your password" onChange={this.onChangePassword} value={this.state.password} />
-        <input type="submit" onClick={this.signInWithEmail}/>
-      </form>
+      <div>
+        <p>Sign in to create an account</p>
+        <form action="" id="emailSignInForm">
+          <label htmlFor="">email:</label>
+          <input type="email" name="email" id="" placeholder="enter your email" onChange={this.onChangeEmail} value={this.state.email} />
+          <label htmlFor="">password:</label>
+          <input type="password" name="password" placeholder="enter your password" onChange={this.onChangePassword} value={this.state.password} />
+          <input type="submit" onClick={this.signInWithEmail} />
+        </form>
+      </div>
     )
   }
 }

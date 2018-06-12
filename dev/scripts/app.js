@@ -120,7 +120,7 @@ class App extends React.Component {
             </div>
           ) : (
               <div>
-                <p>Sign in with</p>
+                <p>Sign up or sign in with</p>
                 <button onClick={this.loginWithReadme}>Readme</button>
                 <button onClick={this.loginWithGoogle}>Google</button>
                 <button onClick={this.loginWithEmail}>Email</button>
