@@ -1,8 +1,6 @@
 import React from 'react';
 import firebase from 'firebase';
 
-
-
 class ReadmeLoginForm extends React.Component {
   constructor() {
     super();
@@ -18,20 +16,14 @@ class ReadmeLoginForm extends React.Component {
 
   }
   componentDidMount() {
-    document.getElementById('readmeSignInForm').addEventListener('submit', function (e) {
-      
-    });
-
   }
   signInWithReadme(e){
     e.preventDefault();
-    fetch(`https://notes-api.hackeryou.com/v2/user/firebaseAuth?email=${this.email.value}&password=${this.password.value}`)
+    fetch(`https://notes-api.hackeryou.com/v2/user/firebaseAuth?email=${this.state.email}&password=${this.state.password}`)
       .then(res => res.json())
       .then(res => {
-        console.log(res.token === true);
         if (res.token) {
           firebase.auth().signInWithCustomToken(res.token)
-            .then(() => console.log('user logged in'))
             .catch((error) => {
               let errorCode = error.code;
               let errorMessage = error.message;

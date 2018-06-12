@@ -34,7 +34,8 @@ class EmailLoginForm extends React.Component {
       } else {
         return
       }
-    })
+      
+    }).then( res => console.log(res))
   }
   onChangeEmail(e) {
     this.setState({
