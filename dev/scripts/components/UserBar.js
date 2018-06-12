@@ -7,6 +7,16 @@ class UserBar extends React.Component {
     super(props);
     this.signOut = this.signOut.bind(this)
   }
+  componentDidMount(){
+    // const ref = firebase.database().ref(`views/admin/${this.props.userId}`);
+
+    // ref.on("value", function (snapshot) {
+    //   console.log(snapshot.val());
+    // }, function (errorObject) {
+    //   console.log("The read failed: " + errorObject.code);
+    // });
+
+  }
   signOut() {
     const dbRef = firebase.database().ref();
 
@@ -20,10 +30,9 @@ class UserBar extends React.Component {
   render(){
     return(
       <div>
-        This is userbar
+        <h1>you are logged in / this is the userbar</h1>
             <button onClick={this.signOut}>Sign out</button>
         <p>Hi {this.props.userName ? this.props.userName : 'there'}!</p>
-        {}
       </div>
     )
   }
