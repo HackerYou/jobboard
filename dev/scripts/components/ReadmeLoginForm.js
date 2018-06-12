@@ -1,17 +1,9 @@
 import React from 'react';
 import firebase from 'firebase';
 
-var config = {
-  apiKey: "AIzaSyDhpZQDqygKV1G_ne9JJwxxWPnYYKxaX0Q",
-  authDomain: "hy-jobs-board.firebaseapp.com",
-  databaseURL: "https://hy-jobs-board.firebaseio.com",
-  projectId: "hy-jobs-board",
-  storageBucket: "hy-jobs-board.appspot.com",
-  messagingSenderId: "1023755007156"
-};
-firebase.initializeApp(config);
 
-class LoginForm extends React.Component {
+
+class ReadmeLoginForm extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -20,13 +12,11 @@ class LoginForm extends React.Component {
       password: '',
       email: ''
     }
-    this.loginWithReadme = this.loginWithReadme.bind(this)
     this.onChangeEmail = this.onChangeEmail.bind(this)
     this.onChangePassword = this.onChangePassword.bind(this)
   }
   componentDidMount() {
-   
-    document.getElementById('form').addEventListener('submit', function (e) {
+    document.getElementById('readmeSignInForm').addEventListener('submit', function (e) {
       e.preventDefault();
       fetch(`https://notes-api.hackeryou.com/v2/user/firebaseAuth?email=${this.email.value}&password=${this.password.value}`)
         .then(res => res.json())
@@ -39,18 +29,6 @@ class LoginForm extends React.Component {
     });
 
   }
-  loginWithReadme(e) {
-    e.preventDefault();
-    fetch(`https://notes-api.hackeryou.com/v2/user/firebaseAuth?email=${this.state.email}&password=${this.state.password}`)
-      .then(res => res.json())
-      .then(res => {
-        console.log(res);
-        firebase.auth().signInWithCustomToken(res.token)
-          .then(() => console.log('user logged in'))
-          .catch(err => console.error(err));
-      });
-  }
-
 
   onChangeEmail(e) {
     this.setState({
@@ -64,8 +42,8 @@ class LoginForm extends React.Component {
   }
   render() {
     return (
-        <form action="" id="form">
-          <label for="">email:</label>
+        <form action="" id="readmeSignInForm">
+          <label htmlFor="">email:</label>
           <input type="email" name="email" id="" placeholder="enter your readme email" onChange={this.onChangeEmail} value={this.state.email} />
           <label htmlFor="">password:</label>
           <input type="password" name="password" placeholder="enter your readme password" onChange={this.onChangePassword} value={this.state.password} />
@@ -75,4 +53,4 @@ class LoginForm extends React.Component {
   }
 }
 
-export default LoginForm;
+export default ReadmeLoginForm;
