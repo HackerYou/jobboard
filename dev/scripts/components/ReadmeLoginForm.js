@@ -2,14 +2,13 @@ import React from 'react';
 import firebase from 'firebase';
 
 class ReadmeLoginForm extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      userName: this.props.userName,
+      username: null,
       loggedIn: false,
       password: '',
-      email: '',
-      provider:'readme'
+      email: ''
     }
     this.onChangeEmail = this.onChangeEmail.bind(this)
     this.onChangePassword = this.onChangePassword.bind(this)
@@ -24,41 +23,16 @@ class ReadmeLoginForm extends React.Component {
       .then(res => res.json())
       .then(res => {
         if (res.token) {
-          //if the token comes back, sign in with it
           firebase.auth().signInWithCustomToken(res.token)
-          .catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.error(error.code, error.message)
-          })
-          .then((res) =>{
-            //get the user's uid from the auth portion of firebase
-            let user = firebase.auth().currentUser
-            
-            //if the user exists already in the database
-            const userRef = firebase.database().ref(`users/${user.uid}`)
-              userRef.on('value', function (snapshot) {
-                const userData = snapshot.val();
-
-                //if the user already exists, return
-                if (userData !=null) {
-                  return
-              } else {  
-               // else create an entry for the user in the database 
-                  userRef.set({
-                    'name': user.displayName || '',
-                    'alumni': true,
-                    'jobPoster': true,
-                    'admin':false
-                  })
-                }
-              })
-          })
-          
+            .catch((error) => {
+              let errorCode = error.code;
+              let errorMessage = error.message;
+              console.error(error.code, error.message)
+            });
         } else {
           alert(`You must have a valid Readme account to use this sign in method.`)
         }
-      })
+      });
   }
   onChangeEmail(e) {
     this.setState({
