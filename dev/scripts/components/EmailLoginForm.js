@@ -25,6 +25,7 @@ class EmailLoginForm extends React.Component {
       let errorCode = error.code;
       let errorMessage = error.message;
       console.log(errorCode, errorMessage, email, password);
+
       if (error.code === `auth/user-not-found`) {
         firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
           let errorCode = error.code;
@@ -35,7 +36,26 @@ class EmailLoginForm extends React.Component {
         return
       }
       
-    }).then( res => console.log(res))
+    }).then( (res) => {
+        //get the information at the user's uid node in the user database
+        const userRef = firebase.database().ref(`users/${res.user.uid}`)
+        
+        //if the user exists already in the database, return
+        userRef.on('value', function (snapshot) {
+
+          if (snapshot.val() != null) {
+            return
+          } else {
+            // else, create a user in the database 
+            userRef.set({
+              'name': res.user.displayName || '' ,
+              'jobPoster': true,
+              'alumni':false,
+              'admin':false
+            })
+          }
+        });
+      });
   }
   onChangeEmail(e) {
     this.setState({
