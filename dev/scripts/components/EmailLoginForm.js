@@ -37,6 +37,7 @@ class EmailLoginForm extends React.Component {
       }
       
     }).then( (res) => {
+      console.log(res)
         //get the information at the user's uid node in the user database
         const userRef = firebase.database().ref(`users/${res.user.uid}`)
         
