@@ -42,7 +42,7 @@ class ReadmeLoginForm extends React.Component {
 
                 //if the user already exists, return
                 if (userData !=null) {
-                  return
+                  console.log(snapshot.val())
               } else {  
                // else create an entry for the user in the database 
                   userRef.set({

@@ -94,7 +94,7 @@ class App extends React.Component {
         //if the user exists already in the database, return
         userRef.on('value', function (snapshot) {
           if (snapshot.val() !=null){
-            return
+            console.log(snapshot.val())
           }else{
           // else, create a user in the database 
             userRef.set({
