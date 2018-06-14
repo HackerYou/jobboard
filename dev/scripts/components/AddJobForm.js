@@ -22,7 +22,7 @@ class AddJobForm extends React.Component {
     submitJob(e) {
         const dbRef = firebase.database().ref(`jobs/`);
         e.preventDefault();
-        // dbRef.push
+
         dbRef.push({
             jobTitle: this.state.jobTitle,
             companyName: this.state.companyName,
@@ -31,9 +31,7 @@ class AddJobForm extends React.Component {
             jobDescription: this.state.jobDescription,
             keywords: this.state.keywords
         });
-        console.log("submitted");
 
-        // we want to push all job information to firebase/jobs
 
         this.setState({
             jobTitle: '',
@@ -43,8 +41,6 @@ class AddJobForm extends React.Component {
             jobDescription: '',
             keywords: ''
         })
-
-        //we want to empty the form
     }
     handleChange(e) {
         this.setState({
@@ -54,33 +50,34 @@ class AddJobForm extends React.Component {
     render() {
         return <form method="POST" id="addJobForm" autoComplete="off" name="addJobForm" onSubmit={this.submitJob}>
             <label htmlFor="jobTitle">Job Title</label>
-            <input type="text" name="jobTitle" id="jobTitle" placeholder="Job Title" required="true" onChange={this.handleChange} />
+            <input type="text" name="jobTitle" id="jobTitle" placeholder="Job Title" required="true" onChange={this.handleChange} value={this.state.jobTitle} />
 
             <label htmlFor="companyName">Company Name</label>
-            <input type="text" name="companyName" id="companyName" placeholder="Company Name" required="true" onChange={this.handleChange} />
+            <input type="text" name="companyName" id="companyName" placeholder="Company Name" required="true" onChange={this.handleChange} value={this.state.companyName} />
 
             <label htmlFor="jobLocation">Job Location</label>
-            <input type="text" name="jobLocation" id="jobLocation" placeholder="Job Location" required="true" onChange={this.handleChange} />
+            <input type="text" name="jobLocation" id="jobLocation" placeholder="Job Location" required="true" onChange={this.handleChange} value={this.state.jobLocation} />
 
             <label htmlFor="fullTime">Full Time</label>
-            <input type="radio" name="jobCommitment" id="fullTime" value="Full Time" onChange={this.handleChange} />
+            <input type="radio" name="jobCommitment" id="fullTime" value="Full Time" onChange={this.handleChange} value={this.state.jobCommitment} />
 
             <label htmlFor="partTime">Part Time</label>
-            <input type="radio" name="jobCommitment" id="partTime" value="Part Time" onChange={this.handleChange} />
+            <input type="radio" name="jobCommitment" id="partTime" value="Part Time" onChange={this.handleChange} value={this.state.jobCommitment} />
 
             <label htmlFor="contract">Contract</label>
-            <input type="radio" name="jobCommitment" id="contract" value="Contract" onChange={this.handleChange} />
+            <input type="radio" name="jobCommitment" id="contract" value="Contract" onChange={this.handleChange} value={this.state.jobCommitment} />
 
             <label htmlFor="keywords">Key Words</label>
-            <input type="text" name="keywords" id="keywords" placeholder="HTML, CSS, javascript" onChange={this.handleChange} />
+            <input type="text" name="keywords" id="keywords" placeholder="HTML, CSS, javascript" onChange={this.handleChange} value={this.state.keywords} />
 
             <label htmlFor="jobDescription">Job Description</label>
-            <textarea type="textarea" name="jobDescription" id="jobDescription" placeholder="Put dat descrippy here plz" cols="50" rows="10" onChange={this.handleChange} />
+            <textarea type="textarea" name="jobDescription" id="jobDescription" placeholder="Put dat descrippy here plz" cols="50" rows="10" onChange={this.handleChange} value={this.state.jobDescription} />
 
             <input type="submit" value="Submit Job Posting" />
-        </form>
+        </form>;
     }
 }
+
 
 
 
