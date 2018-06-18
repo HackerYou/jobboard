@@ -11,6 +11,8 @@ class JobFeed extends React.Component {
       jobs:[]
     }
     this.showJobDetails = this.showJobDetails.bind(this)
+    this.saveJob = this.saveJob.bind(this)
+
   }
   componentDidMount(){
     const dbRef = firebase.database().ref(`jobs`)
@@ -32,6 +34,9 @@ class JobFeed extends React.Component {
     })
     console.log('clicked')
   }
+  saveJob(jobId){
+    console.log(`let me save this job:${jobId}`)
+  }
   render(){
     return(
       <div>
@@ -44,6 +49,7 @@ class JobFeed extends React.Component {
           <div>
             <JobPreview 
               showJobDetails={this.showJobDetails}
+              saveJob={this.saveJob}
               key={i}
               companyName={job.companyName}
               jobTitle={job.jobTitle}

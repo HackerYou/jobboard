@@ -10,11 +10,13 @@ class JobPreview extends React.Component {
   }
   render() {
     return (
-      <div onClick={(jobId) =>{this.props.showJobDetails(this.props.jobId)} }>
-        <p>{this.props.jobTitle}</p>
-        <span>{this.props.companyName}</span> |
+      <div>
+        <p onClick={(jobId) => { this.props.showJobDetails(this.props.jobId) }}>{this.props.jobTitle}</p>
+        <span >{this.props.companyName}</span> |
         <span>{this.props.jobLocation}</span>
         <span>Posted on {this.props.datePosted}</span>
+        <button onClick={(jobId) => { this.props.saveJob(this.props.jobId) }}>Save Job</button>
+        <button>Applied</button>
       </div>
 
     )

@@ -6,7 +6,7 @@ import ReadmeLoginForm from './components/ReadmeLoginForm';
 import EmailLoginForm from './components/EmailLoginForm';
 import UserBar from './components/UserBar';
 import AddJobForm from './components/AddJobForm';
-import JobsFeed from './components/JobsFeed';
+import JobFeed from './components/JobFeed';
 
 const config = {
   apiKey: "AIzaSyDhpZQDqygKV1G_ne9JJwxxWPnYYKxaX0Q",
@@ -174,7 +174,7 @@ class App extends React.Component {
               />
               {/* {this.state.jobPoster ? : null} */}
               {this.state.jobPoster && this.state.editing ? <AddJobForm editing={this.state.editing}/> : <button onClick={this.postAJob}>Post a job</button> }
-              {this.state.alumni ? <JobsFeed view='alumni' /> : null}
+              {this.state.alumni ? <JobFeed /> : null}
             </div>
           ) : (
               <div>
