@@ -6,7 +6,11 @@ import ReadmeLoginForm from './components/ReadmeLoginForm';
 import EmailLoginForm from './components/EmailLoginForm';
 import UserBar from './components/UserBar';
 import AddJobForm from './components/AddJobForm';
+<<<<<<< HEAD
 import JobsFeed from './components/JobsFeed';
+=======
+
+>>>>>>> 94bb5549a4795405d5dbfb8472cb342a38bada00
 const config = {
   apiKey: "AIzaSyDhpZQDqygKV1G_ne9JJwxxWPnYYKxaX0Q",
   authDomain: "hy-jobs-board.firebaseapp.com",
