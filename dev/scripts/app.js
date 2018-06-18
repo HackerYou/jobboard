@@ -5,7 +5,6 @@ import firebase from 'firebase';
 import ReadmeLoginForm from './components/ReadmeLoginForm';
 import EmailLoginForm from './components/EmailLoginForm';
 import UserBar from './components/UserBar';
-import { Z_DEFAULT_COMPRESSION } from 'zlib';
 
 const config = {
   apiKey: "AIzaSyDhpZQDqygKV1G_ne9JJwxxWPnYYKxaX0Q",
@@ -33,13 +32,13 @@ class App extends React.Component {
     this.signOut = this.signOut.bind(this)
   }
   componentDidMount(){
-    const dbRef = firebase.database().ref();
+    this.dbRef = firebase.database().ref();
 
     firebase.auth().onAuthStateChanged(user => {
 
       if (user !== null) {
         // console.log(user)
-        dbRef.on('value', snapshot => { });
+        this.dbRef.on('value', snapshot => { });
         this.setState({
           loggedIn: true,
           userId: user.uid,
@@ -120,10 +119,10 @@ class App extends React.Component {
   }
 
   signOut() {
-    const dbRef = firebase.database().ref();
+    // const dbRef = firebase.database().ref();
 
     firebase.auth().signOut();
-    dbRef.off('value');
+    this.dbRef.off('value');
     this.setState({
       loggedIn: false,
       userId: '',
