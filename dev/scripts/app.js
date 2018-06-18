@@ -33,6 +33,7 @@ class App extends React.Component {
     this.loginWithEmail = this.loginWithEmail.bind(this)
     this.signOut = this.signOut.bind(this)
     this.postAJob = this.postAJob.bind(this)
+    this.close = this.close.bind(this)
 
   }
   componentDidMount(){
@@ -156,6 +157,11 @@ class App extends React.Component {
       editing:true
     })
   }
+  close(){
+    this.setState({
+      editing:false
+    })
+  }
   render() {
     return (
         <div>
@@ -173,7 +179,7 @@ class App extends React.Component {
               signOut={this.signOut}
               />
               {/* {this.state.jobPoster ? : null} */}
-              {this.state.jobPoster && this.state.editing ? <AddJobForm editing={this.state.editing}/> : <button onClick={this.postAJob}>Post a job</button> }
+              {this.state.jobPoster && this.state.editing ? <AddJobForm editing={this.state.editing} close={this.close}/> : <button onClick={this.postAJob}>Post a job</button> }
               {this.state.alumni ? <JobFeed userId={this.state.userId}/> : null}
             </div>
           ) : (

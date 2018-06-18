@@ -45,7 +45,8 @@ class AddJobForm extends React.Component {
             jobCommitment: '',
             jobDescription: '',
             keywords: '', 
-            timeCreated:''
+            timeCreated:'',
+            editing:this.props.editing
         })
     }
     handleChange(e) {
@@ -56,6 +57,7 @@ class AddJobForm extends React.Component {
     render() {
         return (
             <div>
+                <button onClick={this.props.close}>Close</button>
             <form method="POST" id="addJobForm" autoComplete="off" name="addJobForm" onSubmit={this.submitJob}>
                 <label htmlFor="jobTitle">Job Title</label>
                 <input type="text" name="jobTitle" id="jobTitle" placeholder="Job Title" required="true" onChange={this.handleChange} value={this.state.jobTitle} />
