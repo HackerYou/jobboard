@@ -174,7 +174,7 @@ class App extends React.Component {
               />
               {/* {this.state.jobPoster ? : null} */}
               {this.state.jobPoster && this.state.editing ? <AddJobForm editing={this.state.editing}/> : <button onClick={this.postAJob}>Post a job</button> }
-              {this.state.alumni ? <JobFeed /> : null}
+              {this.state.alumni ? <JobFeed userId={this.state.userId}/> : null}
             </div>
           ) : (
               <div>

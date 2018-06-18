@@ -5,8 +5,8 @@ import Search from './Search'
 import FullJob from './FullJob'
 
 class JobFeed extends React.Component { 
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       jobs:[]
     }
@@ -36,6 +36,10 @@ class JobFeed extends React.Component {
   }
   saveJob(jobId){
     console.log(`let me save this job:${jobId}`)
+    // const savedRef = firebase.database().ref(`users/${this.props.userId}/savedJobs/${jobId}`)
+    // savedRef.set({
+    //   jobKey:jobId
+    // })
   }
   render(){
     return(
@@ -46,7 +50,7 @@ class JobFeed extends React.Component {
         let job= this.state.jobs[i]
         
         return(
-          <div>
+          <div key={i}>
             <JobPreview 
               showJobDetails={this.showJobDetails}
               saveJob={this.saveJob}
@@ -56,6 +60,7 @@ class JobFeed extends React.Component {
               jobLocation={job.jobLocation}
               datePosted={job.timeCreated}
               jobId={i}
+              userId={this.props.userId}
             />
 
           </div>

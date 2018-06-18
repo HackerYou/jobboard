@@ -4,8 +4,30 @@ import firebase from 'firebase';
 class JobPreview extends React.Component {
   constructor(props){
     super(props);
+    this.state = ({
+      jobKey: this.props.jobId,
+      jobTitle: this.props.jobTitle,
+      companyName: this.props.companyName,
+      jobLocation: this.props.jobLocation,
+      datePosted: this.props.datePosted
+    })
   }
   componentDidMount() {
+
+  }
+  saveJob(jobId) {
+    console.log(`let me save this job:${this.props.jobId}`)
+    const savedRef = firebase.database().ref(`users/${this.props.userId}/savedJobs/${this.props.jobId}`)
+    savedRef.set({
+      jobKey: jobId,
+      jobTitle: this.state.jobTitle,
+      companyName: this.state.companyName,
+      jobLocation: this.state.jobLocation,
+      datePosted: this.state.datePosted
+    })
+    this.setState({
+      saved:true
+    })
 
   }
   render() {
@@ -15,8 +37,7 @@ class JobPreview extends React.Component {
         <span >{this.props.companyName}</span> |
         <span>{this.props.jobLocation}</span>
         <span>Posted on {this.props.datePosted}</span>
-        <button onClick={(jobId) => { this.props.saveJob(this.props.jobId) }}>Save Job</button>
-        <button>Applied</button>
+        <button onClick={(jobId) => { this.saveJob(this.props.jobId) }}>Save Job</button> 
       </div>
 
     )
