@@ -12,9 +12,9 @@ class JobsFeed extends React.Component {
   componentDidMount(){
     const dbRef = firebase.database().ref(`jobs`)
     dbRef.on('value', snapshot =>{
-      console.log(Object.entries(snapshot.val()))
-      console.log(Object.values(snapshot.val()))
-      console.log(Object.keys(snapshot.val()))
+      // console.log(Object.entries(snapshot.val()))
+      // console.log(Object.values(snapshot.val()))
+      // console.log(Object.keys(snapshot.val()))
 
       this.setState({
         jobs: snapshot.val()

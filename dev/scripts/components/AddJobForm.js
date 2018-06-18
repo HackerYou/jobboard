@@ -10,13 +10,19 @@ class AddJobForm extends React.Component {
             jobLocation: '',
             jobCommitment: '',
             jobDescription: '',
-            keywords: ''
+            keywords: '',
+            timeCreated:''
         }
         this.submitJob = this.submitJob.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
     componentDidMount() {
+      let timeCreated = new Date()
 
+      timeCreated = timeCreated.toString()
+      this.setState({
+        timeCreated: timeCreated
+      })
     }
     submitJob(e) {
         const dbRef = firebase.database().ref(`jobs/`);
@@ -28,7 +34,8 @@ class AddJobForm extends React.Component {
             jobLocation: this.state.jobLocation,
             jobCommitment: this.state.jobCommitment,
             jobDescription: this.state.jobDescription,
-            keywords: this.state.keywords
+            keywords: this.state.keywords,
+            timeCreated:this.state.timeCreated
         });
 
 
@@ -38,7 +45,8 @@ class AddJobForm extends React.Component {
             jobLocation: '',
             jobCommitment: '',
             jobDescription: '',
-            keywords: ''
+            keywords: '', 
+            timeCreated:''
         })
     }
     handleChange(e) {

@@ -12,6 +12,7 @@ class Search extends React.Component {
     return (
       <div>
         <h3>Search</h3>
+        <button onClick={() =>{ console.log(new Date())}}></button>
       </div>
 
     )
