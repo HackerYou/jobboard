@@ -32,6 +32,8 @@ class App extends React.Component {
     this.loginWithGoogle = this.loginWithGoogle.bind(this)
     this.loginWithEmail = this.loginWithEmail.bind(this)
     this.signOut = this.signOut.bind(this)
+    this.postAJob = this.postAJob.bind(this)
+
   }
   componentDidMount(){
     this.dbRef = firebase.database().ref();
@@ -149,6 +151,11 @@ class App extends React.Component {
       jobPoster: ''
     });
   }
+  postAJob(){
+    this.setState({
+      editing:true
+    })
+  }
   render() {
     return (
         <div>
@@ -165,7 +172,8 @@ class App extends React.Component {
               admin={this.state.admin}
               signOut={this.signOut}
               />
-              {this.state.jobPoster ? <AddJobForm /> : null}
+              {/* {this.state.jobPoster ? : null} */}
+              {this.state.jobPoster && this.state.editing ? <AddJobForm editing={this.state.editing}/> : <button onClick={this.postAJob}>Post a job</button> }
               {this.state.alumni ? <JobsFeed view='alumni' /> : null}
             </div>
           ) : (

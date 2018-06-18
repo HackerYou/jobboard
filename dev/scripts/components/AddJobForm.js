@@ -2,8 +2,8 @@ import React from 'react';
 import firebase from 'firebase';
 
 class AddJobForm extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             jobTitle: '',
             companyName: '',
@@ -37,7 +37,6 @@ class AddJobForm extends React.Component {
             keywords: this.state.keywords,
             timeCreated:this.state.timeCreated
         });
-
 
         this.setState({
             jobTitle: '',

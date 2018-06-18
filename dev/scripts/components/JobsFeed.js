@@ -2,12 +2,15 @@ import React from 'react';
 import firebase from 'firebase';
 import JobPreview from './JobPreview'
 import Search from './Search'
+import FullJob from './FullJob'
+
 class JobsFeed extends React.Component { 
   constructor(){
     super();
     this.state = {
       jobs:[]
     }
+    this.showJobDetails = this.showJobDetails.bind(this)
   }
   componentDidMount(){
     const dbRef = firebase.database().ref(`jobs`)
@@ -22,6 +25,13 @@ class JobsFeed extends React.Component {
     })
 
   }
+  showJobDetails(jobId){
+    this.setState({
+      showDetails:true,
+      showingJobId:jobId
+    })
+    console.log('clicked', jobId)
+  }
   render(){
     return(
       <div>
@@ -31,16 +41,24 @@ class JobsFeed extends React.Component {
         let job= this.state.jobs[i]
         
         return(
+          <div>
+            <JobPreview 
+              showJobDetails={this.showJobDetails}
+              key={i}
+              companyName={job.companyName}
+              jobTitle={job.jobTitle}
+              jobLocation={job.jobLocation}
+              datePosted={job.timeCreated}
+              jobId={i}
+            />
 
-          <JobPreview 
-            key={i}
-            company={job.company}
-            title={job.title}
-            location={job.location}
-          />
+          </div>
 
         )
       })}
+
+        {this.state.showDetails ? <FullJob jobId={this.state.showingJobId} /> : null}
+
       </div>
 
     )

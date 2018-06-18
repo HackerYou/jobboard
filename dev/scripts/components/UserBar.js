@@ -29,8 +29,6 @@ handleChange(e){
     return(
       <div>
         <h1>you are logged in / this is the userbar</h1>
-        {this.props.jobPoster ? <button>post a job</button> : null}
-        {this.props.alumni ? <button>search jobs</button> : null}
         {/* <div>Hi {this.props.userName ? this.props.userName 	
 -                                   : <div>	
 -                                    <input type="text" placeholder="your name here" onChange={this.handleChange}/>	
