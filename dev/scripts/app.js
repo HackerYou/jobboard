@@ -5,7 +5,8 @@ import firebase from 'firebase';
 import ReadmeLoginForm from './components/ReadmeLoginForm';
 import EmailLoginForm from './components/EmailLoginForm';
 import UserBar from './components/UserBar';
-
+import AddJobForm from './components/AddJobForm';
+import JobsFeed from './components/JobsFeed';
 const config = {
   apiKey: "AIzaSyDhpZQDqygKV1G_ne9JJwxxWPnYYKxaX0Q",
   authDomain: "hy-jobs-board.firebaseapp.com",
@@ -136,14 +137,15 @@ class App extends React.Component {
   }
 
   signOut() {
-    // const dbRef = firebase.database().ref();
-
     firebase.auth().signOut();
     this.dbRef.off('value');
     this.setState({
       loggedIn: false,
       userId: '',
-      provider:''
+      provider:'',
+      admin: '',
+      alumni: '',
+      jobPoster: ''
     });
   }
   render() {
@@ -162,6 +164,8 @@ class App extends React.Component {
               admin={this.state.admin}
               signOut={this.signOut}
               />
+              {this.state.jobPoster ? <AddJobForm /> : null}
+              {this.state.alumni ? <JobsFeed view='alumni' /> : null}
             </div>
           ) : (
               <div>

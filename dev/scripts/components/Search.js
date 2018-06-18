@@ -1,7 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
 
-class JobPreview extends React.Component {
+class Search extends React.Component {
   constructor(props){
     super(props);
   }
@@ -11,12 +11,10 @@ class JobPreview extends React.Component {
   render() {
     return (
       <div>
-        <p>{this.props.title}</p>
-        <p>{this.props.company}</p>
-        <p>{this.props.location}</p>
+        <h3>Search</h3>
       </div>
 
     )
   }
 }
-export default JobPreview;
+export default Search;
