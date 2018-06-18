@@ -34,6 +34,8 @@ class App extends React.Component {
   componentDidMount(){
     this.dbRef = firebase.database().ref();
 
+    this.userRef = firebase.database().ref(`users/${this.state.userId}`)
+    
     firebase.auth().onAuthStateChanged(user => {
 
       if (user !== null) {
@@ -44,11 +46,25 @@ class App extends React.Component {
           userId: user.uid,
           userName: user.displayName
         });
+        this.userRef.on('value', snapshot =>{
+          let resp = snapshot.val()
+          resp = resp[this.state.userId]
+          this.setState({
+            admin: resp.admin,
+            alumni: resp.alumni,
+            jobPoster: resp.jobPoster
+          })
+        })
+
       } else {
         this.setState({
           loggedIn: false,
           userId: '',
-          userName: ''
+          userName: '',
+          admin:'',
+          alumni:'',
+          jobPoster:''
+
         });
       }
     });
@@ -92,9 +108,7 @@ class App extends React.Component {
         const userRef = firebase.database().ref(`users/${res.user.uid}`)
         //if the user exists already in the database, return
         userRef.on('value', function (snapshot) {
-          if (snapshot.val() !=null){
-            console.log(snapshot.val())
-          }else{
+          if (snapshot.val()==null){
           // else, create a user in the database 
             userRef.set({
               'name':res.user.displayName,
@@ -102,6 +116,9 @@ class App extends React.Component {
               'alumni':false,
               'admin':false
             })
+          } else{
+            console.log('already there!')
+            return
           }
         });
       })
@@ -140,6 +157,9 @@ class App extends React.Component {
               userEmail ={this.state.email}
               loggedIn={this.state.loggedIn}
               provider={this.state.provider}
+              jobPoster={this.state.jobPoster}
+              alumni={this.state.alumni}
+              admin={this.state.admin}
               signOut={this.signOut}
               />
             </div>
@@ -149,7 +169,7 @@ class App extends React.Component {
                 <button onClick={this.loginWithReadme}>Readme</button>
                 <button onClick={this.loginWithGoogle}>Google</button>
                 <button onClick={this.loginWithEmail}>Email</button>
-              {this.state.loggedIn === false && this.state.provider === 'readme' && <ReadmeLoginForm /> }
+                {this.state.loggedIn === false && this.state.provider === 'readme' && <ReadmeLoginForm /> }
                 {this.state.loggedIn === false && this.state.provider === 'google' && null}
                 {this.state.loggedIn === false && this.state.provider === 'email' && <EmailLoginForm  />}
               </div>

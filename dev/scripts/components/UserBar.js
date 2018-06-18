@@ -29,14 +29,8 @@ handleChange(e){
     return(
       <div>
         <h1>you are logged in / this is the userbar</h1>
-          <p>{this.props.provider}</p>
-            <button onClick={this.props.signOut}>Sign out</button>
-        {/* <div>Hi {this.props.userName ? this.props.userName 
-                                   : <div>
-                                    <input type="text" placeholder="your name here" onChange={this.handleChange}/>
-                                    <button onClick={this.submitUserName}>Save Name</button> 
-                                     </div>
-              } !</div> */}
+
+        <button onClick={this.props.signOut}>Sign out</button>
       </div>
     )
   }
