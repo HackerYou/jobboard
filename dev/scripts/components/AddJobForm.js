@@ -53,10 +53,10 @@ class AddJobForm extends React.Component {
         this.setState({
             [e.target.name]: e.target.value
         });
-        for (let keyword in keywords){
-            console.log(keywords[keyword])
-        }
-        console.log(this.state.keywords)
+        // for (let keyword in keywords){
+        //     console.log(keywords[keyword])
+        // }
+        // console.log(this.state.keywords)
     }
 
     render() {

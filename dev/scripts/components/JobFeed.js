@@ -25,7 +25,6 @@ class JobFeed extends React.Component {
       showDetails:true,
       showingJobId:jobId
     })
-    console.log('clicked')
   }
 
   render(){
