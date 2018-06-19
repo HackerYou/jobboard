@@ -16,7 +16,6 @@ class JobPreview extends React.Component {
 
   }
   saveJob(jobId) {
-    console.log(`let me save this job:${this.props.jobId}`)
     const savedRef = firebase.database().ref(`users/${this.props.userId}/savedJobs/${this.props.jobId}`)
     savedRef.set({
       jobKey: jobId,
@@ -25,10 +24,6 @@ class JobPreview extends React.Component {
       jobLocation: this.state.jobLocation,
       datePosted: this.state.datePosted
     })
-    this.setState({
-      saved:true
-    })
-
   }
   render() {
     return (

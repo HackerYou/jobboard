@@ -58,6 +58,7 @@ class JobFeed extends React.Component {
               companyName={job.companyName}
               jobTitle={job.jobTitle}
               jobLocation={job.jobLocation}
+              jobDescription={job.jobDescription}
               datePosted={job.timeCreated}
               jobId={i}
               userId={this.props.userId}
