@@ -17,7 +17,7 @@ class EmailLoginForm extends React.Component {
   }
   componentDidMount(){
   }
-  signInWithEmail(e){
+  signInWithEmail = (e) =>{
     e.preventDefault();
     let email = this.state.email
     let password = this.state.password
@@ -37,7 +37,6 @@ class EmailLoginForm extends React.Component {
       }
       
     }).then( (res) => {
-      console.log(res)
         //get the information at the user's uid node in the user database
         const userRef = firebase.database().ref(`users/${res.user.uid}`)
         
@@ -58,12 +57,12 @@ class EmailLoginForm extends React.Component {
         });
       });
   }
-  onChangeEmail(e) {
+  onChangeEmail = (e) => {
     this.setState({
       email: e.target.value
     })
   }
-  onChangePassword(e) {
+  onChangePassword = (e) => {
     this.setState({
       password: e.target.value
     })

@@ -20,9 +20,6 @@ class LoginForm extends React.Component {
       password: '',
       email: ''
     }
-    this.loginWithReadme = this.loginWithReadme.bind(this)
-    this.onChangeEmail = this.onChangeEmail.bind(this)
-    this.onChangePassword = this.onChangePassword.bind(this)
   }
   componentDidMount() {
    
@@ -39,7 +36,7 @@ class LoginForm extends React.Component {
     });
 
   }
-  loginWithReadme(e) {
+  loginWithReadme = (e) => {
     e.preventDefault();
     fetch(`https://notes-api.hackeryou.com/v2/user/firebaseAuth?email=${this.state.email}&password=${this.state.password}`)
       .then(res => res.json())
@@ -52,12 +49,12 @@ class LoginForm extends React.Component {
   }
 
 
-  onChangeEmail(e) {
+  onChangeEmail = (e) => {
     this.setState({
       email: e.target.value
     })
   }
-  onChangePassword(e) {
+  onChangePassword = (e) => {
     this.setState({
       password: e.target.value
     })

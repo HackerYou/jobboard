@@ -5,21 +5,18 @@ import firebase from 'firebase';
 class UserBar extends React.Component {
   constructor(props){
     super(props);
-
-    this.submitUserName = this.submitUserName.bind(this)
-    this.handleChange = this.handleChange.bind(this)
   }
   componentDidMount(){
 
   }
-submitUserName(e){
+submitUserName = (e) =>{
   e.preventDefault();
   console.log(this.state.newUserName)
   this.setState({
     newUserName: this.state.newUserName
   })
 }
-handleChange(e){
+handleChange = (e) =>{
   e.preventDefault()
   this.setState({
     newUserName: e.target.value
@@ -29,14 +26,13 @@ handleChange(e){
     return(
       <div>
         <h1>you are logged in / this is the userbar</h1>
-          <p>{this.props.provider}</p>
-            <button onClick={this.props.signOut}>Sign out</button>
-        {/* <div>Hi {this.props.userName ? this.props.userName 
-                                   : <div>
-                                    <input type="text" placeholder="your name here" onChange={this.handleChange}/>
-                                    <button onClick={this.submitUserName}>Save Name</button> 
-                                     </div>
-              } !</div> */}
+        {/* <div>Hi {this.props.userName ? this.props.userName 	
+-                                   : <div>	
+-                                    <input type="text" placeholder="your name here" onChange={this.handleChange}/>	
+-                                    <button onClick={this.submitUserName}>Save Name</button> 	
+-                                     </div>	
+-              } !</div> */}
+        <button onClick={this.props.signOut}>Sign out</button>
       </div>
     )
   }

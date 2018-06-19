@@ -6,6 +6,7 @@ import ReadmeLoginForm from './components/ReadmeLoginForm';
 import EmailLoginForm from './components/EmailLoginForm';
 import UserBar from './components/UserBar';
 import AddJobForm from './components/AddJobForm';
+import JobFeed from './components/JobFeed';
 
 const config = {
   apiKey: "AIzaSyDhpZQDqygKV1G_ne9JJwxxWPnYYKxaX0Q",
@@ -26,15 +27,12 @@ class App extends React.Component {
       userId: '', 
       provider:''    
     }
-
-    this.loginWithReadme = this.loginWithReadme.bind(this)
-    this.loginWithGoogle = this.loginWithGoogle.bind(this)
-    this.loginWithEmail = this.loginWithEmail.bind(this)
-    this.signOut = this.signOut.bind(this)
   }
   componentDidMount(){
     this.dbRef = firebase.database().ref();
 
+    this.userRef = firebase.database().ref(`users/${this.state.userId}`)
+    
     firebase.auth().onAuthStateChanged(user => {
 
       if (user !== null) {
@@ -45,30 +43,44 @@ class App extends React.Component {
           userId: user.uid,
           userName: user.displayName
         });
+        this.userRef.on('value', snapshot =>{
+          let resp = snapshot.val()
+          resp = resp[this.state.userId]
+          this.setState({
+            admin: resp.admin,
+            alumni: resp.alumni,
+            jobPoster: resp.jobPoster
+          })
+        })
+
       } else {
         this.setState({
           loggedIn: false,
           userId: '',
-          userName: ''
+          userName: '',
+          admin:'',
+          alumni:'',
+          jobPoster:''
+
         });
       }
     });
   } 
 
-  onChangeEmail(e){
+  onChangeEmail = (e) =>{
     this.setState({
       email:e.target.value
     })
   }
 
   
-  onChangePassword(e){
+  onChangePassword = (e) =>{
     this.setState({
       password: e.target.value
     })
   }
 
-  loginWithReadme(e){
+  loginWithReadme = (e) =>{
     e.preventDefault();
 
     this.setState({
@@ -76,7 +88,7 @@ class App extends React.Component {
     })
   }
 
-  loginWithGoogle(e) {
+  loginWithGoogle = (e) => {
     e.preventDefault();
     
     this.setState({
@@ -93,9 +105,7 @@ class App extends React.Component {
         const userRef = firebase.database().ref(`users/${res.user.uid}`)
         //if the user exists already in the database, return
         userRef.on('value', function (snapshot) {
-          if (snapshot.val() !=null){
-            console.log(snapshot.val())
-          }else{
+          if (snapshot.val()==null){
           // else, create a user in the database 
             userRef.set({
               'name':res.user.displayName,
@@ -103,6 +113,9 @@ class App extends React.Component {
               'alumni':false,
               'admin':false
             })
+          } else{
+            console.log('already there!')
+            return
           }
         });
       })
@@ -112,23 +125,34 @@ class App extends React.Component {
 
   }
 
-  loginWithEmail(e) {
+  loginWithEmail = (e) => {
     e.preventDefault();
     this.setState({
       provider: 'email'
     })
   }
 
-  signOut() {
-    // const dbRef = firebase.database().ref();
-
+  signOut = () => {
     firebase.auth().signOut();
     this.dbRef.off('value');
     this.setState({
       loggedIn: false,
       userId: '',
-      provider:''
+      provider:'',
+      admin: '',
+      alumni: '',
+      jobPoster: ''
     });
+  }
+  postAJob = () => {
+    this.setState({
+      editing:true
+    })
+  }
+  close = () =>{
+    this.setState({
+      editing:false
+    })
   }
   render() {
     return (
@@ -141,8 +165,14 @@ class App extends React.Component {
               userEmail ={this.state.email}
               loggedIn={this.state.loggedIn}
               provider={this.state.provider}
+              jobPoster={this.state.jobPoster}
+              alumni={this.state.alumni}
+              admin={this.state.admin}
               signOut={this.signOut}
               />
+              {/* {this.state.jobPoster ? : null} */}
+              {this.state.jobPoster && this.state.editing ? <AddJobForm editing={this.state.editing} close={this.close}/> : <button onClick={this.postAJob}>Post a job</button> }
+              {this.state.alumni ? <JobFeed userId={this.state.userId}/> : null}
             </div>
           ) : (
               <div>
@@ -150,7 +180,7 @@ class App extends React.Component {
                 <button onClick={this.loginWithReadme}>Readme</button>
                 <button onClick={this.loginWithGoogle}>Google</button>
                 <button onClick={this.loginWithEmail}>Email</button>
-              {this.state.loggedIn === false && this.state.provider === 'readme' && <ReadmeLoginForm /> }
+                {this.state.loggedIn === false && this.state.provider === 'readme' && <ReadmeLoginForm /> }
                 {this.state.loggedIn === false && this.state.provider === 'google' && null}
                 {this.state.loggedIn === false && this.state.provider === 'email' && <EmailLoginForm  />}
               </div>
