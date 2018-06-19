@@ -27,14 +27,6 @@ class App extends React.Component {
       userId: '', 
       provider:''    
     }
-
-    this.loginWithReadme = this.loginWithReadme.bind(this)
-    this.loginWithGoogle = this.loginWithGoogle.bind(this)
-    this.loginWithEmail = this.loginWithEmail.bind(this)
-    this.signOut = this.signOut.bind(this)
-    this.postAJob = this.postAJob.bind(this)
-    this.close = this.close.bind(this)
-
   }
   componentDidMount(){
     this.dbRef = firebase.database().ref();
@@ -75,20 +67,20 @@ class App extends React.Component {
     });
   } 
 
-  onChangeEmail(e){
+  onChangeEmail = (e) =>{
     this.setState({
       email:e.target.value
     })
   }
 
   
-  onChangePassword(e){
+  onChangePassword = (e) =>{
     this.setState({
       password: e.target.value
     })
   }
 
-  loginWithReadme(e){
+  loginWithReadme = (e) =>{
     e.preventDefault();
 
     this.setState({
@@ -96,7 +88,7 @@ class App extends React.Component {
     })
   }
 
-  loginWithGoogle(e) {
+  loginWithGoogle = (e) => {
     e.preventDefault();
     
     this.setState({
@@ -133,14 +125,14 @@ class App extends React.Component {
 
   }
 
-  loginWithEmail(e) {
+  loginWithEmail = (e) => {
     e.preventDefault();
     this.setState({
       provider: 'email'
     })
   }
 
-  signOut() {
+  signOut = () => {
     firebase.auth().signOut();
     this.dbRef.off('value');
     this.setState({
@@ -152,12 +144,12 @@ class App extends React.Component {
       jobPoster: ''
     });
   }
-  postAJob(){
+  postAJob = () => {
     this.setState({
       editing:true
     })
   }
-  close(){
+  close = () =>{
     this.setState({
       editing:false
     })

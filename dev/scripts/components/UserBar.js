@@ -5,21 +5,18 @@ import firebase from 'firebase';
 class UserBar extends React.Component {
   constructor(props){
     super(props);
-
-    this.submitUserName = this.submitUserName.bind(this)
-    this.handleChange = this.handleChange.bind(this)
   }
   componentDidMount(){
 
   }
-submitUserName(e){
+submitUserName = (e) =>{
   e.preventDefault();
   console.log(this.state.newUserName)
   this.setState({
     newUserName: this.state.newUserName
   })
 }
-handleChange(e){
+handleChange = (e) =>{
   e.preventDefault()
   this.setState({
     newUserName: e.target.value

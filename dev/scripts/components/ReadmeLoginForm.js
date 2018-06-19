@@ -60,12 +60,12 @@ class ReadmeLoginForm extends React.Component {
         }
       })
   }
-  onChangeEmail(e) {
+  onChangeEmail = (e) => {
     this.setState({
       email: e.target.value
     })
   }
-  onChangePassword(e) {
+  onChangePassword = (e) => {
     this.setState({
       password: e.target.value
     })

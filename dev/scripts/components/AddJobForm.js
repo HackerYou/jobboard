@@ -49,7 +49,7 @@ class AddJobForm extends React.Component {
             editing:this.props.editing
         })
     }
-    handleChange = (e)=> {
+    handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         });

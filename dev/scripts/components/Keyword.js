@@ -10,7 +10,7 @@ class Keyword extends React.Component {
 
   }
 
-handleChange(e){
+handleChange = (e) =>{
   e.preventDefault()
   this.setState({
     newUserName: e.target.value

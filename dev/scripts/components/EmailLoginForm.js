@@ -17,7 +17,7 @@ class EmailLoginForm extends React.Component {
   }
   componentDidMount(){
   }
-  signInWithEmail(e){
+  signInWithEmail = (e) =>{
     e.preventDefault();
     let email = this.state.email
     let password = this.state.password
@@ -57,12 +57,12 @@ class EmailLoginForm extends React.Component {
         });
       });
   }
-  onChangeEmail(e) {
+  onChangeEmail = (e) => {
     this.setState({
       email: e.target.value
     })
   }
-  onChangePassword(e) {
+  onChangePassword = (e) => {
     this.setState({
       password: e.target.value
     })
