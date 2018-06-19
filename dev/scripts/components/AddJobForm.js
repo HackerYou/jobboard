@@ -14,8 +14,6 @@ class AddJobForm extends React.Component {
             keywords: '',
             timeCreated:''
         }
-        this.submitJob = this.submitJob.bind(this);
-        this.handleChange = this.handleChange.bind(this);
     }
     componentDidMount() {
       let timeCreated = new Date()
@@ -26,7 +24,7 @@ class AddJobForm extends React.Component {
       })
     }
 
-    submitJob(e) {
+    submitJob = (e) => {
         const dbRef = firebase.database().ref(`jobs/`);
         e.preventDefault();
 
@@ -51,7 +49,7 @@ class AddJobForm extends React.Component {
             editing:this.props.editing
         })
     }
-    handleChange(e) {
+    handleChange = (e)=> {
         this.setState({
             [e.target.name]: e.target.value
         });

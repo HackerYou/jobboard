@@ -21,7 +21,8 @@ gulp.task('js', () => {
 	return browserify('dev/scripts/app.js', {debug: true})
 		.transform('babelify', {
 			sourceMaps: true,
-			presets: ['env','react']
+			presets: ['env', 'react'],
+			plugins: ['transform-class-properties']
 		})
 		.bundle()
 		.on('error',notify.onError({

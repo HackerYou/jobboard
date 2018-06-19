@@ -10,37 +10,24 @@ class JobFeed extends React.Component {
     this.state = {
       jobs:[]
     }
-    this.showJobDetails = this.showJobDetails.bind(this)
-    this.saveJob = this.saveJob.bind(this)
-
   }
   componentDidMount(){
     const dbRef = firebase.database().ref(`jobs`)
     dbRef.on('value', snapshot =>{
-      // console.log(Object.entries(snapshot.val()))
-      // console.log(Object.values(snapshot.val()))
-      // console.log(Object.keys(snapshot.val()))
-
       this.setState({
         jobs: snapshot.val()
       })
     })
 
   }
-  showJobDetails(jobId){
+  showJobDetails = (jobId) =>{
     this.setState({
       showDetails:true,
       showingJobId:jobId
     })
     console.log('clicked')
   }
-  saveJob(jobId){
-    console.log(`let me save this job:${jobId}`)
-    // const savedRef = firebase.database().ref(`users/${this.props.userId}/savedJobs/${jobId}`)
-    // savedRef.set({
-    //   jobKey:jobId
-    // })
-  }
+
   render(){
     return(
       <div>
@@ -69,7 +56,7 @@ class JobFeed extends React.Component {
         )
       })}
 
-        {this.state.showDetails ? <FullJob jobId={this.state.showingJobId} /> : null}
+        {this.state.showDetails && <FullJob jobId={this.state.showingJobId} />}
 
       </div>
 

@@ -4,14 +4,6 @@ import firebase from 'firebase';
 class FullJob extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      // jobTitle:'',
-      // jobTitle: job.jobTitle,
-      // jobDescription: job.jobDescription,
-      // jobCommitment: job.jobCommitment,
-      // jobLocation: job.jobLocation,
-      // companyName: job.companyName
-    }
   }
   componentDidMount() {
     const dbRef = firebase.database().ref(`jobs/${this.props.jobId}`)
