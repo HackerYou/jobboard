@@ -36,7 +36,7 @@ class PendingJobs extends React.Component {
                   <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={i} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={i} userId={this.props.userId} />
                 </div>;
             })}
-            {this.state.showDetails && <FullJob jobId={this.state.showingJobId} />}
+            {this.state.showDetails && <FullJob jobId={this.state.showingJobId} dbRef={`jobs/pending/${this.state.showingJobId}`} />}
           </div>;
     }
 }

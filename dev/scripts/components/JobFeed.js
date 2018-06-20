@@ -55,7 +55,7 @@ class JobFeed extends React.Component {
         )
       })}
 
-        {this.state.showDetails && <FullJob jobId={this.state.showingJobId} />}
+        {this.state.showDetails && <FullJob jobId={this.state.showingJobId} dbRef={`jobs/approved/${this.state.showingJobId}`}/>}
 
       </div>
 
