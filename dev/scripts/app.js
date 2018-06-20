@@ -7,6 +7,8 @@ import EmailLoginForm from './components/EmailLoginForm';
 import UserBar from './components/UserBar';
 import AddJobForm from './components/AddJobForm';
 import JobFeed from './components/JobFeed';
+import PendingJobs from './components/PendingJobs';
+import ApprovedJobs from './components/ApprovedJobs'
 
 const config = {
   apiKey: "AIzaSyDhpZQDqygKV1G_ne9JJwxxWPnYYKxaX0Q",
@@ -171,8 +173,11 @@ class App extends React.Component {
               signOut={this.signOut}
               />
               {/* {this.state.jobPoster ? : null} */}
-            {this.state.jobPoster && this.state.editing ? <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.close}/> : <button onClick={this.postAJob}>Post a job</button> }
-              {this.state.alumni ? <JobFeed userId={this.state.userId}/> : null}
+            {this.state.editing ? <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.close}/> : <button onClick={this.postAJob}>Post a job</button> }
+            {this.state.alumni && <JobFeed userId={this.state.userId}/>}
+            {this.state.admin && <PendingJobs />}
+            {this.state.admin && <ApprovedJobs />}
+
             </div>
           ) : (
               <div>
