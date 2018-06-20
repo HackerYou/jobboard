@@ -32,8 +32,8 @@ class PendingJobs extends React.Component {
             {this.state.pendingJobs && Object.keys(this.state.pendingJobs).map(jobId => {
               let job = this.state.pendingJobs[jobId];
 
-              return 
-                  <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={jobId} userId={this.props.userId} />;
+              return (
+              <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={jobId} userId={this.props.userId} />)
             })}
             {this.state.showDetails && <FullJob
                 jobId={this.state.showingJobId}
