@@ -14,7 +14,8 @@ class AddJobForm extends React.Component {
             keywords: '',
             timeCreated:'',
             posterId: this.props.userId,
-            approved: false
+            approved: false,
+            deleted: false
         }
     }
     componentDidMount() {
