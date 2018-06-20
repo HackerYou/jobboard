@@ -8,11 +8,13 @@ class JobFeed extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      jobs:[]
+      jobs:[],
+      showingJobId: ''
+
     }
   }
   componentDidMount(){
-    const dbRef = firebase.database().ref(`jobs`)
+    const dbRef = firebase.database().ref(`jobs/approved`)
     dbRef.on('value', snapshot =>{
       this.setState({
         jobs: snapshot.val()
@@ -25,6 +27,7 @@ class JobFeed extends React.Component {
       showDetails:true,
       showingJobId:jobId
     })
+
   }
 
   render(){
@@ -55,7 +58,17 @@ class JobFeed extends React.Component {
         )
       })}
 
-        {this.state.showDetails && <FullJob jobId={this.state.showingJobId} />}
+        {this.state.showDetails && < FullJob
+                jobId={this.state.showingJobId}
+        jobTitle={this.state.jobs[`${this.state.showingJobId}`]['jobTitle']}
+        jobLocation={this.state.jobs[`${this.state.showingJobId}`]['jobLocation']}
+        jobDescription={this.state.jobs[`${this.state.showingJobId}`]['jobDescription']}
+        companyName={this.state.jobs[`${this.state.showingJobId}`]['companyName']}
+        datePosted={this.state.jobs[`${this.state.showingJobId}`]['datePosted']}
+        approved={this.state.jobs[`${this.state.showingJobId}`]['approved']}
+        jobCommitment={this.state.jobs[`${this.state.showingJobId}`]['jobCommitment']}
+
+            />}
 
       </div>
 

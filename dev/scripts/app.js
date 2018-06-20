@@ -7,6 +7,9 @@ import EmailLoginForm from './components/EmailLoginForm';
 import UserBar from './components/UserBar';
 import AddJobForm from './components/AddJobForm';
 import JobFeed from './components/JobFeed';
+import PendingJobs from './components/PendingJobs';
+import ApprovedJobs from './components/ApprovedJobs';
+import MyPostedJobs from './components/MyPostedJobs';
 
 const config = {
   apiKey: "AIzaSyDhpZQDqygKV1G_ne9JJwxxWPnYYKxaX0Q",
@@ -155,39 +158,27 @@ class App extends React.Component {
     })
   }
   render() {
-    return (
-        <div>
-          {this.state.loggedIn ? (
-            <div>
-            <UserBar 
-              userId={this.state.userId} 
-              userName={this.state.userName} 
-              userEmail ={this.state.email}
-              loggedIn={this.state.loggedIn}
-              provider={this.state.provider}
-              jobPoster={this.state.jobPoster}
-              alumni={this.state.alumni}
-              admin={this.state.admin}
-              signOut={this.signOut}
-              />
-              {/* {this.state.jobPoster ? : null} */}
-              {this.state.jobPoster && this.state.editing ? <AddJobForm editing={this.state.editing} close={this.close}/> : <button onClick={this.postAJob}>Post a job</button> }
-              {this.state.alumni ? <JobFeed userId={this.state.userId}/> : null}
-            </div>
-          ) : (
-              <div>
-                <p>Sign up or sign in with</p>
-                <button onClick={this.loginWithReadme}>Readme</button>
-                <button onClick={this.loginWithGoogle}>Google</button>
-                <button onClick={this.loginWithEmail}>Email</button>
-                {this.state.loggedIn === false && this.state.provider === 'readme' && <ReadmeLoginForm /> }
-                {this.state.loggedIn === false && this.state.provider === 'google' && null}
-                {this.state.loggedIn === false && this.state.provider === 'email' && <EmailLoginForm  />}
-              </div>
-            )
-          }
-        </div>
-    )
+    return <div>
+        {this.state.loggedIn ? <div>
+            <UserBar userId={this.state.userId} userName={this.state.userName} userEmail={this.state.email} loggedIn={this.state.loggedIn} provider={this.state.provider} jobPoster={this.state.jobPoster} alumni={this.state.alumni} admin={this.state.admin} signOut={this.signOut} />
+          {this.state.jobPoster && <MyPostedJobs userId={this.state.userId}/>}
+            {this.state.editing ? <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.close} /> : <button
+                onClick={this.postAJob}
+              >
+                Post a job
+              </button>}
+            {this.state.alumni && <JobFeed userId={this.state.userId}/>}
+            {this.state.admin && <ApprovedJobs/>}
+            {this.state.admin && <PendingJobs />}
+          </div> : <div>
+            <p>Sign up or sign in with</p>
+            <button onClick={this.loginWithReadme}>Readme</button>
+            <button onClick={this.loginWithGoogle}>Google</button>
+            <button onClick={this.loginWithEmail}>Email</button>
+            {this.state.loggedIn === false && this.state.provider === "readme" && <ReadmeLoginForm />}
+            {this.state.loggedIn === false && this.state.provider === "email" && <EmailLoginForm />}
+          </div>}
+      </div>;
   }
 }
 
