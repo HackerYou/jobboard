@@ -171,7 +171,7 @@ class App extends React.Component {
               signOut={this.signOut}
               />
               {/* {this.state.jobPoster ? : null} */}
-              {this.state.jobPoster && this.state.editing ? <AddJobForm editing={this.state.editing} close={this.close}/> : <button onClick={this.postAJob}>Post a job</button> }
+            {this.state.jobPoster && this.state.editing ? <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.close}/> : <button onClick={this.postAJob}>Post a job</button> }
               {this.state.alumni ? <JobFeed userId={this.state.userId}/> : null}
             </div>
           ) : (

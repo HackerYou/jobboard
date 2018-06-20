@@ -12,7 +12,9 @@ class AddJobForm extends React.Component {
             jobCommitment: '',
             jobDescription: '',
             keywords: '',
-            timeCreated:''
+            timeCreated:'',
+            posterId: this.props.userId,
+            approved: false
         }
     }
     componentDidMount() {
@@ -25,7 +27,7 @@ class AddJobForm extends React.Component {
     }
 
     submitJob = (e) => {
-        const dbRef = firebase.database().ref(`jobs/`);
+        const dbRef = firebase.database().ref(`jobs/pending`);
         e.preventDefault();
 
         dbRef.push({
@@ -35,19 +37,39 @@ class AddJobForm extends React.Component {
             jobCommitment: this.state.jobCommitment,
             jobDescription: this.state.jobDescription,
             keywords: this.state.keywords,
+            posterId: this.state.posterId,
+            approved: this.state.approved,
             timeCreated:this.state.timeCreated
-        });
+        }).then(res => {
+            let uniqueKey = res.path.pieces_[2];
+            // console.log(res, uniqueKey)
+            const userRef = firebase.database().ref(`users/${this.state.posterId}/postedJobs/${uniqueKey}`);
 
-        this.setState({
-            jobTitle: '',
-            companyName: '',
-            jobLocation: '',
-            jobCommitment: '',
-            jobDescription: '',
-            keywords: '', 
-            timeCreated:'',
-            editing:this.props.editing
+            userRef.set({
+                jobTitle: this.state.jobTitle,
+                companyName: this.state.companyName,
+                jobLocation: this.state.jobLocation,
+                jobCommitment: this.state.jobCommitment,
+                jobDescription: this.state.jobDescription,
+                keywords: this.state.keywords,
+                posterId: this.state.posterId,
+                approved: this.state.approved,
+                timeCreated: this.state.timeCreated
+            });
+            this.setState({
+                jobTitle: '',
+                companyName: '',
+                jobLocation: '',
+                jobCommitment: '',
+                jobDescription: '',
+                keywords: '',
+                timeCreated: '',
+                editing: this.props.editing
+            })
         })
+
+
+
     }
     handleChange = (e) => {
         this.setState({
