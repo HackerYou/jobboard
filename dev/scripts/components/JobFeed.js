@@ -8,7 +8,9 @@ class JobFeed extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      jobs:[]
+      jobs:[],
+      showingJobId: ''
+
     }
   }
   componentDidMount(){
@@ -25,6 +27,7 @@ class JobFeed extends React.Component {
       showDetails:true,
       showingJobId:jobId
     })
+
   }
 
   render(){
