@@ -58,7 +58,17 @@ class JobFeed extends React.Component {
         )
       })}
 
-        {this.state.showDetails && <FullJob jobId={this.state.showingJobId} dbRef={`jobs/approved/${this.state.showingJobId}`}/>}
+        {this.state.showDetails && < FullJob
+                jobId={this.state.showingJobId}
+        jobTitle={this.state.jobs[`${this.state.showingJobId}`]['jobTitle']}
+        jobLocation={this.state.jobs[`${this.state.showingJobId}`]['jobLocation']}
+        jobDescription={this.state.jobs[`${this.state.showingJobId}`]['jobDescription']}
+        companyName={this.state.jobs[`${this.state.showingJobId}`]['companyName']}
+        datePosted={this.state.jobs[`${this.state.showingJobId}`]['datePosted']}
+        approved={this.state.jobs[`${this.state.showingJobId}`]['approved']}
+        jobCommitment={this.state.jobs[`${this.state.showingJobId}`]['jobCommitment']}
+
+            />}
 
       </div>
 

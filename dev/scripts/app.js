@@ -176,7 +176,6 @@ class App extends React.Component {
             <button onClick={this.loginWithGoogle}>Google</button>
             <button onClick={this.loginWithEmail}>Email</button>
             {this.state.loggedIn === false && this.state.provider === "readme" && <ReadmeLoginForm />}
-            {this.state.loggedIn === false && this.state.provider === "google" && null}
             {this.state.loggedIn === false && this.state.provider === "email" && <EmailLoginForm />}
           </div>}
       </div>;

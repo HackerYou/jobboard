@@ -30,12 +30,11 @@ class ApprovedJobs extends React.Component {
         return <div>
             This is approved Jobs
             <Search />
-            {Object.keys(this.state.approvedJobs).map(i => {
-              let job = this.state.approvedJobs[i];
+            {this.state.approvedJobs && Object.keys(this.state.approvedJobs).map(jobId => {
+              let job = this.state.approvedJobs[jobId];
 
-              return <div key={i}>
-                  <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={i} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={i} userId={this.props.userId} />
-                </div>;
+              return 
+                  <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={i} userId={this.props.userId} />;
             })}
             {this.state.showDetails && <FullJob
                 jobId={this.state.showingJobId}

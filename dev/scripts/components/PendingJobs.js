@@ -29,12 +29,11 @@ class PendingJobs extends React.Component {
         return <div>
             <Search />
             this is pending jobs
-            {Object.keys(this.state.pendingJobs).map(i => {
-              let job = this.state.pendingJobs[i];
+            {this.state.pendingJobs && Object.keys(this.state.pendingJobs).map(jobId => {
+              let job = this.state.pendingJobs[jobId];
 
-              return <div key={i}>
-                  <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={i} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={i} userId={this.props.userId} />
-                </div>;
+              return 
+                  <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={jobId} userId={this.props.userId} />;
             })}
             {this.state.showDetails && <FullJob
                 jobId={this.state.showingJobId}

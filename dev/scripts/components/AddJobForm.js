@@ -13,7 +13,7 @@ class AddJobForm extends React.Component {
             jobDescription: '',
             keywords: '',
             timeCreated:'',
-            posterId: this.props.userId,
+            posterId: props.userId,
             approved: false,
             deleted: false
         }
@@ -43,7 +43,6 @@ class AddJobForm extends React.Component {
             timeCreated:this.state.timeCreated
         }).then(res => {
             let uniqueKey = res.path.pieces_[2];
-            // console.log(res, uniqueKey)
             const userRef = firebase.database().ref(`users/${this.state.posterId}/postedJobs/${uniqueKey}`);
 
             userRef.set({

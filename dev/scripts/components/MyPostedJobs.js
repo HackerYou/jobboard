@@ -23,40 +23,21 @@ class MyPostedJobs extends React.Component {
         })
     }
     showJobDetails = (jobId) => {
-        // console.log(this.props.dbRef)
-        const dbRef = firebase.database().ref(`users/${this.props.userId}/postedJobs/${jobId}`);console.log(dbRef)
-        // const dbRef = firebase.database().ref(`${this.props.dbRef}`)
-        // console.log(this.props.dbRef)
-        // console.log(dbRef);
-        // let job = {}
-        // dbRef.on('value', function (snapshot) {
-        //     job = snapshot.val()
-        //     console.log(job)
-        // })
-        // this.setState({
-        //     jobTitle: job.jobTitle,
-        //     jobDescription: job.jobDescription,
-        //     jobCommitment: job.jobCommitment,
-        //     jobLocation: job.jobLocation,
-        //     companyName: job.companyName
-        // })
+        const dbRef = firebase.database().ref(`users/${this.props.userId}/postedJobs/${jobId}`);
         this.setState({
             showDetails: true,
             showingJobId: jobId
-        }, () => {
-            console.log(dbRef)
         }) 
     }
 
     render() {
         return <div>
             <Search />
-            {Object.keys(this.state.postedJobs).map(i => {
-              let job = this.state.postedJobs[i];
+            {this.state.postedJobs && Object.keys(this.state.postedJobs).map(jobId => {
+              let job = this.state.postedJobs[jobId];
 
-              return <div key={i}>
-                  <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={i} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={i} userId={this.props.userId} />
-                </div>;
+              return 
+                  <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={jobId} userId={this.props.userId} />;
             })}
             {this.state.showDetails && <FullJob 
                         jobId={this.state.showingJobId} 
