@@ -27,8 +27,8 @@ class PendingJobs extends React.Component {
 
     render() {
         return <div>
-            this is pending jobs
             <Search />
+            this is pending jobs
             {Object.keys(this.state.pendingJobs).map(i => {
               let job = this.state.pendingJobs[i];
 

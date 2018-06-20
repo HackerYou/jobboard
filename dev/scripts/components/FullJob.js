@@ -13,7 +13,9 @@ class FullJob extends React.Component {
     }
   }
   componentDidMount() {
-    const dbRef = firebase.database().ref(`jobs/${this.props.jobId}`)
+    const dbRef = firebase.database().ref(`${this.props.dbRef}`)
+    console.log(this.props.dbRef)
+    console.log(dbRef);
     let job = {}
     dbRef.on('value', function(snapshot){
        job = snapshot.val()

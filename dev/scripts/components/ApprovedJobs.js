@@ -13,6 +13,7 @@ class ApprovedJobs extends React.Component {
     }
     componentDidMount() {
         const dbRef = firebase.database().ref(`jobs/approved`)
+
         dbRef.on('value', snapshot => {
             this.setState({ approvedJobs: snapshot.val() });
         })
