@@ -32,12 +32,13 @@ class MyPostedJobs extends React.Component {
 
     render() {
         return <div>
+            THIS IS MY POSTED JOBS
             <Search />
             {this.state.postedJobs && Object.keys(this.state.postedJobs).map(jobId => {
               let job = this.state.postedJobs[jobId];
 
-              return 
-                  <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={jobId} userId={this.props.userId} />;
+              return (
+              <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={jobId} archived={job.archived} approved={job.approved} userId={this.props.userId} showArchive={true} />);
             })}
             {this.state.showDetails && <FullJob 
                         jobId={this.state.showingJobId} 

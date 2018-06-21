@@ -33,8 +33,8 @@ class ApprovedJobs extends React.Component {
             {this.state.approvedJobs && Object.keys(this.state.approvedJobs).map(jobId => {
               let job = this.state.approvedJobs[jobId];
 
-              return 
-                  <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={i} userId={this.props.userId} />;
+              return (
+                  <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} archived={job.archived} approved={job.approved} jobId={i} userId={this.props.userId} />);
             })}
             {this.state.showDetails && <FullJob
                 jobId={this.state.showingJobId}
@@ -45,6 +45,7 @@ class ApprovedJobs extends React.Component {
                 datePosted={this.state.approvedJobs[`${this.state.showingJobId}`]['datePosted']}
                 approved={this.state.approvedJobs[`${this.state.showingJobId}`]['approved']}
                 jobCommitment={this.state.approvedJobs[`${this.state.showingJobId}`]['jobCommitment']}
+                archived={this.state.archivedJobs[`${this.state.showingJobId}`]['archived']}
 
             />}
           </div>;

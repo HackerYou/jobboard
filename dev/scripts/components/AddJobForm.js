@@ -15,7 +15,7 @@ class AddJobForm extends React.Component {
             timeCreated:'',
             posterId: props.userId,
             approved: false,
-            deleted: false
+            archived: false
         }
     }
     componentDidMount() {
@@ -40,7 +40,8 @@ class AddJobForm extends React.Component {
             keywords: this.state.keywords,
             posterId: this.state.posterId,
             approved: this.state.approved,
-            timeCreated:this.state.timeCreated
+            timeCreated:this.state.timeCreated,
+            archived: this.state.archived
         }).then(res => {
             let uniqueKey = res.path.pieces_[2];
             const userRef = firebase.database().ref(`users/${this.state.posterId}/postedJobs/${uniqueKey}`);
@@ -54,6 +55,7 @@ class AddJobForm extends React.Component {
                 keywords: this.state.keywords,
                 posterId: this.state.posterId,
                 approved: this.state.approved,
+                archived: this.state.archived,
                 timeCreated: this.state.timeCreated
             });
             this.setState({
@@ -75,10 +77,6 @@ class AddJobForm extends React.Component {
         this.setState({
             [e.target.name]: e.target.value
         });
-        // for (let keyword in keywords){
-        //     console.log(keywords[keyword])
-        // }
-        // console.log(this.state.keywords)
     }
 
     render() {
