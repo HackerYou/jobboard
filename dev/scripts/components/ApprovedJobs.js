@@ -34,7 +34,7 @@ class ApprovedJobs extends React.Component {
               let job = this.state.approvedJobs[jobId];
 
               return (
-                  <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} archived={job.archived} approved={job.approved} jobId={i} userId={this.props.userId} />);
+                  <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} archived={job.archived} approved={job.approved} jobId={jobId} userId={this.props.userId} />);
             })}
             {this.state.showDetails && <FullJob
                 jobId={this.state.showingJobId}

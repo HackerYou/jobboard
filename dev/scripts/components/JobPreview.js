@@ -17,9 +17,8 @@ class JobPreview extends React.Component {
   componentDidMount() { 
     console.log(this.state.archived)
   }
-  saveJob = (jobId)=> {
-<<<<<<< Updated upstream
-    //get the job in either the posted or pending list
+  saveJob = (jobId) => {
+    // get the job in either the posted or pending list
     const jobRef = firebase.database().ref(`jobs/${this.props.approved ? 'approved' : 'pending'}/${this.props.jobId}`)
 
     
@@ -32,16 +31,6 @@ class JobPreview extends React.Component {
   
       // set the value of that node to be all the job information we got from the jobRef.once
       savedRef.set(job)
-=======
-    const savedRef = firebase.database().ref(`users/${this.props.userId}/savedJobs/${jobId}`)
-    console.log(this.props.userId)
-    savedRef.set({
-      jobKey: jobId,
-      jobTitle: this.state.jobTitle,
-      companyName: this.state.companyName,
-      jobLocation: this.state.jobLocation,
-      datePosted: this.state.datePosted
->>>>>>> Stashed changes
     })
 
   }
@@ -94,19 +83,11 @@ class JobPreview extends React.Component {
           <p onClick={(jobId) => { this.props.showJobDetails(this.props.jobId) }}>{this.props.jobTitle}</p>
           <span >{this.props.companyName}</span> |
         <span>{this.props.jobLocation}</span>
-<<<<<<< Updated upstream
           <span>Posted on {this.props.datePosted}</span>
           <button onClick={(jobId) => { this.saveJob(this.props.jobId) }}>Save Job</button>
           {this.props.showArchive && <button onClick={(jobId) => { this.archiveJob(this.props.jobId) }}>Archive Job</button>}
         </div>
   
-=======
-        <span>Posted on {this.props.datePosted}</span>
-        <button onClick={(jobId) => { this.saveJob(this.props.jobId) }}>Save Job</button> 
-        <button onClick={(jobId) => { this.approveJob(this.props.jobId)} }>Approve Job</button>
-      </div>
-
->>>>>>> Stashed changes
     )
   }
 }
