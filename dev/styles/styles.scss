@@ -1,3 +1,10 @@
+
+* {
+  box-sizing: border-box;
+}
+body{
+  margin: 0;
+}
 .wrapper{
   width: 100%;
   position: relative;
@@ -7,9 +14,7 @@
   display: table;
   clear: both;
 }
-// .user-bar{
-//   width: 100%;
-// }
+
 .search{
   // clear:both;
   width: 100%;
@@ -26,24 +31,29 @@
 .job-feed{
   overflow-y:scroll;
   height:50vh;
+  width: 50%;
 }
 .job-preview{
   background-color:green;
-  width: 50%;
+  padding: 0 4%;
   border-top:3px solid #F6F7F9;
+}
+.active{
+  background-color:#F6F7F9;
 }
 .full-job{
   width: 50%;
+  padding: 2%;
   background-color:#F6F7F9;
   position: absolute;
   top:0;
   right:0;
 }
 button{
-  background-color: red;
+  background-color: #E40015;
   border:0;
   border-radius:0;
-  padding:20px;
+  padding:10px 20px;
   color:white;
   text-transform: uppercase;
 }

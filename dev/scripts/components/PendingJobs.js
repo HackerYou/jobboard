@@ -24,13 +24,7 @@ class PendingJobs extends React.Component {
             showingJobId: jobId
         })
     }
-    approveJob = () =>{
-        const dbRef = firebase.database().ref(`jobs/approved/${this.state.showingJobId}`)
-        console.log(dbRef)
-        // dbRef.on('value'), snapshot => {
-        //     console.log(dbRef.val())
-        // }
-    }
+
     render() {
         return <div className="job-feed-container job-feed-container--pending ">
             <h2>this is pending</h2>
@@ -51,6 +45,9 @@ class PendingJobs extends React.Component {
                         userId={this.props.userId} 
                         approved={job.approved} 
                         archived={job.archived}
+                        admin={true}
+                        active={this.state.showingJobId === jobId ? 'active' : null}
+
                         />
                     )
                 })

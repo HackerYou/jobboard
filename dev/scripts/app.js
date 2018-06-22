@@ -166,10 +166,10 @@ class App extends React.Component {
             {this.state.editing ? <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.close} /> : <button onClick={this.postAJob}>
                 Post a job </button>}
             <div className="tab-container">
-              {this.state.admin && <PendingJobs />}
+          {this.state.admin && <PendingJobs userId={this.state.userId}/>}
               {this.state.jobPoster && <MyPostedJobs userId={this.state.userId} />}
               {this.state.alumni && <JobFeed userId={this.state.userId}/>}
-              {this.state.admin && <ApprovedJobs />}
+          {this.state.admin && <ApprovedJobs userId={this.state.userId}/>}
             </div>
           </div> : <div>
             <p>Sign up or sign in with</p>

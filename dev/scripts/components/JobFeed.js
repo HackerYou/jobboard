@@ -50,6 +50,8 @@ class JobFeed extends React.Component {
                 datePosted={job.timeCreated}
                 jobId={jobId}
                 userId={this.props.userId}
+                active={this.state.showingJobId === jobId ? 'active': null}
+
               />
 
           )

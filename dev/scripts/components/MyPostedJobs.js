@@ -38,7 +38,23 @@ class MyPostedJobs extends React.Component {
                 let job = this.state.postedJobs[jobId];
                     if(job.archived === false){
                         return (
-                        <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={jobId} archived={job.archived} approved={job.approved} userId={this.props.userId} showArchive={true} />);
+                        <JobPreview 
+                        showJobDetails={this.showJobDetails} 
+                        saveJob={this.saveJob} 
+                        key={jobId} 
+                        companyName={job.companyName} 
+                        jobTitle={job.jobTitle} 
+                        jobLocation={job.jobLocation} 
+                        jobDescription={job.jobDescription} 
+                        datePosted={job.timeCreated} 
+                        jobId={jobId} 
+                        archived={job.archived} 
+                        approved={job.approved} 
+                        userId={this.props.userId} 
+                        showArchive={true} 
+                        active={this.state.showingJobId === jobId ? 'active': null}
+
+                        />);
                     } 
                 })}
             </div>
