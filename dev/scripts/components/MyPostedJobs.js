@@ -36,9 +36,10 @@ class MyPostedJobs extends React.Component {
             <Search />
             {this.state.postedJobs && Object.keys(this.state.postedJobs).map(jobId => {
               let job = this.state.postedJobs[jobId];
-
-              return (
-              <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={jobId} archived={job.archived} approved={job.approved} userId={this.props.userId} showArchive={true} />);
+                if(job.archived === false){
+                    return (
+                    <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={jobId} archived={job.archived} approved={job.approved} userId={this.props.userId} showArchive={true} />);
+                } 
             })}
             {this.state.showDetails && <FullJob 
                         jobId={this.state.showingJobId} 
@@ -51,6 +52,7 @@ class MyPostedJobs extends React.Component {
                         jobCommitment={this.state.postedJobs[`${this.state.showingJobId}`]['jobCommitment']}
 
              />}
+           
           </div>;
     }
 }

@@ -10,12 +10,12 @@ class JobPreview extends React.Component {
       companyName: this.props.companyName,
       jobLocation: this.props.jobLocation,
       datePosted: this.props.datePosted,
-      approved: this.props.approved
-      // archived: false
+      approved: this.props.approved,
+      archived: this.props.archived
     })
   }
-  componentDidMount() {
-
+  componentDidMount() { 
+    console.log(this.state.archived)
   }
   saveJob = (jobId)=> {
     //get the job in either the posted or pending list
@@ -75,14 +75,14 @@ class JobPreview extends React.Component {
   render() {
     return (
       <div>
-        <p onClick={(jobId) => { this.props.showJobDetails(this.props.jobId) }}>{this.props.jobTitle}</p>
-        <span >{this.props.companyName}</span> |
+          <p onClick={(jobId) => { this.props.showJobDetails(this.props.jobId) }}>{this.props.jobTitle}</p>
+          <span >{this.props.companyName}</span> |
         <span>{this.props.jobLocation}</span>
-        <span>Posted on {this.props.datePosted}</span>
-        <button onClick={(jobId) => { this.saveJob(this.props.jobId) }}>Save Job</button>
-        {this.props.showArchive && <button onClick={(jobId) => { this.archiveJob(this.props.jobId) }}>Archive Job</button>}
-      </div>
-
+          <span>Posted on {this.props.datePosted}</span>
+          <button onClick={(jobId) => { this.saveJob(this.props.jobId) }}>Save Job</button>
+          {this.props.showArchive && <button onClick={(jobId) => { this.archiveJob(this.props.jobId) }}>Archive Job</button>}
+        </div>
+  
     )
   }
 }
