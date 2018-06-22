@@ -24,7 +24,7 @@ handleChange = (e) =>{
 }
   render(){
     return(
-      <div>
+      <div className="userBar">
         <h1>you are logged in / this is the userbar</h1>
         {/* <div>Hi {this.props.userName ? this.props.userName 	
 -                                   : <div>	

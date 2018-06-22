@@ -167,9 +167,9 @@ class App extends React.Component {
               >
                 Post a job
               </button>}
-            {this.state.alumni && <JobFeed userId={this.state.userId}/>}
-            {this.state.admin && <ApprovedJobs/>}
-            {this.state.admin && <PendingJobs />}
+          {this.state.alumni && <JobFeed userId={this.state.userId}/>}
+          {this.state.admin && <ApprovedJobs />}
+          {this.state.admin && <PendingJobs />}
           </div> : <div>
             <p>Sign up or sign in with</p>
             <button onClick={this.loginWithReadme}>Readme</button>
