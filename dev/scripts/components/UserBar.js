@@ -11,7 +11,6 @@ class UserBar extends React.Component {
   }
 submitUserName = (e) =>{
   e.preventDefault();
-  console.log(this.state.newUserName)
   this.setState({
     newUserName: this.state.newUserName
   })

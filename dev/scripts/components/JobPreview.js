@@ -15,7 +15,6 @@ class JobPreview extends React.Component {
     })
   }
   componentDidMount() { 
-    console.log(this.state.archived)
   }
   saveJob = (jobId)=> {
     //get the job in either the posted or pending list

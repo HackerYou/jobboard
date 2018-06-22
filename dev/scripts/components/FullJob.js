@@ -6,7 +6,7 @@ class FullJob extends React.Component {
     super(props);
   }
   componentDidMount() {
-      console.log("mounty mount")
+
   }
   render() {
     return (
