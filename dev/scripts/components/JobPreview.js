@@ -10,23 +10,30 @@ class JobPreview extends React.Component {
       companyName: this.props.companyName,
       jobLocation: this.props.jobLocation,
       datePosted: this.props.datePosted,
-      approved: this.props.approved,
-      archived: false
+      approved: this.props.approved
+      // archived: false
     })
   }
   componentDidMount() {
 
   }
   saveJob = (jobId)=> {
-    const savedRef = firebase.database().ref(`users/${this.props.userId}/savedJobs/${this.props.jobId}`)
-    savedRef.set({
-      jobKey: jobId,
-      jobTitle: this.state.jobTitle,
-      companyName: this.state.companyName,
-      jobLocation: this.state.jobLocation,
-      datePosted: this.state.datePosted,
-      archived: this.state.archived
+    //get the job in either the posted or pending list
+    const jobRef = firebase.database().ref(`jobs/${this.props.approved ? 'approved' : 'pending'}/${this.props.jobId}`)
+
+    // create a local variable to hold our job information
+    let job = {}
+
+    // get all the job information that currently exists at that location 
+    jobRef.once('value', snapshot => {
+      job = snapshot.val();
     })
+    //choose where we want to save the job in the user's profile
+    const savedRef = firebase.database().ref(`users/${this.props.userId}/savedJobs/${this.props.jobId}`)
+
+    // set the value of that node to be all the job information we got from the jobRef.once
+    savedRef.set(job)
+
   }
   archiveJob = (jobId) => {
     //get the job in the user's postedJobs list
@@ -56,7 +63,7 @@ class JobPreview extends React.Component {
       })
       //get the location in the archived list where this  job should live after it's archived 
       const archivedJobRef = firebase.database().ref(`jobs/archived/${this.props.jobId}`)
-      
+
       // set the value of that node to be all the job information we got from line 49
       archivedJobRef.set(job)
 
