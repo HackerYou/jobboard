@@ -1,7 +1,6 @@
 import React from 'react';
 import firebase from 'firebase';
 import JobPreview from './JobPreview'
-import Search from './Search'
 import FullJob from './FullJob'
 
 class MyPostedJobs extends React.Component {
@@ -31,16 +30,18 @@ class MyPostedJobs extends React.Component {
     }
 
     render() {
-        return <div>
-            THIS IS MY POSTED JOBS
-            <Search />
-            {this.state.postedJobs && Object.keys(this.state.postedJobs).map(jobId => {
-              let job = this.state.postedJobs[jobId];
-                if(job.archived === false){
-                    return (
-                    <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={jobId} archived={job.archived} approved={job.approved} userId={this.props.userId} showArchive={true} />);
-                } 
-            })}
+        return (
+        <div className="job-feed-container job-feed-container--my-posted">
+            <h2>THIS IS MY POSTED JOBS</h2>
+            <div className="job-feed">
+                {this.state.postedJobs && Object.keys(this.state.postedJobs).map(jobId => {
+                let job = this.state.postedJobs[jobId];
+                    if(job.archived === false){
+                        return (
+                        <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={jobId} archived={job.archived} approved={job.approved} userId={this.props.userId} showArchive={true} />);
+                    } 
+                })}
+            </div>
             {this.state.showDetails && <FullJob 
                         jobId={this.state.showingJobId} 
                         jobTitle={this.state.postedJobs[`${this.state.showingJobId}`]['jobTitle']}
@@ -53,7 +54,7 @@ class MyPostedJobs extends React.Component {
 
              />}
            
-          </div>;
+          </div>)
     }
 }
 export default MyPostedJobs

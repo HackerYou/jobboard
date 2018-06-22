@@ -1,4 +1,49 @@
-.userBar{
+.wrapper{
   width: 100%;
-  background-color:pink;
+  position: relative;
+}
+.wrapper:after{
+  content: "";
+  display: table;
+  clear: both;
+}
+// .user-bar{
+//   width: 100%;
+// }
+.search{
+  // clear:both;
+  width: 100%;
+    background: #444444;
+}
+.tab-container{
+  position: relative;
+}
+.job-feed-container{
+ background-color:pink;
+//  position: absolute;
+}
+
+.job-feed{
+  overflow-y:scroll;
+  height:50vh;
+}
+.job-preview{
+  background-color:green;
+  width: 50%;
+  border-top:3px solid #F6F7F9;
+}
+.full-job{
+  width: 50%;
+  background-color:#F6F7F9;
+  position: absolute;
+  top:0;
+  right:0;
+}
+button{
+  background-color: red;
+  border:0;
+  border-radius:0;
+  padding:20px;
+  color:white;
+  text-transform: uppercase;
 }

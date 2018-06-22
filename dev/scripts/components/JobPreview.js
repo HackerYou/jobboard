@@ -15,7 +15,6 @@ class JobPreview extends React.Component {
     })
   }
   componentDidMount() { 
-    console.log(this.state.archived)
   }
   saveJob = (jobId) => {
     // get the job in either the posted or pending list
@@ -79,7 +78,7 @@ class JobPreview extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="job-preview">
           <p onClick={(jobId) => { this.props.showJobDetails(this.props.jobId) }}>{this.props.jobTitle}</p>
           <span >{this.props.companyName}</span> |
         <span>{this.props.jobLocation}</span>
