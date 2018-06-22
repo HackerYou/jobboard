@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 class Keyword extends React.Component {
   constructor(props){
     super(props);
@@ -11,16 +10,17 @@ class Keyword extends React.Component {
   }
 
 handleChange = (e) =>{
-  e.preventDefault()
-  this.setState({
-    newUserName: e.target.value
-  })
+  // e.preventDefault()
+  // this.setState({
+  //   newUserName: e.target.value
+  // })
 }
   render(){
     return(
       <div>
-       <label htmlFor=""></label>
-       <input type="checkbox"/>
+        {/* <h1>{this.props.word}</h1> */}
+        <input type="checkbox" />
+        <label htmlFor={this.props.word}>{this.props.word}</label>
       </div>
     )
   }

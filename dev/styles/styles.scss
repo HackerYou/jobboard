@@ -57,3 +57,10 @@ button{
   color:white;
   text-transform: uppercase;
 }
+
+input[type=radio]{
+  width: 25%;
+}
+input[type=text]{
+  display: block;
+}
