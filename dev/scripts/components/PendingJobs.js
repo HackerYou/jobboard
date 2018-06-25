@@ -26,15 +26,33 @@ class PendingJobs extends React.Component {
     }
 
     render() {
-        return <div>
-            <Search />
-            this is pending jobs
-            {this.state.pendingJobs && Object.keys(this.state.pendingJobs).map(jobId => {
-              let job = this.state.pendingJobs[jobId];
+        return <div className="job-feed-container job-feed-container--pending ">
+            <h2>this is pending</h2>
+            <div className="job-feed">
+                {this.state.pendingJobs && Object.keys(this.state.pendingJobs).map(jobId => {
+                    let job = this.state.pendingJobs[jobId];
 
-              return (
-                  <JobPreview showJobDetails={this.showJobDetails} saveJob={this.saveJob} key={jobId} companyName={job.companyName} jobTitle={job.jobTitle} jobLocation={job.jobLocation} jobDescription={job.jobDescription} datePosted={job.timeCreated} jobId={jobId} archived={job.archived} approved={job.approved} userId={this.props.userId} />)
-            })}
+                    return (
+                        <JobPreview 
+                        showJobDetails={this.showJobDetails} 
+                        saveJob={this.saveJob} 
+                        key={jobId} 
+                        companyName={job.companyName} 
+                        jobTitle={job.jobTitle} 
+                        jobLocation={job.jobLocation} 
+                        jobDescription={job.jobDescription} datePosted={job.timeCreated} 
+                        jobId={jobId} 
+                        userId={this.props.userId} 
+                        approved={job.approved} 
+                        archived={job.archived}
+                        admin={true}
+                        active={this.state.showingJobId === jobId ? 'active' : null}
+
+                        />
+                    )
+                })
+                }
+            </div>
             {this.state.showDetails && <FullJob
                 jobId={this.state.showingJobId}
                 jobTitle={this.state.pendingJobs[`${this.state.showingJobId}`]['jobTitle']}

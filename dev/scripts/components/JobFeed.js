@@ -32,32 +32,31 @@ class JobFeed extends React.Component {
 
   render(){
     return(
-      <div>
-      <Search />
+      <div className="job-feed-container job-feed-container-regular">
+      <h2>This is job feed</h2>
+      <div className="job-feed">
+        {Object.keys(this.state.jobs).map((jobId) =>{
+          let job= this.state.jobs[jobId]
+          
+          return(
+              <JobPreview 
+                showJobDetails={this.showJobDetails}
+                saveJob={this.saveJob}
+                key={jobId}
+                companyName={job.companyName}
+                jobTitle={job.jobTitle}
+                jobLocation={job.jobLocation}
+                jobDescription={job.jobDescription}
+                datePosted={job.timeCreated}
+                jobId={jobId}
+                userId={this.props.userId}
+                active={this.state.showingJobId === jobId ? 'active': null}
 
-      {Object.keys(this.state.jobs).map((i) =>{
-        let job= this.state.jobs[i]
-        
-        return(
-          <div key={i}>
-            <JobPreview 
-              showJobDetails={this.showJobDetails}
-              saveJob={this.saveJob}
-              key={i}
-              companyName={job.companyName}
-              jobTitle={job.jobTitle}
-              jobLocation={job.jobLocation}
-              jobDescription={job.jobDescription}
-              datePosted={job.timeCreated}
-              jobId={i}
-              userId={this.props.userId}
-            />
+              />
 
-          </div>
-
-        )
-      })}
-
+          )
+        })}
+      </div>
         {this.state.showDetails && < FullJob
                 jobId={this.state.showingJobId}
         jobTitle={this.state.jobs[`${this.state.showingJobId}`]['jobTitle']}

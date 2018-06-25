@@ -32,6 +32,7 @@ class App extends React.Component {
     }
   }
   componentDidMount(){
+    
     this.dbRef = firebase.database().ref();
 
     this.userRef = firebase.database().ref(`users/${this.state.userId}`)
@@ -158,18 +159,18 @@ class App extends React.Component {
     })
   }
   render() {
-    return <div>
+    return <div className="wrapper">
         {this.state.loggedIn ? <div>
             <UserBar userId={this.state.userId} userName={this.state.userName} userEmail={this.state.email} loggedIn={this.state.loggedIn} provider={this.state.provider} jobPoster={this.state.jobPoster} alumni={this.state.alumni} admin={this.state.admin} signOut={this.signOut} />
-          {this.state.jobPoster && <MyPostedJobs userId={this.state.userId}/>}
-            {this.state.editing ? <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.close} /> : <button
-                onClick={this.postAJob}
-              >
-                Post a job
-              </button>}
-            {this.state.alumni && <JobFeed userId={this.state.userId}/>}
-            {this.state.admin && <ApprovedJobs/>}
-            {this.state.admin && <PendingJobs />}
+
+            {this.state.editing ? <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.close} /> : <button onClick={this.postAJob}>
+                Post a job </button>}
+            <div className="tab-container">
+          {this.state.admin && <PendingJobs userId={this.state.userId}/>}
+              {this.state.jobPoster && <MyPostedJobs userId={this.state.userId} />}
+              {this.state.alumni && <JobFeed userId={this.state.userId}/>}
+          {this.state.admin && <ApprovedJobs userId={this.state.userId}/>}
+            </div>
           </div> : <div>
             <p>Sign up or sign in with</p>
             <button onClick={this.loginWithReadme}>Readme</button>

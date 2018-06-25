@@ -10,7 +10,7 @@ class Search extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="search">
         <h3>Search</h3>
       </div>
 

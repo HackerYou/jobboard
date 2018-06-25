@@ -6,11 +6,10 @@ class FullJob extends React.Component {
     super(props);
   }
   componentDidMount() {
-      console.log("mounty mount")
   }
   render() {
     return (
-      <div>
+      <div className="full-job">
         <h3>this is full job: {this.props.jobId}</h3>
         <h2>{this.props.jobTitle}</h2>
         <p>{this.props.companyName}</p>
