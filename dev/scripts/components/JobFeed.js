@@ -38,7 +38,9 @@ class JobFeed extends React.Component {
       <Search userId={this.props.userId}/>
 
       <div className="job-feed">
+      {/* get the keys from the jobs we're holding in state, those keys are the jobIds */}
         {Object.keys(this.state.jobs).map((jobId) =>{
+          // find jobs by jobId
           let job= this.state.jobs[jobId]
           
           return(
@@ -60,16 +62,16 @@ class JobFeed extends React.Component {
         })}
       </div>
         {this.state.showDetails && < FullJob
-                jobId={this.state.showingJobId}
-        jobTitle={this.state.jobs[`${this.state.showingJobId}`]['jobTitle']}
-        jobLocation={this.state.jobs[`${this.state.showingJobId}`]['jobLocation']}
-        jobDescription={this.state.jobs[`${this.state.showingJobId}`]['jobDescription']}
-        companyName={this.state.jobs[`${this.state.showingJobId}`]['companyName']}
-        datePosted={this.state.jobs[`${this.state.showingJobId}`]['datePosted']}
-        approved={this.state.jobs[`${this.state.showingJobId}`]['approved']}
-        jobCommitment={this.state.jobs[`${this.state.showingJobId}`]['jobCommitment']}
-
-            />}
+                                        jobId={this.state.showingJobId}
+                                        jobTitle={this.state.jobs[`${this.state.showingJobId}`]['jobTitle']}
+                                        jobLocation={this.state.jobs[`${this.state.showingJobId}`]['jobLocation']}
+                                        jobDescription={this.state.jobs[`${this.state.showingJobId}`]['jobDescription']}
+                                        companyName={this.state.jobs[`${this.state.showingJobId}`]['companyName']}
+                                        datePosted={this.state.jobs[`${this.state.showingJobId}`]['datePosted']}
+                                        approved={this.state.jobs[`${this.state.showingJobId}`]['approved']}
+                                        jobCommitment={this.state.jobs[`${this.state.showingJobId}`]['jobCommitment']}
+                                    />
+          }
 
       </div>
 
