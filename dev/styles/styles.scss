@@ -64,3 +64,6 @@ input[type=radio]{
 input[type=text]{
   display: block;
 }
+input[type=checkbox] + label{
+  text-transform: uppercase;
+}

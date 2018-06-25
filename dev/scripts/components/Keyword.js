@@ -3,26 +3,37 @@ import React from 'react';
 class Keyword extends React.Component {
   constructor(props){
     super(props);
-
+    this.state={
+      isChecked:false
+    }
   }
   componentDidMount(){
 
   }
+  toggleCheckboxChange = () => {
+    // console.log('toggle')
+    this.setState(({ isChecked }) => (
+      {
+        isChecked: !isChecked,
+      }
+    ));
 
-handleChange = (e) =>{
-  // e.preventDefault()
-  // this.setState({
-  //   newUserName: e.target.value
-  // })
-}
+    this.props.handleCheckboxChange(this.props.word);
+  }
   render(){
     return(
-      <div>
-        {/* <h1>{this.props.word}</h1> */}
-        <input type="checkbox" />
+      <div >
+        <input 
+          type="checkbox" 
+          value={this.props.word}
+          checked={this.state.isChecked}
+          onChange={this.toggleCheckboxChange}
+          />
         <label htmlFor={this.props.word}>{this.props.word}</label>
+
       </div>
     )
   }
 }
 export default Keyword;
+

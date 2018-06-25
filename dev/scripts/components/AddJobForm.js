@@ -9,7 +9,7 @@ class AddJobForm extends React.Component {
         this.state = {
             jobTitle: '',
             companyName: '',
-            jobLocation: '',
+            jobLocation: 'Toronto',
             jobCommitment: '',
             jobDescription: '',
             keywords: '',
@@ -24,7 +24,8 @@ class AddJobForm extends React.Component {
 
       timeCreated = timeCreated.toString()
       this.setState({
-        timeCreated: timeCreated
+        timeCreated: timeCreated,
+        selectedCheckboxes: new Set()
       })
     }
 
@@ -46,7 +47,7 @@ class AddJobForm extends React.Component {
         }).then(res => {
             let uniqueKey = res.path.pieces_[2];
             const userRef = firebase.database().ref(`users/${this.state.posterId}/postedJobs/${uniqueKey}`);
-
+            const locations = firebase.database().ref(`jobs/locations`)
             userRef.set({
                 jobTitle: this.state.jobTitle,
                 companyName: this.state.companyName,
@@ -59,6 +60,7 @@ class AddJobForm extends React.Component {
                 archived: this.state.archived,
                 timeCreated: this.state.timeCreated
             });
+
             this.setState({
                 jobTitle: '',
                 companyName: '',
@@ -80,6 +82,14 @@ class AddJobForm extends React.Component {
         });
     }
 
+    handleCheckboxChange = word => {
+        if (this.state.selectedCheckboxes.has(word)) {
+            this.state.selectedCheckboxes.delete(word)
+        } else {
+            this.state.selectedCheckboxes.add(word)
+        }
+    }
+
     render() {
         return (
             <div>
@@ -92,8 +102,19 @@ class AddJobForm extends React.Component {
                     <input type="text" name="companyName" id="companyName" placeholder="Company Name" required="true" onChange={this.handleChange} value={this.state.companyName} />
 
                     <label htmlFor="jobLocation">Job Location</label>
-                    <input type="text" name="jobLocation" id="jobLocation" placeholder="Job Location" required="true" onChange={this.handleChange} value={this.state.jobLocation} />
-
+                    {/* <input type="text" name="jobLocation" id="jobLocation" placeholder="Job Location" required="true" onChange={this.handleChange} value={this.state.jobLocation} />   */}
+                    <select name="jobLocation" id="jobLocation" placeholder="Job Location" required="true" onChange={this.handleChange} value={this.state.jobLocation}>
+                        <option name="jobLocation" value="Toronto" id="toronto">Toronto</option>
+                        <option name="jobLocation" value="GTA" id="gta">GTA</option>
+                        <option name="jobLocation" value="Hamilton" id="hamilton">Hamilton</option>
+                        <option name="jobLocation" value="Guelph" id="guelph">Guelph</option>
+                        <option name="jobLocation" value="Kitchener/Waterloo" id="kitchener-waterloo">Kitchener/Waterloo</option>
+                        <option name="jobLocation" value="Montreal" id="montreal">Montreal</option>
+                        <option name="jobLocation" value="Ottawa" id="ottawa">Ottawa</option>
+                        <option name="jobLocation" value="Vancouver" id="vancouver">Vancouver</option>
+                        <option name="jobLocation" value="New York" id="new-york">New York</option>
+                        <option name="jobLocation" value="Other" id="other">Other (mention in description)</option>
+                    </select>    
                     <label htmlFor="fullTime">Full Time</label>
                     <input type="radio" name="jobCommitment" id="fullTime" value="Full Time" onChange={this.handleChange} checked={this.state.jobCommitment === 'Full Time' ? true : false} />
 
@@ -109,7 +130,7 @@ class AddJobForm extends React.Component {
                     <label htmlFor="keywords">Keywords/Tags</label>
                         {keywords.map(word =>{
                             return(
-                            <Keyword key={word} word={word} />
+                                <Keyword key={word} word={word} handleCheckboxChange={this.handleCheckboxChange} />
                             )
                         })
                         }

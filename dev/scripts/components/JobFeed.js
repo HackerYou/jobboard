@@ -34,6 +34,9 @@ class JobFeed extends React.Component {
     return(
       <div className="job-feed-container job-feed-container-regular">
       <h2>This is job feed</h2>
+      
+      <Search userId={this.props.userId}/>
+
       <div className="job-feed">
         {Object.keys(this.state.jobs).map((jobId) =>{
           let job= this.state.jobs[jobId]
@@ -51,7 +54,6 @@ class JobFeed extends React.Component {
                 jobId={jobId}
                 userId={this.props.userId}
                 active={this.state.showingJobId === jobId ? 'active': null}
-
               />
 
           )

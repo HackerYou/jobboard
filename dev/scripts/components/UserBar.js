@@ -33,8 +33,6 @@ handleChange = (e) =>{
 -                                     </div>	
 -              } !</div> */}
         <button onClick={this.props.signOut}>Sign out</button>
-        <Search />
-
       </div>
     )
   }
