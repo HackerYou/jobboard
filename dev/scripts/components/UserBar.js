@@ -1,5 +1,5 @@
 import React from 'react';
-import firebase from 'firebase';
+import Search from './Search'
 
 
 class UserBar extends React.Component {
@@ -23,7 +23,7 @@ handleChange = (e) =>{
 }
   render(){
     return(
-      <div>
+      <div className="user-bar">
         <h1>you are logged in / this is the userbar</h1>
         {/* <div>Hi {this.props.userName ? this.props.userName 	
 -                                   : <div>	
@@ -32,6 +32,8 @@ handleChange = (e) =>{
 -                                     </div>	
 -              } !</div> */}
         <button onClick={this.props.signOut}>Sign out</button>
+        <Search />
+
       </div>
     )
   }

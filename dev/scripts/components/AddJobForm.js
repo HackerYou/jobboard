@@ -1,5 +1,6 @@
 import React from 'react';
 import firebase from 'firebase';
+import Keyword from './Keyword.js'
 const keywords = ['css', 'js', 'html', 'ruby', 'design']
 
 class AddJobForm extends React.Component {
@@ -102,9 +103,17 @@ class AddJobForm extends React.Component {
                     <label htmlFor="contract">Contract</label>
                     <input type="radio" name="jobCommitment" id="contract" value="Contract" onChange={this.handleChange} checked={this.state.jobCommitment === 'Contract' ? true : false} />
 
-                    <label htmlFor="keywords">Key Words</label>
-                    <input type="text" name="keywords" id="keywords" placeholder="HTML, CSS, javascript" onChange={this.handleChange} value={this.state.keywords} />
-
+                    {/* <label htmlFor="keywords">Key Words</label>
+                    <input type="text" name="keywords" id="keywords" placeholder="HTML, CSS, javascript" onChange={this.handleChange} value={this.state.keywords} /> */}
+                    <div className="keywords-container">
+                    <label htmlFor="keywords">Keywords/Tags</label>
+                        {keywords.map(word =>{
+                            return(
+                            <Keyword key={word} word={word} />
+                            )
+                        })
+                        }
+                    </div>
                     <label htmlFor="jobDescription">Job Description</label>
                     <textarea type="textarea" name="jobDescription" id="jobDescription" placeholder="Put dat descrippy here plz" cols="50" rows="10" onChange={this.handleChange} value={this.state.jobDescription} />
 
