@@ -34,7 +34,9 @@ class MyPostedJobs extends React.Component {
         <div className="job-feed-container job-feed-container--my-posted">
             <h2>THIS IS MY POSTED JOBS</h2>
             <div className="job-feed">
-                {this.state.postedJobs && Object.keys(this.state.postedJobs).map(jobId => {
+                {this.state.postedJobs && Object.keys(this.state.postedJobs)
+                .filter(jobId => this.state.postedJobs[jobId].archived === false)
+                .map(jobId => {
                 let job = this.state.postedJobs[jobId];
                     if(job.archived === false){
                         return (
