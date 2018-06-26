@@ -159,15 +159,45 @@ class App extends React.Component {
       editing:false
     })
   }
-  submitSearch = (e) => {
-    e.preventDefault();
-    console.log('serach')
+  getData(param) {
+    return new Promise((resolve, reject) => {
+      const dbRef = firebase.database().ref(`jobs/approved`)
+      resolve(
+        console.log(param)
+        // dbRef.orderByChild(param).equalTo(param).once('value', snapshot => {
+        //   console.log(snapshot.val());
+        // })
+      )
+      
+    })
+
   }
+  findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, searchTerm, salary, searchKeywords){
+    let queries =[jobLocation, jobCommitment, timeSincePosting, searchTerm, salary, searchKeywords]
+
+    // filter the queries and make a new array of the not-null ones
+    //do the promise on all the things in the new array
+    queries.map(query => {
+      return this.getData(query)
+    })
+
+    // Promise.all(queries).then( res =>{
+    //   console.log(res)
+    // }).catch(err=>{
+    //   console.log(err)
+    //   }
+    // }
+
+    // dbRef.orderByChild(`companyName`).equalTo(``).once('value', snapshot => {
+    //   console.log(snapshot.val())
+    // })
+      
+}
   search = (e, jobLocation, jobCommitment, timeSincePosting, searchTerm,salary, searchKeywords) => {
     e.preventDefault();
     console.log('search')
-    console.log(e, jobLocation, jobCommitment, timeSincePosting, searchTerm, salary, searchKeywords)
-  }
+    this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, searchTerm, salary, searchKeywords)
+  } 
   render() {
     return <div className="wrapper">
         {this.state.loggedIn ? <div>
