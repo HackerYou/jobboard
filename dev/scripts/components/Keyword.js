@@ -11,7 +11,6 @@ class Keyword extends React.Component {
 
   }
   toggleCheckboxChange = () => {
-    // console.log('toggle')
     this.setState(({ isChecked }) => (
       {
         isChecked: !isChecked,

@@ -34,9 +34,6 @@ class JobFeed extends React.Component {
     return(
       <div className="job-feed-container job-feed-container-regular">
       <h2>This is job feed</h2>
-      
-      <Search userId={this.props.userId}/>
-
       <div className="job-feed">
       {/* get the keys from the jobs we're holding in state, those keys are the jobIds */}
         {Object.keys(this.state.jobs).map((jobId) =>{

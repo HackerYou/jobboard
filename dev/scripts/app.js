@@ -10,6 +10,7 @@ import JobFeed from './components/JobFeed';
 import PendingJobs from './components/PendingJobs';
 import ApprovedJobs from './components/ApprovedJobs';
 import MyPostedJobs from './components/MyPostedJobs';
+import Search from './components/Search'
 
 const config = {
   apiKey: "AIzaSyDhpZQDqygKV1G_ne9JJwxxWPnYYKxaX0Q",
@@ -153,17 +154,26 @@ class App extends React.Component {
       editing:true
     })
   }
-  close = () =>{
+  closePostAJob = () =>{
     this.setState({
       editing:false
     })
+  }
+  submitSearch = (e) => {
+    e.preventDefault();
+    console.log('serach')
+  }
+  search = (e, jobLocation, jobCommitment, timeSincePosting, searchTerm,salary, searchKeywords) => {
+    e.preventDefault();
+    console.log('search')
+    console.log(e, jobLocation, jobCommitment, timeSincePosting, searchTerm, salary, searchKeywords)
   }
   render() {
     return <div className="wrapper">
         {this.state.loggedIn ? <div>
             <UserBar userId={this.state.userId} userName={this.state.userName} userEmail={this.state.email} loggedIn={this.state.loggedIn} provider={this.state.provider} jobPoster={this.state.jobPoster} alumni={this.state.alumni} admin={this.state.admin} signOut={this.signOut} />
 
-            {this.state.editing ? <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.close} /> : <button onClick={this.postAJob}>
+            {this.state.editing ? <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.closePostAJob} /> : <button onClick={this.postAJob}>
                 Post a job </button>}
                 <nav>
                   {/* <NavLink>Pending Jobs</NavLink>
@@ -172,6 +182,7 @@ class App extends React.Component {
                   <NavLink>Approved Jobs</NavLink> */}
 
                 </nav>
+            <Search userId={this.state.userId} search={this.search} />
             <div className="tab-container">
           {this.state.admin && <PendingJobs userId={this.state.userId}/>}
               {this.state.jobPoster && <MyPostedJobs userId={this.state.userId} />}
