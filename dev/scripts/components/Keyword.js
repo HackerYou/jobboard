@@ -23,13 +23,14 @@ class Keyword extends React.Component {
   render(){
     return(
       <div >
-        <input 
-          type="checkbox" 
-          value={this.props.word}
-          checked={this.state.isChecked}
-          onChange={this.toggleCheckboxChange}
+        <label htmlFor={this.props.word}>{this.props.word}
+          <input
+            type="checkbox"
+            value={this.props.word}
+            checked={this.state.isChecked}
+            onChange={this.toggleCheckboxChange}
           />
-        <label htmlFor={this.props.word}>{this.props.word}</label>
+        </label>
 
       </div>
     )

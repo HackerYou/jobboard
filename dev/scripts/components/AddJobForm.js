@@ -12,7 +12,7 @@ class AddJobForm extends React.Component {
             jobLocation: 'Toronto',
             jobCommitment: '',
             jobDescription: '',
-            keywords: '',
+            keywords: [],
             timeCreated:'',
             posterId: props.userId,
             approved: false,
@@ -32,6 +32,7 @@ class AddJobForm extends React.Component {
     submitJob = (e) => {
         const dbRef = firebase.database().ref(`jobs/pending`);
         e.preventDefault();
+        let keywords = Array.from(this.state.selectedCheckboxes)
 
         dbRef.push({
             jobTitle: this.state.jobTitle,
@@ -39,11 +40,11 @@ class AddJobForm extends React.Component {
             jobLocation: this.state.jobLocation,
             jobCommitment: this.state.jobCommitment,
             jobDescription: this.state.jobDescription,
-            keywords: this.state.keywords,
+            keywords: keywords,
             posterId: this.state.posterId,
             approved: this.state.approved,
-            timeCreated:this.state.timeCreated,
-            archived: this.state.archived
+            archived: this.state.archived,
+            timeCreated:this.state.timeCreated
         }).then(res => {
             let uniqueKey = res.path.pieces_[2];
             const userRef = firebase.database().ref(`users/${this.state.posterId}/postedJobs/${uniqueKey}`);
@@ -54,7 +55,7 @@ class AddJobForm extends React.Component {
                 jobLocation: this.state.jobLocation,
                 jobCommitment: this.state.jobCommitment,
                 jobDescription: this.state.jobDescription,
-                keywords: this.state.keywords,
+                keywords: keywords,
                 posterId: this.state.posterId,
                 approved: this.state.approved,
                 archived: this.state.archived,
@@ -67,7 +68,7 @@ class AddJobForm extends React.Component {
                 jobLocation: '',
                 jobCommitment: '',
                 jobDescription: '',
-                keywords: '',
+                keywords: [],
                 timeCreated: '',
                 editing: this.props.editing
             })
