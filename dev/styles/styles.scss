@@ -13,42 +13,8 @@
   position: relative;
 }
 
-.search{
-  // clear:both;
-  width: 100%;
-    background: #444444;
-}
-.tab-container{
-  position: relative;
-}
-.job-feed-container{
- background-color:pink;
-//  position: absolute;
-}
-
-.job-feed{
-  overflow-y:scroll;
-  height:50vh;
-  width: 50%;
-}
-.job-preview{
-  background-color:green;
-  padding: 0 4%;
-  border-top:3px solid #F6F7F9;
-}
-.active{
-  background-color:#F6F7F9;
-}
-.full-job{
-  width: 50%;
-  padding: 2%;
-  background-color:#F6F7F9;
-  // position: absolute;
-  // top:0;
-  // right:0;
-}
 button{
-  background-color: #E40015;
+  background-color: $primaryRed;
   border:0;
   border-radius:0;
   padding:10px 20px;
@@ -59,6 +25,7 @@ button{
 input[type=radio]{
   width: 25%;
 }
+
 input[type=text]{
   display: block;
 }

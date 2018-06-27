@@ -10,13 +10,13 @@ class FullJob extends React.Component {
   }
   render() {
     return (
-      <div className="full-job">
+      <div className="fullJob">
         <h3>this is full job: {this.props.jobId}</h3>
-        <h2>{this.props.jobTitle}</h2>
-        <p>{this.props.companyName}</p>
-        <p>{this.props.jobCommitment}</p>
-        <p>{this.props.jobDescription}</p>
-        <p>{this.props.jobLocation}</p>
+        <h2 className="jobTitle">{this.props.jobTitle}</h2>
+        <p className="companyName">{this.props.companyName}</p>
+        <p className="jobLocation">{this.props.jobLocation}</p>
+        <p className="jobCommitment">{this.props.jobCommitment}</p>
+        <p className="jobDescription">{this.props.jobDescription}</p>
       </div>
     )
   }
