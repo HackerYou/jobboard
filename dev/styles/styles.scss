@@ -1,18 +1,16 @@
+@import "partials/setup";
+@import "partials/variables";
+@import "partials/typography";
+@import "partials/addJobForm";
+@import "partials/jobFeed";
+@import "partials/fullJob";
+@import "partials/search";
+@import "partials/login";
+@import "partials/userBar";
 
-* {
-  box-sizing: border-box;
-}
-body{
-  margin: 0;
-}
-.wrapper{
-  width: 100%;
+
+.wrapper {
   position: relative;
-}
-.wrapper:after{
-  content: "";
-  display: table;
-  clear: both;
 }
 
 .search{
