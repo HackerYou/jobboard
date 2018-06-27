@@ -55,7 +55,7 @@ class JobPreview extends React.Component {
 
           // create a local variable to hold our job information
           const job = snapshot.val();
-          console.log(job)
+
           //get the location in the archived list where this  job should live after it's archived 
           const approvedJobRef = firebase.database().ref(`jobs/approved/${this.props.jobId}`)
 

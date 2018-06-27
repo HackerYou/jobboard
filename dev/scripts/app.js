@@ -11,7 +11,7 @@ import PendingJobs from './components/PendingJobs';
 import ApprovedJobs from './components/ApprovedJobs';
 import MyPostedJobs from './components/MyPostedJobs';
 import Search from './components/Search'
-
+import axios from 'axios';
 const config = {
   apiKey: "AIzaSyDhpZQDqygKV1G_ne9JJwxxWPnYYKxaX0Q",
   authDomain: "hy-jobs-board.firebaseapp.com",
@@ -159,44 +159,80 @@ class App extends React.Component {
       editing:false
     })
   }
-  getData(param) {
+  getDataPromise = (key, param) => {
     return new Promise((resolve, reject) => {
-      const dbRef = firebase.database().ref(`jobs/approved`)
-      resolve(
-        console.log(param)
-        // dbRef.orderByChild(param).equalTo(param).once('value', snapshot => {
-        //   console.log(snapshot.val());
-        // })
-      )
-      
+      resolve(this.getData(key, param))
+      reject('naah')
     })
-
   }
-  findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, searchTerm, salary, searchKeywords){
-    let queries =[jobLocation, jobCommitment, timeSincePosting, searchTerm, salary, searchKeywords]
 
-    // filter the queries and make a new array of the not-null ones
-    //do the promise on all the things in the new array
-    queries.map(query => {
-      return this.getData(query)
+  getData = (key, param) =>{
+    return new Promise((res,rej) => {
+      const dbRef = firebase.database().ref(`jobs/approved`)
+      if (param != undefined) {
+        // resolve(100, 'foo')
+        dbRef.orderByChild(key).equalTo(param).once('value', snapshot => {
+          console.log(`this is snapshot.val for ${key} : ${param}`)
+          console.log(snapshot.val());
+          res(snapshot.val())
+        });
+      } else {
+        res(null);
+      }
+    });
+  }
+  
+  getKeywordDataPromise = (keyword) =>{
+    return new Promise((resolve, reject) =>{
+      resolve(
+        this.getKeywordData(keyword)
+      )
+      reject('nope')
     })
-
-    // Promise.all(queries).then( res =>{
-    //   console.log(res)
-    // }).catch(err=>{
-    //   console.log(err)
-    //   }
-    // }
-
-    // dbRef.orderByChild(`companyName`).equalTo(``).once('value', snapshot => {
-    //   console.log(snapshot.val())
+  }
+  getKeywordData = (keyword) => {
+    console.log(keyword)
+    // axois call to functions endpoint with keyword as a param
+    axios({
+      method: 'get',
+      url: `https://us-central1-hy-jobs-board.cloudfunctions.net/searchKeywords&keyword=${keyword}`,
+      responseType: 'json'
+    })
+      .then(function (response) {
+        console.log(response)
+      });
+    // axois retunrs a promise
+    // result will be an array of objects with
+    // dbRef.orderByChild(`keywords`).once('value', snapshot => {
+    //   console.log(`this is snapshot.val for ${keyword}`)
+    //   console.log(snapshot.val());
     // })
-      
-}
-  search = (e, jobLocation, jobCommitment, timeSincePosting, searchTerm,salary, searchKeywords) => {
+    
+  }
+  findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords){
+   
+    let queries =[jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords]
+    // const dbRef = firebase.database().ref(`jobs/approved/`)
+    
+    let matchingLocation = this.getData(`jobLocation`, jobLocation)
+    // console.log(matchingLocation)
+    // let matchingSalary = this.getData(`salary`, salary)
+    let matchingTimeCommitment = this.getData(`jobCommitment`, jobCommitment)
+    // // let matchingKeywords = 
+    searchKeywords = searchKeywords.map(this.getKeywordData)
+    // //do the promise on all the things in the new array
+    Promise.all([matchingLocation, matchingTimeCommitment, ...searchKeywords])
+      .then( res => {
+          console.log(res);
+      })
+      .catch( err => {
+        console.log(err)
+      }); 
+    }
+  search = (e, jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) => {
     e.preventDefault();
     console.log('search')
-    this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, searchTerm, salary, searchKeywords)
+    this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords)
   } 
   render() {
     return <div className="wrapper">
