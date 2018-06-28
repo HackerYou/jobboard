@@ -159,12 +159,6 @@ class App extends React.Component {
       editing:false
     })
   }
-  getDataPromise = (key, param) => {
-    return new Promise((resolve, reject) => {
-      resolve(this.getData(key, param))
-      reject('naah')
-    })
-  }
 
   getData = (key, param) =>{
     return new Promise((res,rej) => {
@@ -181,32 +175,21 @@ class App extends React.Component {
       }
     });
   }
-  
-  getKeywordDataPromise = (keyword) =>{
-    return new Promise((resolve, reject) =>{
-      resolve(
-        this.getKeywordData(keyword)
-      )
-      reject('nope')
-    })
-  }
+
   getKeywordData = (keyword) => {
     console.log(keyword)
     // axois call to functions endpoint with keyword as a param
-    axios({
+    return axios({
       method: 'get',
-      url: `https://us-central1-hy-jobs-board.cloudfunctions.net/searchKeywords&keyword=${keyword}`,
+      url: `https://us-central1-hy-jobs-board.cloudfunctions.net/searchKeywords/?keyword=${keyword}`,
       responseType: 'json'
     })
       .then(function (response) {
         console.log(response)
-      });
-    // axois retunrs a promise
-    // result will be an array of objects with
-    // dbRef.orderByChild(`keywords`).once('value', snapshot => {
-    //   console.log(`this is snapshot.val for ${keyword}`)
-    //   console.log(snapshot.val());
-    // })
+      })
+      .catch(err =>{
+        console.log(err)
+      })
     
   }
   findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords){
@@ -223,7 +206,7 @@ class App extends React.Component {
     // //do the promise on all the things in the new array
     Promise.all([matchingLocation, matchingTimeCommitment, ...searchKeywords])
       .then( res => {
-          console.log(res);
+          console.log('got em all');
       })
       .catch( err => {
         console.log(err)
