@@ -162,10 +162,10 @@ class App extends React.Component {
     return <div className="wrapper">
         {this.state.loggedIn ? <div>
             <UserBar userId={this.state.userId} userName={this.state.userName} userEmail={this.state.email} loggedIn={this.state.loggedIn} provider={this.state.provider} jobPoster={this.state.jobPoster} alumni={this.state.alumni} admin={this.state.admin} signOut={this.signOut} />
-
-            {this.state.editing ? <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.close} /> : <button onClick={this.postAJob}>
+            <h1>HackerYou Job Board</h1>
+            {this.state.editing ? <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.close} /> : <button className="action" onClick={this.postAJob}>
                 Post a job </button>}
-            <div className="tab-container">
+            <div className="tabContainer">
           {this.state.admin && <PendingJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin}/>}
           {this.state.admin && <ApprovedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin}/>}
           {this.state.alumni && <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin}/>}

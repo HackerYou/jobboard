@@ -29,3 +29,24 @@ input[type=radio]{
 input[type=text]{
   display: block;
 }
+
+body {
+  background-image: linear-gradient(to left, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../../assets/main-image.jpg);
+  min-height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+p {
+  margin: 0;
+}
+h1 {
+  font-family: "Akkurat", sans-serif;
+  color: $tertiaryGrey;
+  text-align: center;
+  font-size: 72px;
+}
+.tabContainer {
+  height: 80vh;
+}
+
