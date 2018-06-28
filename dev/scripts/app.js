@@ -32,7 +32,8 @@ class App extends React.Component {
     this.state = {
       loggedIn: false,
       userId: '', 
-      provider:''
+      provider:'',
+      filteredJobs:[]
     }
   }
   componentDidMount(){
@@ -171,11 +172,12 @@ class App extends React.Component {
         dbRef.orderByChild(key).equalTo(param).once('value', snapshot => {
           // console.log(`this is snapshot.val for ${key} : ${param}`)
           data = snapshot.val()
-        }).then(res =>{
-            this.setState({
-              [`${key}Results`]: data
-            })
-        }); 
+        })
+        // .then(res =>{
+        //     this.setState({
+        //       [`${key}Results`]: data
+        //     })
+        // }); 
         res(data)
 
       } else {
@@ -192,12 +194,12 @@ class App extends React.Component {
       url: `https://us-central1-hy-jobs-board.cloudfunctions.net/searchKeywords/?keyword=${keyword}`,
       responseType: 'json'
     })
-      .then(res => {
-        const response = res.data;
-        this.setState({
-          [`${keyword}Results`]: response
-        })
-      })
+      // .then(res => {
+      //   const response = res.data;
+      //   this.setState({
+      //     [`${keyword}Results`]: response
+      //   })
+      // })
       .catch(err =>{
         console.log(err)
       })
@@ -254,16 +256,15 @@ class App extends React.Component {
             } else{
               console.log('nope')
             }
-
           }
-          if (chosenJobsKeys.length < 2 && numberOfParams > 1) {
-            // chosenJobsKeys = []
-            console.log('there are no results at this intersection')
-          }
-
-        })
+        });
+        if (chosenJobsKeys.length < 2 && numberOfParams > 1) {
+          console.log('there are no results at this intersection')
+        }
         console.log(`filteredJobs ` ,filteredJobs)
-      
+        this.setState({
+          filteredJobs: filteredJobs
+        })
       })
       .catch( err => {
         console.log(err)
