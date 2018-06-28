@@ -1,5 +1,5 @@
 import React from 'react';
-import Search from './Search'
+import Search from './Search';
 
 
 class UserBar extends React.Component {
@@ -22,20 +22,21 @@ handleChange = (e) =>{
   })
 }
   render(){
-    return(
-      <div className="user-bar">
-        <h1>you are logged in / this is the userbar</h1>
+    return <div className="userBar">
+        <div className="logo">
+          <img src="../../../assets/hy-logo-mark.svg" alt="HackerYou College of Technology Logo" /> 
+        </div>
+        
+
         {/* <div>Hi {this.props.userName ? this.props.userName 	
 -                                   : <div>	
 -                                    <input type="text" placeholder="your name here" onChange={this.handleChange}/>	
 -                                    <button onClick={this.submitUserName}>Save Name</button> 	
 -                                     </div>	
 -              } !</div> */}
-        <button onClick={this.props.signOut}>Sign out</button>
         <Search />
-
-      </div>
-    )
+        <button onClick={this.props.signOut}>Sign out</button>
+      </div>;
   }
 }
 export default UserBar;
