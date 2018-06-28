@@ -219,26 +219,50 @@ class App extends React.Component {
 
         let allJobKeys =[]
         let allJobs = {}
-
+        let numberOfParams=0
         allDataSets.map( singleJobDataSet => {
           let parametersKeys=[]
+
           // for each dataset that is not null
           if (singleJobDataSet != null){
             // get each job 
             for (let job in singleJobDataSet){
               // push each job's key into an array
               parametersKeys.push(job)
+              singleJobDataSet[job].key = job
+              // add each job to our collection of jobs for this search
               allJobs[job] = (singleJobDataSet[job])
             }
             //push that array of keys into an array of arrays
             allJobKeys.push(parametersKeys)
           }
+          numberOfParams++
         })
-        console.log(allJobs)
-      // intersection() is a lodash function imported at the top of this page
-      let chosenJobsKeys = intersection(...allJobKeys)
-      console.log(`chosen keys `, chosenJobsKeys)
+
+        // intersection() is a lodash function imported at the top of this page
+        let chosenJobsKeys = intersection(...allJobKeys)
       
+        let filteredJobs=[]
+        //go through allJobs using the keys from chosenJobsKeys
+        chosenJobsKeys.map(jobKey =>{
+
+          for (let job in allJobs) {
+
+            if(allJobs[job].key === jobKey){
+
+              filteredJobs.push(allJobs[job])
+            } else{
+              console.log('nope')
+            }
+
+          }
+          if (chosenJobsKeys.length < 2 && numberOfParams > 1) {
+            // chosenJobsKeys = []
+            console.log('there are no results at this intersection')
+          }
+
+        })
+        console.log(`filteredJobs ` ,filteredJobs)
       
       })
       .catch( err => {
