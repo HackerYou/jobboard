@@ -12,6 +12,9 @@ import ApprovedJobs from './components/ApprovedJobs';
 import MyPostedJobs from './components/MyPostedJobs';
 import Search from './components/Search'
 import axios from 'axios';
+import groupby from 'lodash.groupby';
+import intersection from 'lodash.intersection';
+
 const config = {
   apiKey: "AIzaSyDhpZQDqygKV1G_ne9JJwxxWPnYYKxaX0Q",
   authDomain: "hy-jobs-board.firebaseapp.com",
@@ -163,7 +166,7 @@ class App extends React.Component {
   getData = (key, param) =>{
     return new Promise((res,rej) => {
       const dbRef = firebase.database().ref(`jobs/approved`)
-      if (param != undefined || null) {
+      if (param != '' || undefined || null) {
         let data
         dbRef.orderByChild(key).equalTo(param).once('value', snapshot => {
           // console.log(`this is snapshot.val for ${key} : ${param}`)
@@ -172,8 +175,9 @@ class App extends React.Component {
             this.setState({
               [`${key}Results`]: data
             })
-          // res(null)
         }); 
+        res(data)
+
       } else {
         res(null);
       }
@@ -192,7 +196,6 @@ class App extends React.Component {
         const response = res.data;
         this.setState({
           [`${keyword}Results`]: response
- 
         })
       })
       .catch(err =>{
@@ -210,8 +213,32 @@ class App extends React.Component {
     searchKeywords = searchKeywords.map(this.getKeywordData)
 
     Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, ...searchKeywords])
-      .then( res => {
-          console.log('got em all');
+      .then( allDataSets => {
+        console.log('got em all');
+
+        let allJobKeys =[]
+        let allJobs = {}
+
+        allDataSets.map( singleJobDataSet => {
+          let parametersKeys=[]
+          // for each dataset that is not null
+          if (singleJobDataSet != null){
+            // get each job 
+            for (let job in singleJobDataSet){
+              // push each job's key into an array
+              parametersKeys.push(job)
+              allJobs[job] = (singleJobDataSet[job])
+            }
+            //push that array of keys into an array of arrays
+            allJobKeys.push(parametersKeys)
+          }
+        })
+        console.log(allJobs)
+      // intersection() is a lodash function imported at the top of this page
+      let chosenJobsKeys = intersection(...allJobKeys)
+      console.log(`chosen keys `, chosenJobsKeys)
+      
+      
       })
       .catch( err => {
         console.log(err)
@@ -219,7 +246,6 @@ class App extends React.Component {
     }
   search = (e, jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) => {
     e.preventDefault();
-    console.log('search')
     this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords)
   } 
   render() {
