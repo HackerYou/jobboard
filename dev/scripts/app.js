@@ -29,7 +29,7 @@ class App extends React.Component {
     this.state = {
       loggedIn: false,
       userId: '', 
-      provider:''    
+      provider:''
     }
   }
   componentDidMount(){
@@ -163,13 +163,17 @@ class App extends React.Component {
   getData = (key, param) =>{
     return new Promise((res,rej) => {
       const dbRef = firebase.database().ref(`jobs/approved`)
-      if (param != undefined) {
-        // resolve(100, 'foo')
+      if (param != undefined || null) {
+        let data
         dbRef.orderByChild(key).equalTo(param).once('value', snapshot => {
-          console.log(`this is snapshot.val for ${key} : ${param}`)
-          console.log(snapshot.val());
-          res(snapshot.val())
-        });
+          // console.log(`this is snapshot.val for ${key} : ${param}`)
+          data = snapshot.val()
+        }).then(res =>{
+            this.setState({
+              [`${key}Results`]: data
+            })
+          // res(null)
+        }); 
       } else {
         res(null);
       }
@@ -177,15 +181,19 @@ class App extends React.Component {
   }
 
   getKeywordData = (keyword) => {
-    console.log(keyword)
+    // console.log(keyword)
     // axois call to functions endpoint with keyword as a param
     return axios({
       method: 'get',
       url: `https://us-central1-hy-jobs-board.cloudfunctions.net/searchKeywords/?keyword=${keyword}`,
       responseType: 'json'
     })
-      .then(function (response) {
-        console.log(response)
+      .then(res => {
+        const response = res.data;
+        this.setState({
+          [`${keyword}Results`]: response
+ 
+        })
       })
       .catch(err =>{
         console.log(err)
@@ -193,18 +201,15 @@ class App extends React.Component {
     
   }
   findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords){
-   
-    let queries =[jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords]
-    // const dbRef = firebase.database().ref(`jobs/approved/`)
-    
+
     let matchingLocation = this.getData(`jobLocation`, jobLocation)
-    // console.log(matchingLocation)
-    // let matchingSalary = this.getData(`salary`, salary)
+    let matchingSalary = this.getData(`salary`, salary)
     let matchingTimeCommitment = this.getData(`jobCommitment`, jobCommitment)
-    // // let matchingKeywords = 
+
+    // replace the keywords array with an array of promises 
     searchKeywords = searchKeywords.map(this.getKeywordData)
-    // //do the promise on all the things in the new array
-    Promise.all([matchingLocation, matchingTimeCommitment, ...searchKeywords])
+
+    Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, ...searchKeywords])
       .then( res => {
           console.log('got em all');
       })
