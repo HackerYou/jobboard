@@ -51,7 +51,9 @@ class JobFeed extends React.Component {
                 jobId={jobId}
                 userId={this.props.userId}
                 active={this.state.showingJobId === jobId ? 'active': null}
-
+                alumni={this.props.alumni}
+                admin={this.props.admin}
+                jobPoster={this.props.jobPoster}
               />
 
           )

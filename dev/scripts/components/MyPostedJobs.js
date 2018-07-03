@@ -12,7 +12,6 @@ class MyPostedJobs extends React.Component {
     }
     componentDidMount() {
         let dbRef = firebase.database().ref(`users/${this.props.userId}/postedJobs`)
-        console.log(this.props.userId)
         dbRef.on('value', snapshot => {
             if (snapshot != null){
              this.setState({ postedJobs: snapshot.val() });
@@ -55,6 +54,9 @@ class MyPostedJobs extends React.Component {
                         userId={this.props.userId} 
                         showArchive={true} 
                         active={this.state.showingJobId === jobId ? 'active': null}
+                        alumni={this.props.alumni}
+                        admin={this.props.admin}
+                        jobPoster={this.props.jobPoster}
 
                         />);
                     } 

@@ -11,10 +11,22 @@ class JobPreview extends React.Component {
       jobLocation: this.props.jobLocation,
       datePosted: this.props.datePosted,
       approved: this.props.approved,
-      archived: this.props.archived
+      archived: this.props.archived,
+      posterId: ''
     })
   }
-  componentDidMount() { 
+  componentDidMount(props) { 
+    let jobPosterRef = firebase.database().ref(`jobs/${this.props.approved ? 'approved' : 'pending'}/${this.props.jobId}/posterId`)
+    let localPosterId = ''
+    
+    jobPosterRef.once('value', snapshot => {
+      console.log(snapshot.val())
+      localPosterId = snapshot.val()
+    })
+    this.setState({
+      posterId: localPosterId
+    })
+    
   }
   saveJob = (jobId) => {
     console.log(this.props.userId)
@@ -114,9 +126,14 @@ class JobPreview extends React.Component {
           <span >{this.props.companyName}</span> |
           <span>{this.props.jobLocation}</span>
           <span>Posted on {this.props.datePosted}</span>
-          <button onClick={(jobId) => { this.saveJob(this.props.jobId) }}>Save Job</button>
-          {this.props.showArchive && <button onClick={(jobId) => { this.archiveJob(this.props.jobId) }}>Archive Job</button>}
-        {this.props.admin && <button onClick={(jobId) => { this.approveJob(this.props.jobId) }}>Approve Job</button>}
+
+          {this.props.admin && <button className="action" onClick={(jobId) => { this.approveJob(this.props.jobId) }}>Approve Job</button>}
+
+        {this.props.jobPoster && this.props.userId == this.state.posterId || this.props.admin && <button className="action" onClick={(jobId) => { this.archiveJob(this.props.jobId) }}>Archive Job</button> }
+
+        {this.props.alumni && <button className="action" onClick={(jobId) => { this.saveJob(this.props.jobId) }}>Save Job</button>} 
+
+ 
         </div>
   
     )

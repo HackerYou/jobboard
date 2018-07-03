@@ -21,29 +21,25 @@ class LoginForm extends React.Component {
       email: ''
     }
   }
+
   componentDidMount() {
-   
-    document.getElementById('form').addEventListener('submit', function (e) {
-      e.preventDefault();
-      fetch(`https://notes-api.hackeryou.com/v2/user/firebaseAuth?email=${this.email.value}&password=${this.password.value}`)
-        .then(res => res.json())
-        .then(res => {
-          console.log(res.token);
-          firebase.auth().signInWithCustomToken(res.token)
-            .then(() => console.log('user logged in'))
-            .catch(err => console.error(err));
-        });
-    });
 
   }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    fetch(`https://notes-api.hackeryou.com/v2/user/firebaseAuth?email=${this.email.value}&password=${this.password.value}`)
+      .then(res => res.json())
+      .then(res => {
+        firebase.auth().signInWithCustomToken(res.token)
+          .catch(err => console.error(err));
+      });
+  });
   loginWithReadme = (e) => {
     e.preventDefault();
     fetch(`https://notes-api.hackeryou.com/v2/user/firebaseAuth?email=${this.state.email}&password=${this.state.password}`)
       .then(res => res.json())
       .then(res => {
-        console.log(res);
         firebase.auth().signInWithCustomToken(res.token)
-          .then(() => console.log('user logged in'))
           .catch(err => console.error(err));
       });
   }
@@ -66,7 +62,7 @@ class LoginForm extends React.Component {
           <input type="email" name="email" id="" placeholder="enter your readme email" onChange={this.onChangeEmail} value={this.state.email} />
           <label htmlFor="">password:</label>
           <input type="password" name="password" placeholder="enter your readme password" onChange={this.onChangePassword} value={this.state.password} />
-          <input type="submit" />
+          <input type="submit" onSubmit={this.handleSubmit}/>
         </form>
     )
   }

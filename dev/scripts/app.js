@@ -163,13 +163,13 @@ class App extends React.Component {
         {this.state.loggedIn ? <div>
             <UserBar userId={this.state.userId} userName={this.state.userName} userEmail={this.state.email} loggedIn={this.state.loggedIn} provider={this.state.provider} jobPoster={this.state.jobPoster} alumni={this.state.alumni} admin={this.state.admin} signOut={this.signOut} />
 
-            {this.state.editing ? <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.close} /> : <button onClick={this.postAJob}>
+            {this.state.editing ? <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.close} /> : <button className="action" onClick={this.postAJob}>
                 Post a job </button>}
-            <div className="tab-container">
-          {this.state.admin && <PendingJobs userId={this.state.userId}/>}
-              {this.state.jobPoster && <MyPostedJobs userId={this.state.userId} />}
-              {this.state.alumni && <JobFeed userId={this.state.userId}/>}
-          {this.state.admin && <ApprovedJobs userId={this.state.userId}/>}
+            <div className="tabContainer">
+          {this.state.admin && <PendingJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin}/>}
+          {this.state.admin && <ApprovedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin}/>}
+          {this.state.alumni && <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin}/>}
+          {this.state.jobPoster && <MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin}/>}
             </div>
           </div> : <div>
             <p>Sign up or sign in with</p>
