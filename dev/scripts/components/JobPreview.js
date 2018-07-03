@@ -31,7 +31,6 @@ class JobPreview extends React.Component {
     console.log(this.props.userId)
     // get the job in either the posted or pending list
     const jobRef = firebase.database().ref(`jobs/${this.props.approved ? 'approved' : 'pending'}/${this.props.jobId}`)
-
     
     // get all the job information that currently exists at that location 
     jobRef.once('value', snapshot => {
