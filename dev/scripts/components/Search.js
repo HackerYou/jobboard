@@ -42,7 +42,7 @@ class Search extends React.Component {
         <form action="submit" onSubmit={(e) => { this.props.search(e, this.state.jobLocation, this.state.jobCommitment, this.state.timeSincePosting, this.state.salary, this.state.searchKeywords) }}>
           <input type="text" name="searchTerm" id="searchTerm" placeholder="Search" onChange={this.handleChange} value={this.state.searchTerm} /> 
           <select name="jobLocation" id="jobLocation" onChange={this.handleChange}>
-            <option name="jobLocation" id="locationOption" disabled selected>Location</option>
+            <option name="jobLocation" id="locationOption" disabled defaultValue>Location</option>
             <option name="jobLocation" value="any" id="">Anywhere</option>
             <option name="jobLocation" value="Toronto" id="toronto" >Toronto</option>
             <option name="jobLocation" value="GTA" id="gta">GTA</option>

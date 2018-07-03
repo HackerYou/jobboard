@@ -291,34 +291,79 @@ class App extends React.Component {
   } 
   render() {
     return <div className="wrapper">
-        {this.state.loggedIn ? <div>
-            <UserBar userId={this.state.userId} userName={this.state.userName} userEmail={this.state.email} loggedIn={this.state.loggedIn} provider={this.state.provider} jobPoster={this.state.jobPoster} alumni={this.state.alumni} admin={this.state.admin} signOut={this.signOut} />
+        {this.state.loggedIn ? 
+            <div>
+              <UserBar  userId={this.state.userId} 
+                        userName={this.state.userName} 
+                        userEmail={this.state.email} 
+                        loggedIn={this.state.loggedIn} 
+                        provider={this.state.provider} 
+                        jobPoster={this.state.jobPoster} 
+                        alumni={this.state.alumni} 
+                        admin={this.state.admin} 
+                        signOut={this.signOut} />
 
-            {this.state.editing ? <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.closePostAJob} /> : <button onClick={this.postAJob}>
-                Post a job </button>}
-                <nav>
-                  {/* <NavLink>Pending Jobs</NavLink>
-                  <NavLink>My Posted Jobs</NavLink>
-                  <NavLink>Approved Jobs</NavLink>
-                  <NavLink>Approved Jobs</NavLink> */}
+                  <nav>
+                    {/* <NavLink>Pending Jobs</NavLink>
+                    <NavLink>My Posted Jobs</NavLink>
+                    <NavLink>Approved Jobs</NavLink>
+                    <NavLink>Approved Jobs</NavLink> */}
 
-                </nav>
-            <Search userId={this.state.userId} search={this.search} />
-            <div className="tab-container">
-          {this.state.admin && <PendingJobs userId={this.state.userId}/>}
-              {this.state.jobPoster && <MyPostedJobs userId={this.state.userId} />}
-              {this.state.alumni && <JobFeed userId={this.state.userId} filteredJobs = {this.state.filteredJobs}/>}
-          {this.state.admin && <ApprovedJobs userId={this.state.userId}/>}
-            </div>
-          </div> : <div>
+                  </nav>
+
+              {this.state.editing ? <AddJobForm
+                                    editing={this.state.editing}
+                                    userId={this.state.userId}
+                                    close={this.closePostAJob} />
+                :
+                <button className="action" onClick={this.postAJob}>Post a job </button>}
+              <Search userId={this.state.userId} search={this.search} />
+
+            <div className="tabContainer">
+                {this.state.admin && <PendingJobs 
+                                      userId={this.state.userId} 
+                                      alumni={this.state.alumni} 
+                                      jobPoster={this.state.jobPoster} 
+                                      admin={this.state.admin}/>
+                }
+
+                {this.state.admin && <ApprovedJobs 
+                                      userId={this.state.userId} 
+                                      alumni={this.state.alumni} 
+                                      jobPoster={this.state.jobPoster} 
+                                      admin={this.state.admin}/>
+                }
+                
+                {this.state.alumni && <JobFeed 
+                                        userId={this.state.userId}
+                                        alumni={this.state.alumni} 
+                                        jobPoster={this.state.jobPoster} 
+                                        admin={this.state.admin} 
+                                        filteredJobs={this.state.filteredJobs}/>
+                }
+                
+                {this.state.jobPoster && <MyPostedJobs 
+                                          userId={this.state.userId} 
+                                          alumni={this.state.alumni} 
+                                          jobPoster={this.state.jobPoster} 
+                                          admin={this.state.admin}/>
+                }
+              </div> 
+              {/* end tabContainer */}
+          </div> 
+          
+          : 
+          
+          <div>
             <p>Sign up or sign in with</p>
             <button onClick={this.loginWithReadme}>Readme</button>
             <button onClick={this.loginWithGoogle}>Google</button>
             <button onClick={this.loginWithEmail}>Email</button>
             {this.state.loggedIn === false && this.state.provider === "readme" && <ReadmeLoginForm />}
             {this.state.loggedIn === false && this.state.provider === "email" && <EmailLoginForm />}
-          </div>}
-      </div>;
+          </div>
+          }
+      </div>
   }
 }
 

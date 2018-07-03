@@ -44,7 +44,6 @@ class EmailLoginForm extends React.Component {
         userRef.on('value', function (snapshot) {
 
           if (snapshot.val() != null) {
-            console.log(snapshot.val())
           } else {
             // else, create a user in the database 
             userRef.set({

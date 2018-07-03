@@ -1,0 +1,27 @@
+.tab-container{
+  position: relative;
+}
+.job-feed-container{
+ background-color: $tertiaryGrey;
+//  position: absolute;
+}
+
+.job-feed{
+  overflow-y:scroll;
+  height:50vh;
+  width: 50%;
+}
+.job-feed div {
+    background: white;
+    padding:5px;
+    border: 1px solid black;
+}
+
+.job-preview{
+  background-color:green;
+  padding: 0 4%;
+  border-top:3px solid $tertiaryGrey;
+}
+.job-feed .active{
+  background-color: $tertiaryGrey;
+}
