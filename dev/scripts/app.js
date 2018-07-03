@@ -36,8 +36,8 @@ class App extends React.Component {
       filteredJobs:{}
     }
 
-    const dbRef2 = firebase.database().ref(`jobs/approved`)
-    dbRef2.on('value', snapshot => {
+    const dbRef = firebase.database().ref(`jobs/approved`)
+    dbRef.on('value', snapshot => {
       this.setState({
         filteredJobs: snapshot.val()
       })
