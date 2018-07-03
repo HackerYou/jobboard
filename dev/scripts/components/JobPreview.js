@@ -20,7 +20,6 @@ class JobPreview extends React.Component {
     let localPosterId = ''
     
     jobPosterRef.once('value', snapshot => {
-      console.log(snapshot.val())
       localPosterId = snapshot.val()
     })
     this.setState({
@@ -32,7 +31,6 @@ class JobPreview extends React.Component {
     console.log(this.props.userId)
     // get the job in either the posted or pending list
     const jobRef = firebase.database().ref(`jobs/${this.props.approved ? 'approved' : 'pending'}/${this.props.jobId}`)
-
     
     // get all the job information that currently exists at that location 
     jobRef.once('value', snapshot => {
@@ -54,23 +52,20 @@ class JobPreview extends React.Component {
     this.setState({
       approved: true
     }, () => {
-      //when the state is set, go to that job in the user's postedJobs list and change the value of archived to true
-        // userApproveRef.update({
-        //   approved: this.state.archived
-        // })
 
         //get the job in either the posted or pending list
         const jobRef = firebase.database().ref(`jobs/pending/${this.props.jobId}`)
 
-
+        // update the approved value to match the state 
+          jobRef.update({
+            approved: this.state.approved
+          })
         // get all the job information that currently exists at that location 
         jobRef.once('value', snapshot => {
+
           // create a local variable to hold our job information
           const job = snapshot.val();
-          // update the archived value to match the state 
-          // jobRef.update({
-          //   approved: this.state.archived
-          // })
+
           //get the location in the archived list where this  job should live after it's archived 
           const approvedJobRef = firebase.database().ref(`jobs/approved/${this.props.jobId}`)
 

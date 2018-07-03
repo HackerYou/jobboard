@@ -35,9 +35,9 @@ handleChange = (e) =>{
 -                                    <button onClick={this.submitUserName}>Save Name</button> 	
 -                                     </div>	
 -              } !</div> */}
-        <Search />
         <button onClick={this.props.signOut}>Sign out</button>
-    </div>);
+      </div>
+    )
   }
 }
 export default UserBar;

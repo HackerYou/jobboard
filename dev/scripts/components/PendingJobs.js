@@ -14,7 +14,7 @@ class PendingJobs extends React.Component {
     componentDidMount() {
         const dbRef = firebase.database().ref(`jobs/pending`)
         dbRef.on('value', snapshot => {
-            this.setState({ pendingJobs     : snapshot.val() });
+            this.setState({ pendingJobs : snapshot.val() });
         })
 
     }
