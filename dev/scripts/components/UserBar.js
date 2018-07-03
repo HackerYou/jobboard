@@ -22,7 +22,8 @@ handleChange = (e) =>{
   })
 }
   render(){
-    return <div className="userBar">
+    return (
+    <div className="userBar">
         <div className="logo">
           <img src="../../../assets/hy-logo-mark.svg" alt="HackerYou College of Technology Logo" /> 
         </div>
@@ -36,7 +37,7 @@ handleChange = (e) =>{
 -              } !</div> */}
         <Search />
         <button onClick={this.props.signOut}>Sign out</button>
-      </div>;
+    </div>);
   }
 }
 export default UserBar;
