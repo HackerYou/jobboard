@@ -74,6 +74,13 @@ class App extends React.Component {
         });
       }
     });
+
+    const dbRef2 = firebase.database().ref(`jobs/approved`)
+    dbRef2.on('value', snapshot => {
+      this.setState({
+        filteredJobs: snapshot.val()
+      })
+    })
   } 
 
   onChangeEmail = (e) =>{
@@ -167,19 +174,17 @@ class App extends React.Component {
   getData = (key, param) =>{
     return new Promise((res,rej) => {
       const dbRef = firebase.database().ref(`jobs/approved`)
-      if (param != '' || undefined || null) {
-        let data
-        dbRef.orderByChild(key).equalTo(param).once('value', snapshot => {
-          // console.log(`this is snapshot.val for ${key} : ${param}`)
-          data = snapshot.val()
+      if (param === 'any') {
+        console.log(key)
+        dbRef.once('value', snapshot => {
+          const data = snapshot.val()
+          res(data)
         })
-        // .then(res =>{
-        //     this.setState({
-        //       [`${key}Results`]: data
-        //     })
-        // }); 
-        res(data)
-
+      } else if (param !== '' || param !== undefined || param !== null) {
+          dbRef.orderByChild(key).equalTo(param).once('value', snapshot => {
+          const data = snapshot.val()
+          res(data)
+        })
       } else {
         res(null);
       }
@@ -194,12 +199,10 @@ class App extends React.Component {
       url: `https://us-central1-hy-jobs-board.cloudfunctions.net/searchKeywords/?keyword=${keyword}`,
       responseType: 'json'
     })
-      // .then(res => {
-      //   const response = res.data;
-      //   this.setState({
-      //     [`${keyword}Results`]: response
-      //   })
-      // })
+      .then(res => {
+        res = res.data;
+        return res
+      })
       .catch(err =>{
         console.log(err)
       })
@@ -215,13 +218,15 @@ class App extends React.Component {
     searchKeywords = searchKeywords.map(this.getKeywordData)
 
     Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, ...searchKeywords])
+ 
       .then( allDataSets => {
-        console.log(allDataSets)
+        console.log(`this is all data sets`, allDataSets)
         console.log('got em all');
 
         let allJobKeys =[]
         let allJobs = {}
         let numberOfParams=0
+        let filteredJobs =[]
         allDataSets.map( singleJobDataSet => {
           let parametersKeys=[]
 
@@ -244,7 +249,6 @@ class App extends React.Component {
         // intersection() is a lodash function imported at the top of this page
         let chosenJobsKeys = intersection(...allJobKeys)
       
-        let filteredJobs=[]
         //go through allJobs using the keys from chosenJobsKeys
         chosenJobsKeys.map(jobKey =>{
 
@@ -254,16 +258,20 @@ class App extends React.Component {
 
               filteredJobs.push(allJobs[job])
             } else{
-              console.log('nope')
+              // console.log('nope')
             }
           }
         });
         if (chosenJobsKeys.length < 2 && numberOfParams > 1) {
           console.log('there are no results at this intersection')
         }
-        console.log(`filteredJobs ` ,filteredJobs)
+
+        console.log(`filteredJobs `, filteredJobs)
+        return filteredJobs
+      })
+      .then( res =>{
         this.setState({
-          filteredJobs: filteredJobs
+          filteredJobs: res
         })
       })
       .catch( err => {
@@ -292,7 +300,7 @@ class App extends React.Component {
             <div className="tab-container">
           {this.state.admin && <PendingJobs userId={this.state.userId}/>}
               {this.state.jobPoster && <MyPostedJobs userId={this.state.userId} />}
-              {this.state.alumni && <JobFeed userId={this.state.userId}/>}
+              {this.state.alumni && <JobFeed userId={this.state.userId} filteredJobs = {this.state.filteredJobs}/>}
           {this.state.admin && <ApprovedJobs userId={this.state.userId}/>}
             </div>
           </div> : <div>

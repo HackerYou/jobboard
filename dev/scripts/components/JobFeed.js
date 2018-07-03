@@ -8,19 +8,11 @@ class JobFeed extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      jobs:[],
+      jobs: this.props.filteredJobs,
       showingJobId: ''
-
     }
   }
   componentDidMount(){
-    const dbRef = firebase.database().ref(`jobs/approved`)
-    dbRef.on('value', snapshot =>{
-      this.setState({
-        jobs: snapshot.val()
-      })
-    })
-
   }
   showJobDetails = (jobId) =>{
     this.setState({
@@ -36,6 +28,7 @@ class JobFeed extends React.Component {
       <h2>This is job feed</h2>
       <div className="job-feed">
       {/* get the keys from the jobs we're holding in state, those keys are the jobIds */}
+      {/* GET THE FILTERED JOBS and map this information a little differently */}
         {Object.keys(this.state.jobs).map((jobId) =>{
           // find jobs by jobId
           let job= this.state.jobs[jobId]
