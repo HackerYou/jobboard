@@ -29,9 +29,9 @@ class JobFeed extends React.Component {
       <div className="job-feed">
       {/* get the keys from the jobs we're holding in state, those keys are the jobIds */}
       {/* GET THE FILTERED JOBS and map this information a little differently */}
-        {Object.keys(this.state.jobs).map((jobId) =>{
+          {Object.keys(this.props.filteredJobs).map((jobId) =>{
           // find jobs by jobId
-          let job= this.state.jobs[jobId]
+            let job = this.props.filteredJobs[jobId]
           
           return(
               <JobPreview 
@@ -45,7 +45,7 @@ class JobFeed extends React.Component {
                 datePosted={job.timeCreated}
                 jobId={jobId}
                 userId={this.props.userId}
-                active={this.state.showingJobId === jobId ? 'active': null}
+                active={this.state.showingJobId === jobId && 'active'}
               />
 
           )
@@ -53,13 +53,13 @@ class JobFeed extends React.Component {
       </div>
         {this.state.showDetails && < FullJob
                                         jobId={this.state.showingJobId}
-                                        jobTitle={this.state.jobs[`${this.state.showingJobId}`]['jobTitle']}
-                                        jobLocation={this.state.jobs[`${this.state.showingJobId}`]['jobLocation']}
-                                        jobDescription={this.state.jobs[`${this.state.showingJobId}`]['jobDescription']}
-                                        companyName={this.state.jobs[`${this.state.showingJobId}`]['companyName']}
-                                        datePosted={this.state.jobs[`${this.state.showingJobId}`]['datePosted']}
-                                        approved={this.state.jobs[`${this.state.showingJobId}`]['approved']}
-                                        jobCommitment={this.state.jobs[`${this.state.showingJobId}`]['jobCommitment']}
+                                        jobTitle={this.props.jobs[`${this.state.showingJobId}`]['jobTitle']}
+                                        jobLocation={this.props.jobs[`${this.state.showingJobId}`]['jobLocation']}
+                                        jobDescription={this.props.jobs[`${this.state.showingJobId}`]['jobDescription']}
+                                        companyName={this.props.jobs[`${this.state.showingJobId}`]['companyName']}
+                                        datePosted={this.props.jobs[`${this.state.showingJobId}`]['datePosted']}
+                                        approved={this.props.jobs[`${this.state.showingJobId}`]['approved']}
+                                        jobCommitment={this.props.jobs[`${this.state.showingJobId}`]['jobCommitment']}
                                     />
           }
 

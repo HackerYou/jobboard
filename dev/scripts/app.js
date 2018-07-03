@@ -33,9 +33,17 @@ class App extends React.Component {
       loggedIn: false,
       userId: '', 
       provider:'',
-      filteredJobs:[]
+      filteredJobs:{}
     }
+
+    const dbRef2 = firebase.database().ref(`jobs/approved`)
+    dbRef2.on('value', snapshot => {
+      this.setState({
+        filteredJobs: snapshot.val()
+      })
+    })
   }
+
   componentDidMount(){
     
     this.dbRef = firebase.database().ref();
@@ -74,13 +82,6 @@ class App extends React.Component {
         });
       }
     });
-
-    const dbRef2 = firebase.database().ref(`jobs/approved`)
-    dbRef2.on('value', snapshot => {
-      this.setState({
-        filteredJobs: snapshot.val()
-      })
-    })
   } 
 
   onChangeEmail = (e) =>{
@@ -226,7 +227,7 @@ class App extends React.Component {
         let allJobKeys =[]
         let allJobs = {}
         let numberOfParams=0
-        let filteredJobs =[]
+        let filteredJobs ={}
         allDataSets.map( singleJobDataSet => {
           let parametersKeys=[]
 
@@ -247,6 +248,8 @@ class App extends React.Component {
         })
 
         // intersection() is a lodash function imported at the top of this page
+        // that returns all keys that are in all the arrays provided
+        // they're passed into the function here using the spread operator
         let chosenJobsKeys = intersection(...allJobKeys)
       
         //go through allJobs using the keys from chosenJobsKeys
@@ -256,7 +259,11 @@ class App extends React.Component {
 
             if(allJobs[job].key === jobKey){
 
-              filteredJobs.push(allJobs[job])
+              // filteredJobs.push(allJobs[job])
+              // make the key equal to the value of the job information
+              // add that job information to the filteredJobs object
+              filteredJobs[job] = allJobs[job]
+              // console.log(filteredJobs[job], allJobs[job])
             } else{
               // console.log('nope')
             }

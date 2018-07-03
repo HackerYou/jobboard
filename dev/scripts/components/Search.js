@@ -12,15 +12,12 @@ class Search extends React.Component {
       jobCommitment: '',
       timeSincePosting:'',
       salary:'',
-      searchKeywords:[]
+      searchKeywords:[],
+      selectedCheckboxes: new Set()
+
     }
   }
-  componentWillMount() {
-    this.setState({
-      selectedCheckboxes : new Set()
-    });
 
-  }
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
