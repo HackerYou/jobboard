@@ -154,7 +154,7 @@ class AddJobForm extends React.Component {
 
                     <label htmlFor="jobDescription">Job Description</label>
                     <textarea type="textarea" name="jobDescription" id="jobDescription" placeholder="Put dat descrippy here plz" cols="50" rows="10" onChange={this.handleChange} value={this.state.jobDescription} />
-
+                    
                     <input type="submit" value="Submit Job Posting" />
             </form>
         </div>

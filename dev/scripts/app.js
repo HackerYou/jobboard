@@ -1,15 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Link, NavLink, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Link, NavLink, Route} from 'react-router-dom';
 import firebase from 'firebase';
 import ReadmeLoginForm from './components/ReadmeLoginForm';
 import EmailLoginForm from './components/EmailLoginForm';
 import UserBar from './components/UserBar';
+import Navigation from './components/Navigation';
 import AddJobForm from './components/AddJobForm';
 import JobFeed from './components/JobFeed';
 import PendingJobs from './components/PendingJobs';
 import ApprovedJobs from './components/ApprovedJobs';
 import MyPostedJobs from './components/MyPostedJobs';
+import MySavedJobs from './components/MySavedJobs';
+
 import Search from './components/Search'
 import axios from 'axios';
 import groupby from 'lodash.groupby';
@@ -44,45 +47,46 @@ class App extends React.Component {
     })
   }
 
-  componentDidMount(){
-    
-    this.dbRef = firebase.database().ref();
 
-    this.userRef = firebase.database().ref(`users/${this.state.userId}`)
-    
-    firebase.auth().onAuthStateChanged(user => {
+componentDidMount(){
+  
+  this.dbRef = firebase.database().ref();
 
-      if (user !== null) {
-        // console.log(user)
-        this.dbRef.on('value', snapshot => { });
+  this.userRef = firebase.database().ref(`users/${this.state.userId}`)
+  
+  firebase.auth().onAuthStateChanged(user => {
+
+    if (user !== null) {
+      // console.log(user)
+      this.dbRef.on('value', snapshot => { });
+      this.setState({
+        loggedIn: true,
+        userId: user.uid,
+        userName: user.displayName
+      });
+      this.userRef.on('value', snapshot =>{
+        let resp = snapshot.val()
+        resp = resp[this.state.userId]
         this.setState({
-          loggedIn: true,
-          userId: user.uid,
-          userName: user.displayName
-        });
-        this.userRef.on('value', snapshot =>{
-          let resp = snapshot.val()
-          resp = resp[this.state.userId]
-          this.setState({
-            admin: resp.admin,
-            alumni: resp.alumni,
-            jobPoster: resp.jobPoster
-          })
+          admin: resp.admin,
+          alumni: resp.alumni,
+          jobPoster: resp.jobPoster
         })
+      })
 
-      } else {
-        this.setState({
-          loggedIn: false,
-          userId: '',
-          userName: '',
-          admin:'',
-          alumni:'',
-          jobPoster:''
+    } else {
+      this.setState({
+        loggedIn: false,
+        userId: '',
+        userName: '',
+        admin:'',
+        alumni:'',
+        jobPoster:''
 
-        });
-      }
-    });
-  } 
+      });
+    }
+  });
+} 
 
   onChangeEmail = (e) =>{
     this.setState({
@@ -149,7 +153,8 @@ class App extends React.Component {
     })
   }
 
-  signOut = () => {
+  signOut = (e) => {
+    e.preventDefault();
     firebase.auth().signOut();
     this.dbRef.off('value');
     this.setState({
@@ -176,7 +181,7 @@ class App extends React.Component {
     return new Promise((res,rej) => {
       const dbRef = firebase.database().ref(`jobs/approved`)
       if (param === 'any') {
-        console.log(key)
+        // console.log(key)
         dbRef.once('value', snapshot => {
           const data = snapshot.val()
           res(data)
@@ -221,8 +226,8 @@ class App extends React.Component {
     Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, ...searchKeywords])
  
       .then( allDataSets => {
-        console.log(`this is all data sets`, allDataSets)
-        console.log('got em all');
+        // console.log(`this is all data sets`, allDataSets)
+        // console.log('got em all');
 
         let allJobKeys =[]
         let allJobs = {}
@@ -290,80 +295,94 @@ class App extends React.Component {
     this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords)
   } 
   render() {
-    return <div className="wrapper">
-        {this.state.loggedIn ? 
-            <div>
-              <UserBar  userId={this.state.userId} 
-                        userName={this.state.userName} 
-                        userEmail={this.state.email} 
-                        loggedIn={this.state.loggedIn} 
-                        provider={this.state.provider} 
-                        jobPoster={this.state.jobPoster} 
-                        alumni={this.state.alumni} 
-                        admin={this.state.admin} 
-                        signOut={this.signOut} />
 
-                  <nav>
-                    {/* <NavLink>Pending Jobs</NavLink>
-                    <NavLink>My Posted Jobs</NavLink>
-                    <NavLink>Approved Jobs</NavLink>
-                    <NavLink>Approved Jobs</NavLink> */}
+    return (
+            <Router>
+              <div className="wrapper">
+            
+              
+                  {this.state.loggedIn ? 
+                      <div>
+                        <UserBar  userId={this.state.userId} 
+                                  userName={this.state.userName} 
+                                  userEmail={this.state.email} 
+                                  loggedIn={this.state.loggedIn} 
+                                  provider={this.state.provider} 
+                                  jobPoster={this.state.jobPoster} 
+                                  alumni={this.state.alumni} 
+                                  admin={this.state.admin} 
+                                  signOut={this.signOut} />
+                            <nav>
+                              <NavLink to="/pending" >Pending Jobs</NavLink>
+                              <NavLink to="/myPostedJobs">My Posted Jobs</NavLink>
+                              <NavLink to="/jobFeed">Job Feed</NavLink>
+                              <NavLink to="/approved">Approved Jobs</NavLink>
+                            </nav>
 
-                  </nav>
+                      <div className="tabContainer">
+                      <Switch>
+                        <Route path="/pending" render={() => (<PendingJobs userId={this.state.userId}
+                          alumni={this.state.alumni}
+                          jobPoster={this.state.jobPoster}
+                          admin={this.state.admin}/>)} />
+                        <Route path="/approved" render={() => (<ApprovedJobs userId={this.state.userId}  alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
 
-              {this.state.editing ? <AddJobForm
-                                    editing={this.state.editing}
-                                    userId={this.state.userId}
-                                    close={this.closePostAJob} />
-                :
-                <button className="action" onClick={this.postAJob}>Post a job </button>}
-              <Search userId={this.state.userId} search={this.search} />
+                        <Route exact path="/jobFeed" render={() => (<div>
+                                                                      <Search userId={this.state.userId} search={this.search} /> 
+                                                                      <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs}/>
+                                                                    </div>)}
+                        />
+                        <Route path="/myPostedJobs" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                       <Route path="/mySavedJobs" render={() => (<MySavedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                        <Route exact path="/addJobForm" render={() => <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.closePostAJob}/>} />
+                      </Switch>
+                          {/* {this.state.admin && <PendingJobs 
+                                                userId={this.state.userId} 
+                                                alumni={this.state.alumni} 
+                                                jobPoster={this.state.jobPoster} 
+                                                admin={this.state.admin}/>
+                          } */}
+                          {/* {this.state.admin && <ApprovedJobs 
+                                                userId={this.state.userId} 
+                                                alumni={this.state.alumni} 
+                                                jobPoster={this.state.jobPoster} 
+                                                admin={this.state.admin}/>
+                          } */}
+                          
+                          {/* {this.state.alumni && <JobFeed 
+                                                  userId={this.state.userId}
+                                                  alumni={this.state.alumni} 
+                                                  jobPoster={this.state.jobPoster} 
+                                                  admin={this.state.admin} 
+                                                  filteredJobs={this.state.filteredJobs}/>
+                          }
+                          
+                          {this.state.jobPoster && <MyPostedJobs 
+                                                    userId={this.state.userId} 
+                                                    alumni={this.state.alumni} 
+                                                    jobPoster={this.state.jobPoster} 
+                                                    admin={this.state.admin}/>
+                          } */}
+                        </div> 
+                        {/* end tabContainer */}
 
-            <div className="tabContainer">
-                {this.state.admin && <PendingJobs 
-                                      userId={this.state.userId} 
-                                      alumni={this.state.alumni} 
-                                      jobPoster={this.state.jobPoster} 
-                                      admin={this.state.admin}/>
-                }
+                    </div> 
+                    
+                    : 
+                    
+                    <div>
+                      <p>Sign up or sign in with</p>
+                      <button onClick={this.loginWithReadme}>Readme</button>
+                      <button onClick={this.loginWithGoogle}>Google</button>
+                      <button onClick={this.loginWithEmail}>Email</button>
+                      {this.state.loggedIn === false && this.state.provider === "readme" && <ReadmeLoginForm />}
+                      {this.state.loggedIn === false && this.state.provider === "email" && <EmailLoginForm />}
+                    </div>
+                    }
+                </div>
+            </Router>
+    )
 
-                {this.state.admin && <ApprovedJobs 
-                                      userId={this.state.userId} 
-                                      alumni={this.state.alumni} 
-                                      jobPoster={this.state.jobPoster} 
-                                      admin={this.state.admin}/>
-                }
-                
-                {this.state.alumni && <JobFeed 
-                                        userId={this.state.userId}
-                                        alumni={this.state.alumni} 
-                                        jobPoster={this.state.jobPoster} 
-                                        admin={this.state.admin} 
-                                        filteredJobs={this.state.filteredJobs}/>
-                }
-                
-                {this.state.jobPoster && <MyPostedJobs 
-                                          userId={this.state.userId} 
-                                          alumni={this.state.alumni} 
-                                          jobPoster={this.state.jobPoster} 
-                                          admin={this.state.admin}/>
-                }
-              </div> 
-              {/* end tabContainer */}
-          </div> 
-          
-          : 
-          
-          <div>
-            <p>Sign up or sign in with</p>
-            <button onClick={this.loginWithReadme}>Readme</button>
-            <button onClick={this.loginWithGoogle}>Google</button>
-            <button onClick={this.loginWithEmail}>Email</button>
-            {this.state.loggedIn === false && this.state.provider === "readme" && <ReadmeLoginForm />}
-            {this.state.loggedIn === false && this.state.provider === "email" && <EmailLoginForm />}
-          </div>
-          }
-      </div>
   }
 }
 
