@@ -51,3 +51,16 @@ h1 {
   height: 80vh;
 }
 
+.tabNav{
+  a{
+    text-decoration: none;
+    background-color: $primaryGrey;
+    color: $darkGrey;
+    &:hover{
+      color:$secondaryGrey;
+    }
+    &:focus, .active{
+      color:$primaryRed;
+    }
+  }
+}

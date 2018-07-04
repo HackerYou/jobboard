@@ -1,6 +1,6 @@
 import React from 'react';
 import Navigation from './Navigation';
-
+import TabNav from './TabNav';
 
 class UserBar extends React.Component {
   constructor(props){
@@ -37,6 +37,7 @@ toggleSideNav=() =>{
         </div>
         <div className={this.state.navOpen ? `sideNavEx` : `hamburgerSideNav`}><img src={this.state.navOpen ? `../assets/icon-x.svg` : `../assets/icon-menu.svg`} alt={this.state.navOpen ? `Close icon` : `Menu icon`}  onClick={this.toggleSideNav}/></div>
         {this.state.navOpen && <Navigation signOut={this.props.signOut} />}
+        <TabNav admin={this.props.admin} jobPoster={this.props.jobPoster} alumni={this.props.alumni} />
       </div>
     )
   }

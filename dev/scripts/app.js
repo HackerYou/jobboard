@@ -312,57 +312,36 @@ componentDidMount(){
                                   alumni={this.state.alumni} 
                                   admin={this.state.admin} 
                                   signOut={this.signOut} />
-                            <nav>
-                              <NavLink to="/pending" >Pending Jobs</NavLink>
-                              <NavLink to="/myPostedJobs">My Posted Jobs</NavLink>
-                              <NavLink to="/jobFeed">Job Feed</NavLink>
-                              <NavLink to="/approved">Approved Jobs</NavLink>
-                            </nav>
-
                       <div className="tabContainer">
                       <Switch>
-                        <Route path="/pending" render={() => (<PendingJobs userId={this.state.userId}
-                          alumni={this.state.alumni}
-                          jobPoster={this.state.jobPoster}
-                          admin={this.state.admin}/>)} />
-                        <Route path="/approved" render={() => (<ApprovedJobs userId={this.state.userId}  alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                        <Route exact path="/addJobForm" render={() => <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.closePostAJob} />} />
 
-                        <Route exact path="/jobFeed" render={() => (<div>
-                                                                      <Search userId={this.state.userId} search={this.search} /> 
-                                                                      <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs}/>
-                                                                    </div>)}
-                        />
-                        <Route path="/myPostedJobs" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
-                       <Route path="/mySavedJobs" render={() => (<MySavedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
-                        <Route exact path="/addJobForm" render={() => <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.closePostAJob}/>} />
+                        {this.state.admin && 
+                          <div>
+                            <Route path="/pending" render={() => ( <PendingJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} /> )} />
+                            <Route path="/approved" render={() => (<ApprovedJobs userId={this.state.userId}  alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                          </div>
+                        }
+
+                        {this.state.alumni && 
+                          <div>
+                            <Switch>
+                            <Route exact path="/jobFeed" render={() => (<div>
+                                                                        <Search userId={this.state.userId} search={this.search} /> 
+                                                                        <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs}/>
+                                                                      </div>)}
+                            /> 
+                            <Route path="/mySavedJobs" render={() => (<MySavedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                            </Switch>
+                          </div>
+                         }
+                        
+                        {this.state.jobPoster && 
+                            <Route path="/myPostedJobs" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                        }
+
                       </Switch>
-                          {/* {this.state.admin && <PendingJobs 
-                                                userId={this.state.userId} 
-                                                alumni={this.state.alumni} 
-                                                jobPoster={this.state.jobPoster} 
-                                                admin={this.state.admin}/>
-                          } */}
-                          {/* {this.state.admin && <ApprovedJobs 
-                                                userId={this.state.userId} 
-                                                alumni={this.state.alumni} 
-                                                jobPoster={this.state.jobPoster} 
-                                                admin={this.state.admin}/>
-                          } */}
-                          
-                          {/* {this.state.alumni && <JobFeed 
-                                                  userId={this.state.userId}
-                                                  alumni={this.state.alumni} 
-                                                  jobPoster={this.state.jobPoster} 
-                                                  admin={this.state.admin} 
-                                                  filteredJobs={this.state.filteredJobs}/>
-                          }
-                          
-                          {this.state.jobPoster && <MyPostedJobs 
-                                                    userId={this.state.userId} 
-                                                    alumni={this.state.alumni} 
-                                                    jobPoster={this.state.jobPoster} 
-                                                    admin={this.state.admin}/>
-                          } */}
+
                         </div> 
                         {/* end tabContainer */}
 

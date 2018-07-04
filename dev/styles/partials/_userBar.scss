@@ -14,6 +14,9 @@
         position: absolute;
         height:40px;
         width: 40px;
+        &:hover, &:focus{
+            cursor:pointer;
+        }
     }
     .hamburgerSideNav{
       img{
@@ -27,6 +30,9 @@
             margin-top: 10px;
             height: 20px;
             width: 20px;
+            &:hover, &:focus{
+                border:1px dotted black;
+            }
         }
     }
 }
