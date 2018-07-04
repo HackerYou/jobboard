@@ -49,6 +49,7 @@ class ApprovedJobs extends React.Component {
                         active={this.state.showingJobId === jobId ? 'active' : null}
                         alumni={this.props.alumni}
                         admin={this.props.admin}
+                        addressee={this.props.addressee}
                         jobPoster={this.props.jobPoster}
                         />
                     )
@@ -65,6 +66,7 @@ class ApprovedJobs extends React.Component {
                 approved={this.state.approvedJobs[`${this.state.showingJobId}`]['approved']}
                 jobCommitment={this.state.approvedJobs[`${this.state.showingJobId}`]['jobCommitment']}
                 archived={this.state.approvedJobs[`${this.state.showingJobId}`]['archived']}
+                addressee={this.state.approvedJobs[`${this.state.showingJobId}`]['addressee']}
 
             />}
           </div>;

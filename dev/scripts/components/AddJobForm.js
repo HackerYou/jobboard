@@ -16,6 +16,7 @@ class AddJobForm extends React.Component {
             salary:'',
             timeCreated:'',
             posterId: props.userId,
+            addressee: '',
             approved: false,
             archived: false
         }
@@ -46,36 +47,39 @@ class AddJobForm extends React.Component {
             posterId: this.state.posterId,
             approved: this.state.approved,
             archived: this.state.archived,
+            addressee: this.state.addressee,
             timeCreated:this.state.timeCreated
         }).then(res => {
             let uniqueKey = res.path.pieces_[2];
             const userRef = firebase.database().ref(`users/${this.state.posterId}/postedJobs/${uniqueKey}`);
             const locations = firebase.database().ref(`jobs/locations`)
             userRef.set({
-                jobTitle: this.state.jobTitle,
-                companyName: this.state.companyName,
-                jobLocation: this.state.jobLocation,
-                jobCommitment: this.state.jobCommitment,
-                jobDescription: this.state.jobDescription,
-                keywords: keywords,
-                salary: this.state.salary,
-                posterId: this.state.posterId,
-                approved: this.state.approved,
-                archived: this.state.archived,
-                timeCreated: this.state.timeCreated
+              jobTitle: this.state.jobTitle,
+              companyName: this.state.companyName,
+              jobLocation: this.state.jobLocation,
+              jobCommitment: this.state.jobCommitment,
+              jobDescription: this.state.jobDescription,
+              keywords: keywords,
+              salary: this.state.salary,
+              posterId: this.state.posterId,
+              approved: this.state.approved,
+              archived: this.state.archived,
+              addressee: this.state.addressee,
+              timeCreated: this.state.timeCreated
             });
 
             this.setState({
-                jobTitle: '',
-                companyName: '',
-                jobLocation: '',
-                jobCommitment: '',
-                jobDescription: '',
-                keywords: [],
-                salary:'',
-                timeCreated: '',
-                editing: this.props.editing
-            })
+              jobTitle: "",
+              companyName: "",
+              jobLocation: "",
+              jobCommitment: "",
+              jobDescription: "",
+              keywords: [],
+              salary: "",
+              timeCreated: "",
+              addressee: "",
+              editing: this.props.editing
+            });
         })
 
 
@@ -151,6 +155,9 @@ class AddJobForm extends React.Component {
                         <option name="salary" value="91-100">$90,001 - $100,000</option>
                         <option name="salary" value="100+">over $100,000</option>
                     </select>
+
+                    <label htmlFor="addressee">Addressee for Cover Letter or Application</label>
+                    <input type="text" name="addressee" id="addressee" placeholder="Addressee" required="false" onChange={this.handleChange} value={this.state.addressee} />
 
                     <label htmlFor="jobDescription">Job Description</label>
                     <textarea type="textarea" name="jobDescription" id="jobDescription" placeholder="Put dat descrippy here plz" cols="50" rows="10" onChange={this.handleChange} value={this.state.jobDescription} />

@@ -32,7 +32,7 @@ input[type=text]{
 
 #app {
   background-image: linear-gradient(to left, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../../assets/main-image.jpg);
-  min-height: 100vh;
+  height: 100vh;
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -46,6 +46,13 @@ h1 {
   text-align: center;
   font-size: 72px;
 }
+.keywords-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
 .tabContainer {
   height: 100vh;
 }

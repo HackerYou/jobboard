@@ -12,7 +12,8 @@ class JobPreview extends React.Component {
       datePosted: this.props.datePosted,
       approved: this.props.approved,
       archived: this.props.archived,
-      posterId: ''
+      posterId: '',
+      addressee: this.props.addressee
     })
   }
   componentDidMount(props) { 
