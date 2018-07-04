@@ -29,8 +29,6 @@ class JobFeed extends React.Component {
             // console.log(jobId, this.props.filteredJobs[jobId])
           // find jobs by jobId
             let job = this.props.filteredJobs[jobId]
-            console.log(job, job.approved)
-
             return(
                 <JobPreview 
                 showJobDetails={this.showJobDetails}

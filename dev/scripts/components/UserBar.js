@@ -5,6 +5,9 @@ import Navigation from './Navigation';
 class UserBar extends React.Component {
   constructor(props){
     super(props);
+    this.state={
+      navOpen:false
+    }
   }
   componentDidMount(){
 
@@ -21,14 +24,19 @@ handleChange = (e) =>{
     newUserName: e.target.value
   })
 }
+toggleSideNav=() =>{
+  this.setState({
+    navOpen: !this.state.navOpen
+  })
+}
   render(){
     return (
     <div className="userBar">
         <div className="logo">
           <img src="../../../assets/hy-logo-mark.svg" alt="HackerYou College of Technology Logo" /> 
         </div>
-        <div className="hamburger"><img src="../assets/icon-menu.svg" alt="Hamburger menu icon"/></div>
-        <Navigation signOut={this.props.signOut}/>
+        <div className={this.state.navOpen ? `sideNavEx` : `hamburgerSideNav`}><img src={this.state.navOpen ? `../assets/icon-x.svg` : `../assets/icon-menu.svg`} alt={this.state.navOpen ? `Close icon` : `Menu icon`}  onClick={this.toggleSideNav}/></div>
+        {this.state.navOpen && <Navigation signOut={this.props.signOut} />}
       </div>
     )
   }
