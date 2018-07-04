@@ -38,7 +38,6 @@ class MySavedJobs extends React.Component {
                 .filter(jobId => this.state.savedJobs[jobId].archived === false)
                 .map(jobId => {
                 let job = this.state.savedJobs[jobId];
-                console.log(`job`, job)
                     if(job.archived === false){
                         return (
                         <JobPreview 
@@ -59,7 +58,6 @@ class MySavedJobs extends React.Component {
                         alumni={this.props.alumni}
                         admin={this.props.admin}
                         jobPoster={this.props.jobPoster}
-
                         />);
                     } 
                 })}
@@ -74,7 +72,6 @@ class MySavedJobs extends React.Component {
                         datePosted={this.state.savedJobs[`${this.state.showingJobId}`]['datePosted']}
                         approved={this.state.savedJobs[`${this.state.showingJobId}`]['approved']}
                         jobCommitment={this.state.savedJobs[`${this.state.showingJobId}`]['jobCommitment']}
-
              />}
            
           </div>)

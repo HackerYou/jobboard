@@ -278,7 +278,7 @@ componentDidMount(){
           console.log('there are no results at this intersection')
         }
 
-        console.log(`filteredJobs `, filteredJobs)
+        // console.log(`filteredJobs `, filteredJobs)
         return filteredJobs
       })
       .then( res =>{
