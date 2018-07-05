@@ -1,9 +1,5 @@
 import React from 'react';
-import firebase from 'firebase';
-import { Link } from 'react-router-dom';
-
-const keywords = ['css', 'js', 'html', 'jquery','indesign', 'ruby', 'sketch', 'react', 'angular', 'mongoDB', 'node', 'wordpress', 'full stack', 'front end', 'back end', 'ux', 'ui', 'design', 'photoshop','excel']
-
+import keywordList  from '../KeywordList'
 import Keyword from './Keyword.js'
 
 class Search extends React.Component {
@@ -15,6 +11,7 @@ class Search extends React.Component {
       jobCommitment: '',
       timeSincePosting:'',
       salary:'',
+      importedKeywords:keywordList,
       searchKeywords:[],
       selectedCheckboxes: new Set(),
       advancedSearch:false
@@ -105,7 +102,7 @@ class Search extends React.Component {
                 </select>
                 <div className="keywords-container">
                   <label htmlFor="keywords">Keywords</label>
-                  {keywords.map(word => {
+                  {this.state.importedKeywords.map(word => {
                     return (
                       <Keyword key={word} word={word} handleCheckboxChange={this.handleCheckboxChange}/>
                     )

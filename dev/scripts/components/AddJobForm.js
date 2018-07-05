@@ -1,7 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
-import Keyword from './Keyword.js'
-const keywords = ['css', 'js', 'html', 'jquery', 'indesign', 'ruby', 'sketch', 'react', 'angular', 'mongoDB', 'node', 'wordpress', 'full stack', 'front end', 'back end', 'ux', 'ui', 'design', 'photoshop', 'excel']
+import Keyword from './Keyword'
+import keywordList from '../KeywordList'
 class AddJobForm extends React.Component {
     constructor(props) {
         super(props)
@@ -11,6 +11,7 @@ class AddJobForm extends React.Component {
             jobLocation: '',
             jobCommitment: '',
             jobDescription: '',
+            importedKeywords:keywordList,
             keywords: [],
             salary:'',
             timeCreated:'',
@@ -122,7 +123,7 @@ class AddJobForm extends React.Component {
                     <input type="text" name="keywords" id="keywords" placeholder="HTML, CSS, javascript" onChange={this.handleChange} value={this.state.keywords} /> */}
                     <div className="keywords-container">
                         <label htmlFor="keywords">Keywords/Tags</label>
-                        {keywords.map(word => {
+                        {this.state.importedKeywords.map(word => {
                             return (
                                 <Keyword key={word} word={word} handleCheckboxChange={this.handleCheckboxChange} />
                             )
