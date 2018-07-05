@@ -1,8 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
 import Keyword from './Keyword.js'
-const keywords = ['css', 'js', 'html', 'ruby', 'design']
-
+const keywords = ['css', 'js', 'html', 'jquery', 'indesign', 'ruby', 'sketch', 'react', 'angular', 'mongoDB', 'node', 'wordpress', 'full stack', 'front end', 'back end', 'ux', 'ui', 'design', 'photoshop', 'excel']
 class AddJobForm extends React.Component {
     constructor(props) {
         super(props)
@@ -21,11 +20,7 @@ class AddJobForm extends React.Component {
         }
     }
     componentDidMount() {
-    //   let timeCreated = new Date()
-
-    //   timeCreated = timeCreated.toString()
       this.setState({
-        // timeCreated: timeCreated,
         selectedCheckboxes: new Set()
       })
     }

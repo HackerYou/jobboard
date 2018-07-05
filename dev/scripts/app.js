@@ -134,10 +134,7 @@ componentDidMount(){
               'alumni':false,
               'admin':false
             })
-          } else{
-            console.log('already there!')
-            return
-          }
+          } 
         });
       })
       .catch(err => {
@@ -180,20 +177,17 @@ componentDidMount(){
   getData = (key, param) =>{
     return new Promise((res,rej) => {
       const dbRef = firebase.database().ref(`jobs/approved`)
-      if (param === 'any') {
-        // console.log(key)
+      if (param == 'any') {
         dbRef.once('value', snapshot => {
           const data = snapshot.val()
           res(data)
         })
-      } else if (param !== '' || param !== undefined || param !== null) {
+      } else {
           dbRef.orderByChild(key).equalTo(param).once('value', snapshot => {
           const data = snapshot.val()
           res(data)
         })
-      } else {
-        res(null);
-      }
+      } 
     });
   }
 
@@ -214,7 +208,7 @@ componentDidMount(){
       })
     
   }
-  findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords){
+  findJobInDatabase = (jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) =>{
 
     let matchingLocation = this.getData(`jobLocation`, jobLocation)
     let matchingSalary = this.getData(`salary`, salary)
@@ -275,7 +269,9 @@ componentDidMount(){
           }
         });
         if (chosenJobsKeys.length < 2 && numberOfParams > 1) {
-          console.log('there are no results at this intersection')
+          this.setState({
+            filteredJobs:0
+          })
         }
 
         // console.log(`filteredJobs `, filteredJobs)
@@ -317,27 +313,36 @@ componentDidMount(){
                         <Route exact path="/addJobForm" render={() => <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.closePostAJob} />} />
 
                         {this.state.admin && 
-                          <div>
-                            <Route path="/pending" render={() => ( <PendingJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} /> )} />
+                          <Switch>
+                            
+                            <Route exact path="/" render={() => ( <PendingJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} /> )} />
+                            
                             <Route path="/approved" render={() => (<ApprovedJobs userId={this.state.userId}  alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
-                          </div>
+                            
+                            <Route exact path="/jobFeed" render={() => (<div>
+                              <Search userId={this.state.userId} search={this.search} />
+                              <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs} />
+                            </div>)} />
+                          
+                          </Switch>
                         }
 
                         {this.state.alumni && 
                           <div>
                             <Switch>
-                            <Route exact path="/jobFeed" render={() => (<div>
-                                                                        <Search userId={this.state.userId} search={this.search} /> 
-                                                                        <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs}/>
-                                                                      </div>)}
-                            /> 
-                            <Route path="/mySavedJobs" render={() => (<MySavedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                              <Route exact path="/jobFeed" render={() => (<div>
+                                                                          <Search userId={this.state.userId} search={this.search} /> 
+                                                                          <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs}/>
+                                                                        </div>)}
+                              /> 
+                              <Route path="/mySavedJobs" render={() => (<MySavedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                              <Route path="/myPostedJobs" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
                             </Switch>
                           </div>
                          }
                         
-                        {this.state.jobPoster && 
-                            <Route path="/myPostedJobs" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                        {this.state.jobPoster &&
+                            <Route exact path="/" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
                         }
 
                       </Switch>
