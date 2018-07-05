@@ -7,6 +7,10 @@
     height: 100vh;
     position: absolute;
     min-width: 360px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    
     button{
       background-color: $tertiaryGrey;
       border:none;
