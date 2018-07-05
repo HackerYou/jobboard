@@ -22,11 +22,11 @@ class AddJobForm extends React.Component {
         }
     }
     componentDidMount() {
-      let timeCreated = new Date()
+    //   let timeCreated = new Date()
 
-      timeCreated = timeCreated.toString()
+    //   timeCreated = timeCreated.toString()
       this.setState({
-        timeCreated: timeCreated,
+        // timeCreated: timeCreated,
         selectedCheckboxes: new Set()
       })
     }
@@ -35,6 +35,9 @@ class AddJobForm extends React.Component {
         const dbRef = firebase.database().ref(`jobs/pending`);
         e.preventDefault();
         let keywords = Array.from(this.state.selectedCheckboxes)
+
+        let timeCreated = new Date()
+        timeCreated = timeCreated.toString()
 
         dbRef.push({
             jobTitle: this.state.jobTitle,
@@ -48,24 +51,24 @@ class AddJobForm extends React.Component {
             approved: this.state.approved,
             archived: this.state.archived,
             addressee: this.state.addressee,
-            timeCreated:this.state.timeCreated
+            timeCreated:timeCreated
         }).then(res => {
             let uniqueKey = res.path.pieces_[2];
             const userRef = firebase.database().ref(`users/${this.state.posterId}/postedJobs/${uniqueKey}`);
             const locations = firebase.database().ref(`jobs/locations`)
             userRef.set({
-              jobTitle: this.state.jobTitle,
-              companyName: this.state.companyName,
-              jobLocation: this.state.jobLocation,
-              jobCommitment: this.state.jobCommitment,
-              jobDescription: this.state.jobDescription,
-              keywords: keywords,
-              salary: this.state.salary,
-              posterId: this.state.posterId,
-              approved: this.state.approved,
-              archived: this.state.archived,
-              addressee: this.state.addressee,
-              timeCreated: this.state.timeCreated
+                jobTitle: this.state.jobTitle,
+                companyName: this.state.companyName,
+                jobLocation: this.state.jobLocation,
+                jobCommitment: this.state.jobCommitment,
+                jobDescription: this.state.jobDescription,
+                keywords: keywords,
+                salary: this.state.salary,
+                posterId: this.state.posterId,
+                approved: this.state.approved,
+                archived: this.state.archived,
+                addressee: this.state.addressee,
+                timeCreated: timeCreated
             });
 
             this.setState({
