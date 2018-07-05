@@ -28,6 +28,7 @@ class Keyword extends React.Component {
             value={this.props.word}
             checked={this.state.isChecked}
             onChange={this.toggleCheckboxChange}
+            id={this.props.word}
           />
         <label htmlFor={this.props.word}>{this.props.word}</label>
         
