@@ -1,5 +1,6 @@
 .userBar {
     display: flex;
+    justify-content:space-between;
     background-color: #EEEFF1;
     .logo {
         width: 100px;
@@ -9,9 +10,7 @@
     }
     .hamburgerSideNav, .sideNavEx{
         z-index: 100;
-        top:20px;
-        right:50px;
-        position: absolute;
+
         height:40px;
         width: 40px;
         &:hover, &:focus{

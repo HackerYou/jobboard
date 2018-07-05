@@ -117,16 +117,16 @@ class JobPreview extends React.Component {
   render() {
     return (
       <div className='job-preview' className={this.props.active}>
-          <p onClick={(jobId) => { this.props.showJobDetails(this.props.jobId) }}>{this.props.jobTitle}</p>
-          <span >{this.props.companyName}</span> |
-          <span>{this.props.jobLocation}</span>
-          <span>Posted on {this.props.datePosted}</span>
+        <p onClick={(jobId) => { this.props.showJobDetails(this.props.jobId) }}>{this.props.jobTitle}</p>
+        <span >{this.props.companyName}</span> |
+        <span>{this.props.jobLocation}</span>
+        <span>Posted on {this.props.datePosted}</span>
 
-          {this.props.admin && <button className="action" onClick={(jobId) => { this.approveJob(this.props.jobId) }}>Approve Job</button>}
+        {this.props.admin && this.props.approved === false && <button className="action" onClick={(jobId) => { this.approveJob(this.props.jobId) }}>Approve Job</button>}
 
-        {this.props.jobPoster && this.props.userId == this.state.posterId || this.props.admin && <button className="action" onClick={(jobId) => { this.archiveJob(this.props.jobId) }}>Archive Job</button> }
+        {this.props.userId === this.state.posterId && <button className="action" onClick={(jobId) => { this.archiveJob(this.props.jobId) }}>Archive Job</button> || this.props.admin && <button className="action" onClick={(jobId) => { this.archiveJob(this.props.jobId) }}>Archive Job</button> }
 
-        {this.props.alumni && <button className="action" onClick={(jobId) => { this.saveJob(this.props.jobId) }}>Save Job</button>} 
+        {this.props.alumni && this.props.admin === false && <button className="action" onClick={(jobId) => { this.saveJob(this.props.jobId) }}>Save Job</button>} 
 
  
         </div>

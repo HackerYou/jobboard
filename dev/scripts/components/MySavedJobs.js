@@ -14,7 +14,7 @@ class MySavedJobs extends React.Component {
         let dbRef = firebase.database().ref(`users/${this.props.userId}/savedJobs`)
         dbRef.on('value', snapshot => {
             if (snapshot != null){
-              console.log(snapshot.val())
+            //   console.log(snapshot.val())
              this.setState({ savedJobs: snapshot.val() });
             } 
         })
