@@ -8,7 +8,7 @@ class TabNav extends React.Component {
 
   render(){
     return(
-      <nav className='tabNav'>
+      <nav className='tab-nav'>
         {this.props.admin && <NavLink to="/" >Pending Jobs</NavLink>}
         {this.props.admin && <NavLink to="/approved">Approved Jobs</NavLink>}
         {this.props.admin && <NavLink to="/jobFeed">Job Feed</NavLink>}

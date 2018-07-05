@@ -28,7 +28,6 @@ class ApprovedJobs extends React.Component {
 
     render() {
         return <div className="job-feed-container job-feed-container--approved ">
-            <h2>this is approved </h2>            
             <div className="job-feed">
                 {this.state.approvedJobs && Object.keys(this.state.approvedJobs).map(jobId => {
                     let job = this.state.approvedJobs[jobId];

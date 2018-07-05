@@ -8,7 +8,7 @@
             max-width: 100%;
         }
     }
-    .hamburgerSideNav, .sideNavEx{
+    .hamburger-side-nav, .side-nav-ex{
         z-index: 100;
 
         height:40px;
@@ -17,13 +17,13 @@
             cursor:pointer;
         }
     }
-    .hamburgerSideNav{
+    .hamburger-side-nav{
       img{
         height:40px;
         width: 40px;
       }
     }
-    .sideNavEx{
+    .side-nav-ex{
         text-align: center;
         img{
             margin-top: 10px;
@@ -34,4 +34,24 @@
             }
         }
     }
+    .tab-nav{
+        display: flex;
+        justify-content: space-between;
+        flex-grow: 0.4;
+        a{  
+            color: $darkGrey;
+            border-bottom:none;
+            text-decoration: none;
+            align-self: center;
+            text-transform: uppercase;
+            font-weight: bold;
+            &:hover{
+            color:$secondaryGrey;
+            }
+            &:focus, .active{
+            color:$primaryRed;
+            }            
+        }
+    }
 }
+

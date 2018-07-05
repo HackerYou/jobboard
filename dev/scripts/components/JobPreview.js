@@ -117,7 +117,7 @@ class JobPreview extends React.Component {
   render() {
     return (
       <div className='job-preview' className={this.props.active}>
-        <p onClick={(jobId) => { this.props.showJobDetails(this.props.jobId) }}>{this.props.jobTitle}</p>
+        <p onClick={(e) => { this.props.showJobDetails(this.props.jobId) }}>{this.props.jobTitle}</p>
         <span >{this.props.companyName}</span> |
         <span>{this.props.jobLocation}</span>
         <span>Posted on {this.props.datePosted}</span>

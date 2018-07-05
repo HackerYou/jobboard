@@ -308,7 +308,7 @@ componentDidMount(){
                                   alumni={this.state.alumni} 
                                   admin={this.state.admin} 
                                   signOut={this.signOut} />
-                      <div className="tabContainer">
+                      <div className="tab-container">
                       <Switch>
                         <Route exact path="/addJobForm" render={() => <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.closePostAJob} />} />
 

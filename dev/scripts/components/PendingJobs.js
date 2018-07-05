@@ -26,7 +26,6 @@ class PendingJobs extends React.Component {
 
     render() {
         return <div className="job-feed-container job-feed-container--pending ">
-            <h2>this is pending</h2>
             <div className="job-feed">
                 {this.state.pendingJobs && Object.keys(this.state.pendingJobs).map(jobId => {
                     let job = this.state.pendingJobs[jobId];

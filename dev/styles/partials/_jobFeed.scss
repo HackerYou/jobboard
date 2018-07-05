@@ -3,12 +3,10 @@
 }
 .job-feed-container{
  background-color: $tertiaryGrey;
-//  position: absolute;
 }
 
 .job-feed{
   overflow-y:scroll;
-  height:50vh;
   width: 50%;
 }
 .job-feed div {

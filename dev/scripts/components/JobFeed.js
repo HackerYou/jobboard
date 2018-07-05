@@ -21,7 +21,6 @@ class JobFeed extends React.Component {
   render(){
     return(
       <div className="job-feed-container job-feed-container-regular">
-      <h2>This is job feed</h2>
       <div className="job-feed">
           {Object.keys(this.props.filteredJobs).length === 0 && <h3>No posted jobs match your query</h3> || Object.keys(this.props.filteredJobs).length === undefined  && <h3>No posted jobs match your query</h3>}
       {/* get the keys from the jobs we're holding in state, those keys are the jobIds */}
