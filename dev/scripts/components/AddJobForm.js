@@ -21,11 +21,11 @@ class AddJobForm extends React.Component {
         }
     }
     componentDidMount() {
-      let timeCreated = new Date()
+    //   let timeCreated = new Date()
 
-      timeCreated = timeCreated.toString()
+    //   timeCreated = timeCreated.toString()
       this.setState({
-        timeCreated: timeCreated,
+        // timeCreated: timeCreated,
         selectedCheckboxes: new Set()
       })
     }
@@ -34,6 +34,9 @@ class AddJobForm extends React.Component {
         const dbRef = firebase.database().ref(`jobs/pending`);
         e.preventDefault();
         let keywords = Array.from(this.state.selectedCheckboxes)
+
+        let timeCreated = new Date()
+        timeCreated = timeCreated.toString()
 
         dbRef.push({
             jobTitle: this.state.jobTitle,
@@ -46,7 +49,7 @@ class AddJobForm extends React.Component {
             posterId: this.state.posterId,
             approved: this.state.approved,
             archived: this.state.archived,
-            timeCreated:this.state.timeCreated
+            timeCreated:timeCreated
         }).then(res => {
             let uniqueKey = res.path.pieces_[2];
             const userRef = firebase.database().ref(`users/${this.state.posterId}/postedJobs/${uniqueKey}`);
@@ -62,7 +65,7 @@ class AddJobForm extends React.Component {
                 posterId: this.state.posterId,
                 approved: this.state.approved,
                 archived: this.state.archived,
-                timeCreated: this.state.timeCreated
+                timeCreated: timeCreated
             });
 
             this.setState({
@@ -154,7 +157,7 @@ class AddJobForm extends React.Component {
 
                     <label htmlFor="jobDescription">Job Description</label>
                     <textarea type="textarea" name="jobDescription" id="jobDescription" placeholder="Put dat descrippy here plz" cols="50" rows="10" onChange={this.handleChange} value={this.state.jobDescription} />
-
+                    
                     <input type="submit" value="Submit Job Posting" />
             </form>
         </div>

@@ -1,0 +1,22 @@
+// all of this is temporary - feel free to override
+
+.sideNav{
+
+    background: $tertiaryGrey;
+    right: 0;
+    height: 100vh;
+    position: absolute;
+    min-width: 360px;
+    a, button{
+      text-align: center;
+      color:$darkGrey;
+      text-decoration: none;
+      border-bottom:0;
+      display: block;
+      padding:20px;
+      margin:20px 0;
+      &:focus, &:hover{
+        color:$primaryRed;
+      }
+    }
+}

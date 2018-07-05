@@ -1,9 +1,38 @@
 .userBar {
     display: flex;
+    background-color: #EEEFF1;
     .logo {
         width: 100px;
         img {
             max-width: 100%;
+        }
+    }
+    .hamburgerSideNav, .sideNavEx{
+        z-index: 100;
+        top:20px;
+        right:50px;
+        position: absolute;
+        height:40px;
+        width: 40px;
+        &:hover, &:focus{
+            cursor:pointer;
+        }
+    }
+    .hamburgerSideNav{
+      img{
+        height:40px;
+        width: 40px;
+      }
+    }
+    .sideNavEx{
+        text-align: center;
+        img{
+            margin-top: 10px;
+            height: 20px;
+            width: 20px;
+            &:hover, &:focus{
+                border:1px dotted black;
+            }
         }
     }
 }

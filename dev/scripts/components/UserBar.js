@@ -1,10 +1,13 @@
 import React from 'react';
-import Search from './Search';
-
+import Navigation from './Navigation';
+import TabNav from './TabNav';
 
 class UserBar extends React.Component {
   constructor(props){
     super(props);
+    this.state={
+      navOpen:false
+    }
   }
   componentDidMount(){
 
@@ -21,21 +24,20 @@ handleChange = (e) =>{
     newUserName: e.target.value
   })
 }
+toggleSideNav=() =>{
+  this.setState({
+    navOpen: !this.state.navOpen
+  })
+}
   render(){
     return (
     <div className="userBar">
         <div className="logo">
           <img src="../../../assets/hy-logo-mark.svg" alt="HackerYou College of Technology Logo" /> 
         </div>
-        
-
-        {/* <div>Hi {this.props.userName ? this.props.userName 	
--                                   : <div>	
--                                    <input type="text" placeholder="your name here" onChange={this.handleChange}/>	
--                                    <button onClick={this.submitUserName}>Save Name</button> 	
--                                     </div>	
--              } !</div> */}
-        <button onClick={this.props.signOut}>Sign out</button>
+        <div className={this.state.navOpen ? `sideNavEx` : `hamburgerSideNav`}><img src={this.state.navOpen ? `../assets/icon-x.svg` : `../assets/icon-menu.svg`} alt={this.state.navOpen ? `Close icon` : `Menu icon`}  onClick={this.toggleSideNav}/></div>
+        {this.state.navOpen && <Navigation signOut={this.props.signOut} />}
+        <TabNav admin={this.props.admin} jobPoster={this.props.jobPoster} alumni={this.props.alumni} />
       </div>
     )
   }
