@@ -13,7 +13,7 @@ class EmailLoginForm extends React.Component {
     this.state = {
       email:'',
       password:'',
-      name:''
+      userSubmittedName:''
     }
   }
   componentDidMount(){
@@ -75,8 +75,8 @@ class EmailLoginForm extends React.Component {
         <h3>Job Posters</h3>
         <p>Logging in will create an account if you don't already have one</p>
         <form action="submit" id="emailSignInForm">
-          <label htmlFor="userName">
-            <input type="userName" name="userName" id="" required="false" placeholder="Name" onChange={this.onChangeEmail} value={this.state.name} />
+          <label htmlFor="userSubmittedName">
+            <input type="userSubmittedName" name="userSubmittedName" id="userSubmittedName" required="false" placeholder="name" onChange={this.onChangeEmail} value={this.state.userSubmittedName} />
           </label>
           <label htmlFor="email">
             <input type="email" name="email" id="" placeholder="email address" onChange={this.onChangeEmail} value={this.state.email} />
