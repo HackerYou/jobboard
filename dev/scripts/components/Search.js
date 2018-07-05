@@ -91,7 +91,7 @@ class Search extends React.Component {
               </select>
             </div>
             <div className="keywords-container">
-              <label htmlFor="keywords">Keywords</label>
+              {/* <label htmlFor="keywords">Keywords</label> */}
               {keywords.map(word => {
                 return (
                   <Keyword key={word} word={word} handleCheckboxChange={this.handleCheckboxChange}/>
