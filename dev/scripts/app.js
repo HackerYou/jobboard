@@ -296,7 +296,6 @@ componentDidMount(){
             <Router>
               <div className="wrapper">
             
-              
                   {this.state.loggedIn ? 
                       <div>
                         <UserBar  userId={this.state.userId} 
@@ -355,12 +354,12 @@ componentDidMount(){
                     : 
                     
                     <div>
-                      <p>Sign up or sign in with</p>
-                      <button onClick={this.loginWithReadme}>Readme</button>
-                      <button onClick={this.loginWithGoogle}>Google</button>
-                      <button onClick={this.loginWithEmail}>Email</button>
+                      <h1>HackerYou Job Board</h1>
+                        <button className="login-button action" onClick={this.loginWithReadme}>Find a Job</button>
+                        <button className="login-button action" onClick={this.loginWithEmail}>Post a Job</button>
+
                       {this.state.loggedIn === false && this.state.provider === "readme" && <ReadmeLoginForm />}
-                      {this.state.loggedIn === false && this.state.provider === "email" && <EmailLoginForm />}
+                      {this.state.loggedIn === false && this.state.provider === "email" && <EmailLoginForm loginWithGoogle={this.loginWithGoogle}/>}
                     </div>
                     }
                 </div>

@@ -12,7 +12,8 @@ class EmailLoginForm extends React.Component {
 
     this.state = {
       email:'',
-      password:''
+      password:'',
+      name:''
     }
   }
   componentDidMount(){
@@ -71,14 +72,22 @@ class EmailLoginForm extends React.Component {
   render(){
     return(
       <div>
-        <form action="" id="emailSignInForm">
-          <label htmlFor="">email:</label>
-          <input type="email" name="email" id="" placeholder="enter your email" onChange={this.onChangeEmail} value={this.state.email} />
-          <label htmlFor="">password:</label>
-          <input type="password" name="password" placeholder="enter your password" onChange={this.onChangePassword} value={this.state.password} />
-          <input type="submit" onClick={this.signInWithEmail} />
+        <h3>Job Posters</h3>
+        <p>Logging in will create an account if you don't already have one</p>
+        <form action="submit" id="emailSignInForm">
+          <label htmlFor="userName">
+            <input type="userName" name="userName" id="" required="false" placeholder="Name" onChange={this.onChangeEmail} value={this.state.name} />
+          </label>
+          <label htmlFor="email">
+            <input type="email" name="email" id="" placeholder="email address" onChange={this.onChangeEmail} value={this.state.email} />
+          </label>
+          <label htmlFor="password">
+            <input type="password" name="password" placeholder="password" onChange={this.onChangePassword} value={this.state.password} />
+          </label>
+          <button className="action" onClick={this.signInWithEmail}>Sign In</button>
         </form>
-        <p>signing in will create an account if you don't already have one!</p>
+        <button className="login-button action" onClick={this.props.loginWithGoogle}>Log in with Google</button>
+
       </div>
     )
   }
