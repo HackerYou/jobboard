@@ -1,7 +1,11 @@
 .userBar {
     display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    background: $newGrey;
     .logo {
-        width: 100px;
+        width: 95px;
+        padding:20px;
         img {
             max-width: 100%;
         }
