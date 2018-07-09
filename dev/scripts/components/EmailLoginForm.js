@@ -5,12 +5,6 @@ import { Link, Route } from 'react-router-dom';
 class EmailLoginForm extends React.Component {
   constructor(){
     super();
-    // this.loginWithGoogle = this.loginWithGoogle.bind(this)
-    // this.signOut = this.signOut.bind(this)
-    // this.onChangeEmail = this.onChangeEmail.bind(this)
-    // this.onChangePassword = this.onChangePassword.bind(this)
-    // this.signInWithEmail = this.signInWithEmail.bind(this)
-
     this.state = {
       email:'',
       password:'',
@@ -44,16 +38,13 @@ class EmailLoginForm extends React.Component {
   setUserInDB = (res) => {
       //get the information at the user's uid node in the user database
       const userRef = firebase.database().ref(`users/${res.user.uid}`)
-      console.log(res)
       //if the user exists already in the database, return
       userRef.on('value', function (snapshot) {
 
-        if (snapshot.val() != null) {
-          console.log('already here')
-        } else {
+        if (snapshot.val() === null){
           // else, create a user in the database 
           userRef.set({
-            'name': res.user.displayName || '',
+            'name': this.state.userSubmittedName,
             'jobPoster': true,
             'alumni': false,
             'admin': false
@@ -77,7 +68,6 @@ class EmailLoginForm extends React.Component {
     })
   }
   returningUser = () =>{
-    console.log(`returning user`)
     this.setState({
       returningUser:true
     })
