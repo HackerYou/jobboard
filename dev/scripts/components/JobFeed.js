@@ -21,9 +21,8 @@ class JobFeed extends React.Component {
   render(){
     return(
       <div className="job-feed-container job-feed-container-regular">
-      <h2>This is job feed</h2>
       <div className="job-feed">
-          {Object.keys(this.props.filteredJobs).length === 0 || Object.keys(this.props.filteredJobs).length === undefined  && <h3>No posted jobs match your query</h3>}
+          {Object.keys(this.props.filteredJobs).length === 0 && <h3>No posted jobs match your query</h3> || Object.keys(this.props.filteredJobs).length === undefined  && <h3>No posted jobs match your query</h3>}
       {/* get the keys from the jobs we're holding in state, those keys are the jobIds */}
           {Object.keys(this.props.filteredJobs).map((jobId) =>{
             // console.log(jobId, this.props.filteredJobs[jobId])
@@ -54,7 +53,7 @@ class JobFeed extends React.Component {
           })
       }
       </div>
-        {this.state.showDetails && this.props.filteredJobs != undefined && < FullJob
+        {this.state.showDetails && Object.keys(this.props.filteredJobs).length != 0 && < FullJob
                                         jobId={this.state.showingJobId}
                                         jobTitle={this.props.filteredJobs[`${this.state.showingJobId}`]['jobTitle']}
                                         jobLocation={this.props.filteredJobs[`${this.state.showingJobId}`]['jobLocation']}

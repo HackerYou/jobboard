@@ -4,12 +4,13 @@
 .job-feed-container{
  background-color: $tertiaryGrey;
  position: relative;
+ display: flex;
 }
 
 .job-feed{
   overflow-y:scroll;
-  height:50vh;
   width: 50%;
+  max-height: calc(100vh - 100px)
 }
 .job-feed div {
     background: white;

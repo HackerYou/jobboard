@@ -72,7 +72,7 @@ class ReadmeLoginForm extends React.Component {
   }
   render() {
     return (
-        <form action="" id="readmeSignInForm">
+        <form action="submit" id="readmeSignInForm">
           <label htmlFor="">email:</label>
           <input type="email" name="email" id="" placeholder="enter your readme email" onChange={this.onChangeEmail} value={this.state.email} />
           <label htmlFor="">password:</label>

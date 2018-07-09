@@ -1,8 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
-import Keyword from './Keyword.js'
-const keywords = ['css', 'js', 'html', 'ruby', 'design']
-
+import Keyword from './Keyword'
+import keywordList from '../KeywordList'
 class AddJobForm extends React.Component {
     constructor(props) {
         super(props)
@@ -12,6 +11,7 @@ class AddJobForm extends React.Component {
             jobLocation: '',
             jobCommitment: '',
             jobDescription: '',
+            importedKeywords:keywordList,
             keywords: [],
             salary:'',
             timeCreated:'',
@@ -22,11 +22,7 @@ class AddJobForm extends React.Component {
         }
     }
     componentDidMount() {
-    //   let timeCreated = new Date()
-
-    //   timeCreated = timeCreated.toString()
       this.setState({
-        // timeCreated: timeCreated,
         selectedCheckboxes: new Set()
       })
     }
@@ -120,7 +116,7 @@ class AddJobForm extends React.Component {
                         </div>
                         <div className="formTextInput">
                             <label htmlFor="addressee">Addressee for Cover Letter or Application</label>
-                            <input type="text" name="addressee" id="addressee" placeholder="Addressee" required="false" onChange={this.handleChange} value={this.state.addressee} />
+                            <input type="text" name="addressee" id="addressee" placeholder="Addressee for Cover Letter or Application" required="false" onChange={this.handleChange} value={this.state.addressee} />
                         </div>
                         <div className="formTextInput">
                             <label htmlFor="jobLocation">Job Location</label>
@@ -143,7 +139,7 @@ class AddJobForm extends React.Component {
                     <input type="text" name="keywords" id="keywords" placeholder="HTML, CSS, javascript" onChange={this.handleChange} value={this.state.keywords} /> */}
                     <div className="keywords-container">
                         <label htmlFor="keywords">Keywords/Tags</label>
-                        {keywords.map(word => {
+                        {this.state.importedKeywords.map(word => {
                             return (
                                 <Keyword key={word} word={word} handleCheckboxChange={this.handleCheckboxChange} />
                             )
@@ -173,6 +169,15 @@ class AddJobForm extends React.Component {
 
                     <label htmlFor="jobDescription">Job Description</label>
                     <textarea type="textarea" name="jobDescription" id="jobDescription" placeholder="Put dat descrippy here plz" cols="50" rows="10" onChange={this.handleChange} value={this.state.jobDescription} />
+                    
+                    <div className="formTextInput">
+                        <label htmlFor="addresseeEmail">Email to send application to</label>
+                        <input type="text" name="addresseeEmail" id="addresseeEmail" placeholder="Email to send application to" required="false" onChange={this.handleChange} value={this.state.addresseeEmail} />
+                    </div>
+                    <div className="formTextInput">
+                        <label htmlFor="applicationLink">Link to Application</label>
+                        <input type="text" name="applicationLink" id="applicationLink" placeholder="Link to Application" required="false" onChange={this.handleChange} value={this.state.applicationLink} />
+                    </div>
 
                     <input type="submit" value="Submit Job Posting" className="action"/>
             </form>

@@ -1,7 +1,6 @@
 import React from 'react';
 import firebase from 'firebase';
 import JobPreview from './JobPreview'
-import Search from './Search'
 import FullJob from './FullJob'
 
 class PendingJobs extends React.Component {
@@ -13,7 +12,7 @@ class PendingJobs extends React.Component {
     }
     componentDidMount() {
         const dbRef = firebase.database().ref(`jobs/pending`)
-        dbRef.on('value', snapshot => {
+        dbRef.once('value', snapshot => {
             this.setState({ pendingJobs : snapshot.val() });
         })
 
@@ -27,7 +26,6 @@ class PendingJobs extends React.Component {
 
     render() {
         return <div className="job-feed-container job-feed-container--pending ">
-            <h2>this is pending</h2>
             <div className="job-feed">
                 {this.state.pendingJobs && Object.keys(this.state.pendingJobs).map(jobId => {
                     let job = this.state.pendingJobs[jobId];
@@ -51,7 +49,6 @@ class PendingJobs extends React.Component {
                         admin={this.props.admin}
                         addressee={this.props.addressee}
                         jobPoster={this.props.jobPoster}
-
                         />
                     )
                 })

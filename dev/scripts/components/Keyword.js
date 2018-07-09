@@ -7,9 +7,7 @@ class Keyword extends React.Component {
       isChecked:false
     }
   }
-  componentDidMount(){
 
-  }
   toggleCheckboxChange = () => {
     this.setState(({ isChecked }) => (
       {

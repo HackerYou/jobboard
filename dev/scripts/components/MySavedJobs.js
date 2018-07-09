@@ -14,7 +14,7 @@ class MySavedJobs extends React.Component {
         let dbRef = firebase.database().ref(`users/${this.props.userId}/savedJobs`)
         dbRef.on('value', snapshot => {
             if (snapshot != null){
-              console.log(snapshot.val())
+            //   console.log(snapshot.val())
              this.setState({ savedJobs: snapshot.val() });
             } 
         })
@@ -29,7 +29,6 @@ class MySavedJobs extends React.Component {
     render() {
         return (
         <div className="job-feed-container job-feed-container--my-saved">
-            <h2>THIS IS MY Saved JOBS</h2>
             <div className="job-feed">
                 {this.state.savedJobs && Object.keys(this.state.savedJobs)
                 .filter(jobId => this.state.savedJobs[jobId].archived === false)
