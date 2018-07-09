@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    
+
     button{
       background-color: $tertiaryGrey;
       border:none;
@@ -24,9 +24,11 @@
       display: block;
       padding:20px;
       margin:20px auto;
+              transition: all .5s;
+
 
       &:focus, &:hover{
-        color:$primaryRed;
+        color:$primaryGrey;
       }
 
     }
