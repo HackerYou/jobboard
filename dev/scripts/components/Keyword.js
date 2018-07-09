@@ -16,20 +16,22 @@ class Keyword extends React.Component {
         isChecked: !isChecked,
       }
     ));
+    console.log(this.state.isChecked);
 
     this.props.handleCheckboxChange(this.props.word);
   }
   render(){
     return(
       <div >
-        <label htmlFor={this.props.word}>{this.props.word}
           <input
             type="checkbox"
             value={this.props.word}
             checked={this.state.isChecked}
             onChange={this.toggleCheckboxChange}
+            id={this.props.word}
           />
-        </label>
+        <label htmlFor={this.props.word}>{this.props.word}</label>
+        
 
       </div>
     )

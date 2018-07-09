@@ -47,9 +47,9 @@ class JobFeed extends React.Component {
                 active={this.state.showingJobId === jobId ? 'active' : null}
                 alumni={this.props.alumni}
                 admin={this.props.admin}
+                addressee={this.props.addressee}
                 jobPoster={this.props.jobPoster}
                 />
-
             )
           })
       }
@@ -62,7 +62,8 @@ class JobFeed extends React.Component {
                                         companyName={this.props.filteredJobs[`${this.state.showingJobId}`]['companyName']}
                                         datePosted={this.props.filteredJobs[`${this.state.showingJobId}`]['datePosted']}
                                         approved={this.props.filteredJobs[`${this.state.showingJobId}`]['approved']}
-                                        jobCommitment={this.props.filteredJobs[`${this.state.showingJobId}`]['jobCommitment']}/>
+                                        jobCommitment={this.props.filteredJobs[`${this.state.showingJobId}`]['jobCommitment']}
+                                        addressee={this.props.filteredJobs[`${this.state.showingJobId}`]['addressee']}/>
           }
 
       </div>

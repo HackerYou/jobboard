@@ -4,10 +4,18 @@ import firebase from 'firebase';
 class FullJob extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      applied: false
   }
+}
   componentDidMount() {
 
   }
+  // handleClick = (e) => {
+  //   e.preventDefault();
+
+  // }
+  
   render() {
     return (
       <div className="fullJob">
@@ -17,6 +25,10 @@ class FullJob extends React.Component {
         <p className="jobLocation">{this.props.jobLocation}</p>
         <p className="jobCommitment">{this.props.jobCommitment}</p>
         <p className="jobDescription">{this.props.jobDescription}</p>
+
+        {this.props.addressee.includes("@") ? <a href={`mailto:${this.props.addressee}`}>Apply Email</a> : <a href={`${this.props.addressee}`} target="_blank">Apply URL</a>}
+      
+
       </div>
     )
   }

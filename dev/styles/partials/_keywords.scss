@@ -1,0 +1,38 @@
+.keywords-container{
+  padding: 20px 20px 20px 40px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 75%;
+  div{
+      margin: 0 10px 20px 0;
+  }
+  div label {
+    padding: 5px;
+    border: 1px solid black;
+    cursor: pointer;
+    user-select: none;
+  }
+  input[type="checkbox"] {
+    display: none;
+  }
+  input[type="checkbox"]:checked + label{
+    border-color: $primaryRed;
+    color: $primaryRed;
+    }
+  
+}
+.tabNav{
+  a{
+    text-decoration: none;
+    background-color: $primaryGrey;
+    color: $darkGrey;
+    &:hover{
+      color:$secondaryGrey;
+    }
+    &:focus, .active{
+      color:$primaryRed;
+    }
+  }
+}

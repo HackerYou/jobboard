@@ -12,7 +12,8 @@ class JobPreview extends React.Component {
       datePosted: this.props.datePosted,
       approved: this.props.approved,
       archived: this.props.archived,
-      posterId: ''
+      posterId: '',
+      addressee: this.props.addressee
     })
   }
   componentDidMount(props) { 
@@ -124,7 +125,7 @@ class JobPreview extends React.Component {
 
           {this.props.admin && <button className="action" onClick={(jobId) => { this.approveJob(this.props.jobId) }}>Approve Job</button>}
 
-        {this.props.jobPoster && this.props.userId == this.state.posterId || this.props.admin && <button className="action" onClick={(jobId) => { this.archiveJob(this.props.jobId) }}>Archive Job</button> }
+        {this.props.jobPoster && this.props.userId == this.state.posterId || this.props.admin ? <button className="action" onClick={(jobId) => { this.archiveJob(this.props.jobId) }}>Archive Job</button> : null}
 
         {this.props.alumni && <button className="action" onClick={(jobId) => { this.saveJob(this.props.jobId) }}>Save Job</button>} 
 
