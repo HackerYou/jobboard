@@ -6,9 +6,9 @@ class EmailLoginForm extends React.Component {
     super();
     // this.loginWithGoogle = this.loginWithGoogle.bind(this)
     // this.signOut = this.signOut.bind(this)
-    this.onChangeEmail = this.onChangeEmail.bind(this)
-    this.onChangePassword = this.onChangePassword.bind(this)
-    this.signInWithEmail = this.signInWithEmail.bind(this)
+    // this.onChangeEmail = this.onChangeEmail.bind(this)
+    // this.onChangePassword = this.onChangePassword.bind(this)
+    // this.signInWithEmail = this.signInWithEmail.bind(this)
 
     this.state = {
       email:'',
@@ -40,11 +40,12 @@ class EmailLoginForm extends React.Component {
     }).then( (res) => {
         //get the information at the user's uid node in the user database
         const userRef = firebase.database().ref(`users/${res.user.uid}`)
-        
+        console.log(res, userRef)
         //if the user exists already in the database, return
         userRef.on('value', function (snapshot) {
 
           if (snapshot.val() != null) {
+
           } else {
             // else, create a user in the database 
             userRef.set({
@@ -67,6 +68,11 @@ class EmailLoginForm extends React.Component {
       password: e.target.value
     })
   }
+  onChangeUserSubmittedName = (e) => {
+    this.setState({
+      userSubmittedName: e.target.value
+    })
+  }
 
   
   render(){
@@ -76,7 +82,7 @@ class EmailLoginForm extends React.Component {
         <p>Logging in will create an account if you don't already have one</p>
         <form action="submit" id="emailSignInForm">
           <label htmlFor="userSubmittedName">
-            <input type="userSubmittedName" name="userSubmittedName" id="userSubmittedName" required="false" placeholder="name" onChange={this.onChangeEmail} value={this.state.userSubmittedName} />
+            <input type="userSubmittedName" name="userSubmittedName" id="userSubmittedName" required="false" placeholder="name" onChange={this.onChangeUserSubmittedName} value={this.state.userSubmittedName} />
           </label>
           <label htmlFor="email">
             <input type="email" name="email" id="" placeholder="email address" onChange={this.onChangeEmail} value={this.state.email} />
