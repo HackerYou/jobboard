@@ -52,27 +52,27 @@ componentDidMount(){
   
   this.dbRef = firebase.database().ref();
 
-  this.userRef = firebase.database().ref(`users/${this.state.userId}`)
   
   firebase.auth().onAuthStateChanged(user => {
-
+    
     if (user !== null) {
-      // console.log(user)
-      this.dbRef.on('value', snapshot => { });
+      // this.dbRef.on('value', snapshot => { });
+      this.userRef = firebase.database().ref(`users/${user.uid}`)
+      console.log(user)
       this.setState({
         loggedIn: true,
         userId: user.uid,
         userName: user.displayName
-      });
-      this.userRef.on('value', snapshot =>{
-        let resp = snapshot.val()
-        resp = resp[this.state.userId]
-        this.setState({
-          admin: resp.admin,
-          alumni: resp.alumni,
-          jobPoster: resp.jobPoster
+      }, () => {
+        this.userRef.on('value', snapshot => {
+          let resp = snapshot.val()
+          this.setState({
+            admin: resp.admin,
+            alumni: resp.alumni,
+            jobPoster: resp.jobPoster
+          })
         })
-      })
+      });
 
     } else {
       this.setState({
@@ -126,7 +126,7 @@ componentDidMount(){
         const userRef = firebase.database().ref(`users/${res.user.uid}`)
         //if the user exists already in the database, return
         userRef.on('value', function (snapshot) {
-          if (snapshot.val()==null){
+          if (snapshot.val()===null){
           // else, create a user in the database 
             userRef.set({
               'name':res.user.displayName,
@@ -356,10 +356,9 @@ componentDidMount(){
                     <div className="login-wrapper">
                       <h1>HackerYou Job Board</h1>
                         <div className="login-button-container">
-                          <button className="login-button action" onClick={this.loginWithReadme}>Find a Job</button>
-                          <button className="login-button action" onClick={this.loginWithEmail}>Post a Job</button> 
+                          <button className="action" onClick={this.loginWithReadme}>Find a Job</button>
+                          <button className="action" onClick={this.loginWithEmail}>Post a Job</button> 
                         </div>
-
                       {this.state.loggedIn === false && this.state.provider === "readme" && <ReadmeLoginForm />}
                       {this.state.loggedIn === false && this.state.provider === "email" && <EmailLoginForm loginWithGoogle={this.loginWithGoogle}/>}
                     </div>
