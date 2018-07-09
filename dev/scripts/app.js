@@ -353,10 +353,12 @@ componentDidMount(){
                     
                     : 
                     
-                    <div>
+                    <div className="login-wrapper">
                       <h1>HackerYou Job Board</h1>
-                        <button className="login-button action" onClick={this.loginWithReadme}>Find a Job</button>
-                        <button className="login-button action" onClick={this.loginWithEmail}>Post a Job</button>
+                        <div className="login-button-container">
+                          <button className="login-button action" onClick={this.loginWithReadme}>Find a Job</button>
+                          <button className="login-button action" onClick={this.loginWithEmail}>Post a Job</button> 
+                        </div>
 
                       {this.state.loggedIn === false && this.state.provider === "readme" && <ReadmeLoginForm />}
                       {this.state.loggedIn === false && this.state.provider === "email" && <EmailLoginForm loginWithGoogle={this.loginWithGoogle}/>}

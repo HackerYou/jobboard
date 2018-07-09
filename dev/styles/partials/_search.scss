@@ -1,5 +1,78 @@
 .search{
   // clear:both;
-  width: 100%;
-  background: $tertiaryGrey;
+    width: 100%;
+    background: $tertiaryGrey;
+    .searchTop {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+    position: relative;
+    input {
+      border: none;
+      width: 360px;
+      border-left: 10px solid white;
+      &::-moz-placeholder{
+        color: #444;
+      }
+    }
+    select {
+      margin: 0 5px;
+      appearance: none;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      background: #fff;
+      color: $textGrey;
+      border: none;
+      width: 185px;
+      height: 40px;
+      border-left: 10px solid white;
+      &::-ms-expand {
+        display: none;
+      }
+    }
+    a {
+      position: absolute;
+      top: 60px;
+      text-decoration: none;
+      color: $textGrey;
+    }
+    .advanced-toggle{
+        z-index:100;
+        // this is not a solution, but it's here for now.
+    }
+  }
+  .search-button {
+    width: 40px;
+    height: 40px;
+    background: $secondaryGrey;
+    border: none;
+    padding: 7px;
+  }
+
+  .advanced {
+    display: flex;
+    flex-direction: column;
+    .selectContainer {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      select {
+        margin: 0 5px;
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        background: #fff;
+        color: $textGrey;
+        border: none;
+        width: 185px;
+        height: 40px;
+        border-left:10px solid white;
+        &::-ms-expand {
+          display: none;
+        }
+      }
+    }
+  }
+
 }

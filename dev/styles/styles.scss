@@ -33,7 +33,7 @@ input[type=text]{
   display: block;
 }
 
-#app {
+.login-wrapper {
   background-image: linear-gradient(to left, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../../assets/main-image.jpg);
   height: 100vh;
   background-size: cover;
