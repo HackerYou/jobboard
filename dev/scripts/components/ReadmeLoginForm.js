@@ -9,16 +9,13 @@ class ReadmeLoginForm extends React.Component {
       loggedIn: false,
       password: '',
       email: '',
-      provider:'readme'
+      provider:'readme',
+      isFirstLogin:false
     }
-    this.onChangeEmail = this.onChangeEmail.bind(this)
-    this.onChangePassword = this.onChangePassword.bind(this)
-    this.signInWithReadme = this.signInWithReadme.bind(this)
-
   }
   componentDidMount() {
   }
-  signInWithReadme(e){
+  signInWithReadme = (e) =>{
     e.preventDefault();
     fetch(`https://notes-api.hackeryou.com/v2/user/firebaseAuth?email=${this.state.email}&password=${this.state.password}`)
       .then(res => res.json())
@@ -46,11 +43,12 @@ class ReadmeLoginForm extends React.Component {
               } else {  
                // else create an entry for the user in the database 
                   userRef.set({
-                    'name': user.displayName || '',
+                    'name': user.displayName || this.state.user,
                     'alumni': true,
                     'jobPoster': true,
                     'admin':false
                   })
+
                 }
               })
           })
@@ -68,6 +66,12 @@ class ReadmeLoginForm extends React.Component {
   onChangePassword = (e) => {
     this.setState({
       password: e.target.value
+    })
+  }
+
+  onChangeUserSubmittedName = (e) => {
+    this.setState({
+      userSubmittedName: e.target.value
     })
   }
   render() {
