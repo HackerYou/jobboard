@@ -31,6 +31,10 @@ class MyPostedJobs extends React.Component {
     render() {
         return (
         <div className="job-feed-container job-feed-container--my-posted">
+<<<<<<< HEAD
+=======
+            <p>posted jobs</p>
+>>>>>>> 7a98bc7b2e33629b9f1373729e724d29f35ce3cf
             <div className="job-feed">
                 {this.state.postedJobs && Object.keys(this.state.postedJobs)
                 .filter(jobId => this.state.postedJobs[jobId].archived === false)
@@ -55,6 +59,7 @@ class MyPostedJobs extends React.Component {
                         active={this.state.showingJobId === jobId ? 'active': null}
                         alumni={this.props.alumni}
                         admin={this.props.admin}
+                        addressee={this.props.addressee}
                         jobPoster={this.props.jobPoster}
 
                         />);
@@ -70,6 +75,7 @@ class MyPostedJobs extends React.Component {
                         datePosted={this.state.postedJobs[`${this.state.showingJobId}`]['datePosted']}
                         approved={this.state.postedJobs[`${this.state.showingJobId}`]['approved']}
                         jobCommitment={this.state.postedJobs[`${this.state.showingJobId}`]['jobCommitment']}
+                        addressee={this.state.postedJobs[`${this.state.showingJobId}`]['addressee']}
 
              />}
            

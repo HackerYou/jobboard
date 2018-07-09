@@ -16,6 +16,7 @@ class AddJobForm extends React.Component {
             salary:'',
             timeCreated:'',
             posterId: props.userId,
+            addressee: '',
             approved: false,
             archived: false
         }
@@ -45,6 +46,7 @@ class AddJobForm extends React.Component {
             posterId: this.state.posterId,
             approved: this.state.approved,
             archived: this.state.archived,
+            addressee: this.state.addressee,
             timeCreated:timeCreated
         }).then(res => {
             let uniqueKey = res.path.pieces_[2];
@@ -61,20 +63,22 @@ class AddJobForm extends React.Component {
                 posterId: this.state.posterId,
                 approved: this.state.approved,
                 archived: this.state.archived,
+                addressee: this.state.addressee,
                 timeCreated: timeCreated
             });
 
             this.setState({
-                jobTitle: '',
-                companyName: '',
-                jobLocation: '',
-                jobCommitment: '',
-                jobDescription: '',
-                keywords: [],
-                salary:'',
-                timeCreated: '',
-                editing: this.props.editing
-            })
+              jobTitle: "",
+              companyName: "",
+              jobLocation: "",
+              jobCommitment: "",
+              jobDescription: "",
+              keywords: [],
+              salary: "",
+              timeCreated: "",
+              addressee: "",
+              editing: this.props.editing
+            });
         })
 
 
@@ -96,28 +100,40 @@ class AddJobForm extends React.Component {
 
     render() {
         return (
-            <div>
-                <button onClick={this.props.close}>Close</button>
+            <div className="jobForm">
+                <p>Fill out the information about your job posting below.</p>
+
                 <form method="POST" id="addJobForm" autoComplete="off" name="addJobForm" onSubmit={this.submitJob}>
-                    <label htmlFor="jobTitle">Job Title</label>
-                    <input type="text" name="jobTitle" id="jobTitle" placeholder="Job Title" required="true" onChange={this.handleChange} value={this.state.jobTitle} />
-
-                    <label htmlFor="companyName">Company Name</label>
-                    <input type="text" name="companyName" id="companyName" placeholder="Company Name" required="true" onChange={this.handleChange} value={this.state.companyName} />
-
-                    <label htmlFor="jobLocation">Job Location</label>
-                    <select name="jobLocation" id="jobLocation" placeholder="Job Location" required="true" onChange={this.handleChange} value={this.state.jobLocation}>
-                        <option name="jobLocation" value="Toronto" id="toronto">Toronto</option>
-                        <option name="jobLocation" value="GTA" id="gta">GTA</option>
-                        <option name="jobLocation" value="Hamilton" id="hamilton">Hamilton</option>
-                        <option name="jobLocation" value="Guelph" id="guelph">Guelph</option>
-                        <option name="jobLocation" value="Kitchener/Waterloo" id="kitchener-waterloo">Kitchener/Waterloo</option>
-                        <option name="jobLocation" value="Montreal" id="montreal">Montreal</option>
-                        <option name="jobLocation" value="Ottawa" id="ottawa">Ottawa</option>
-                        <option name="jobLocation" value="Vancouver" id="vancouver">Vancouver</option>
-                        <option name="jobLocation" value="New York" id="new-york">New York</option>
-                        <option name="jobLocation" value="Other" id="other">Other (mention in description)</option>
-                    </select>    
+                <button onClick={this.props.close}><img src="../../../assets/icon-x.svg" alt="Close form button"/></button>
+                    <div className="inputGroup">
+                        <div className="formTextInput">
+                            <label htmlFor="jobTitle">Job Title</label>
+                            <input type="text" name="jobTitle" id="jobTitle" placeholder="Job Title" required="true" onChange={this.handleChange} value={this.state.jobTitle} />
+                        </div>
+                        <div className="formTextInput">
+                            <label htmlFor="companyName">Company Name</label>
+                            <input type="text" name="companyName" id="companyName" placeholder="Company Name" required="true" onChange={this.handleChange} value={this.state.companyName} />  
+                        </div>
+                        <div className="formTextInput">
+                            <label htmlFor="addressee">Addressee for Cover Letter or Application</label>
+                            <input type="text" name="addressee" id="addressee" placeholder="Addressee" required="false" onChange={this.handleChange} value={this.state.addressee} />
+                        </div>
+                        <div className="formTextInput">
+                            <label htmlFor="jobLocation">Job Location</label>
+                            <select name="jobLocation" id="jobLocation" placeholder="Job Location" required="true" onChange={this.handleChange} value={this.state.jobLocation}>
+                                <option name="jobLocation" value="Toronto" id="toronto">Toronto</option>
+                                <option name="jobLocation" value="GTA" id="gta">GTA</option>
+                                <option name="jobLocation" value="Hamilton" id="hamilton">Hamilton</option>
+                                <option name="jobLocation" value="Guelph" id="guelph">Guelph</option>
+                                <option name="jobLocation" value="Kitchener/Waterloo" id="kitchener-waterloo">Kitchener/Waterloo</option>
+                                <option name="jobLocation" value="Montreal" id="montreal">Montreal</option>
+                                <option name="jobLocation" value="Ottawa" id="ottawa">Ottawa</option>
+                                <option name="jobLocation" value="Vancouver" id="vancouver">Vancouver</option>
+                                <option name="jobLocation" value="New York" id="new-york">New York</option>
+                                <option name="jobLocation" value="Other" id="other">Other (mention in description)</option>
+                            </select> 
+                        </div>
+                    </div>
 
                     {/* <label htmlFor="keywords">Key Words</label>
                     <input type="text" name="keywords" id="keywords" placeholder="HTML, CSS, javascript" onChange={this.handleChange} value={this.state.keywords} /> */}
@@ -153,8 +169,8 @@ class AddJobForm extends React.Component {
 
                     <label htmlFor="jobDescription">Job Description</label>
                     <textarea type="textarea" name="jobDescription" id="jobDescription" placeholder="Put dat descrippy here plz" cols="50" rows="10" onChange={this.handleChange} value={this.state.jobDescription} />
-                    
-                    <input type="submit" value="Submit Job Posting" />
+
+                    <input type="submit" value="Submit Job Posting" className="action"/>
             </form>
         </div>
 )
