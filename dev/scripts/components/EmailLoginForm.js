@@ -36,15 +36,17 @@ class EmailLoginForm extends React.Component {
   }
 
   setUserInDB = (res) => {
+    console.log(user)
       //get the information at the user's uid node in the user database
       const userRef = firebase.database().ref(`users/${res.user.uid}`)
+
       //if the user exists already in the database, return
       userRef.on('value', function (snapshot) {
 
         if (snapshot.val() === null){
           // else, create a user in the database 
           userRef.set({
-            'name': 'nameless wendy',
+            'name': 'Friend of HackerYou',
             'jobPoster': true,
             'alumni': false,
             'admin': false

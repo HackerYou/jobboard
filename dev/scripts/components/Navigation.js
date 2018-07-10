@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 class Navigation extends React.Component {
   constructor(props){
@@ -28,7 +28,7 @@ class Navigation extends React.Component {
         {this.props.jobPoster && <NavLink to="/myPostedJobs" onClick={this.props.toggleSideNav}>Posted Jobs</NavLink>}
 
         <NavLink to="/addJobForm" onClick={this.props.toggleSideNav}>Post a Job</NavLink>
-        <button onClick={this.props.signOut}>Sign Out</button>
+        <NavLink to="/" onClick={this.props.signOut}>Sign Out</NavLink>
       </nav>
     )
   }
