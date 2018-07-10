@@ -83,7 +83,7 @@ class EmailLoginForm extends React.Component {
       <div>
         <h3>Job Posters</h3>
         <div className="cta-container">
-          <Link to="/posterLogin/createAccount" className="action" onClick={this.createAccount}>Create an Account</Link>
+          <Link to="/posterLogin/createAccount" className="action" onClick={this.createAccount}>New User</Link>
           <Link to="/posterLogin/returningUser" className="action" onClick={this.returningUser}>Returning User</Link>
         </div>
         <Route exact match path="/posterLogin/createAccount" render={()=>(<form action="submit" id="emailSignInForm" className="">
@@ -103,7 +103,7 @@ class EmailLoginForm extends React.Component {
               </label>
             </div>
             <button className="action" onClick={this.signInWithEmail}>{this.state.returningUser ? `Sign in` : `Create account`}</button>
-            <button className="login-button action" onClick={this.props.loginWithGoogle}>Log in with Google</button>
+            <button className="login-button action" onClick={this.props.loginWithGoogle}>Create Account with Google</button>
           </form>)} />
 
           <Route exact match path="/posterLogin/returningUser" render={()=>(<form action="submit" id="emailSignInForm" className="">
