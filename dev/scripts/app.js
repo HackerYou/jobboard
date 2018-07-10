@@ -58,7 +58,7 @@ componentDidMount(){
     if (user !== null) {
       // this.dbRef.on('value', snapshot => { });
       this.userRef = firebase.database().ref(`users/${user.uid}`)
-      console.log(user)
+      // console.log(user)
       this.setState({
         loggedIn: true,
         userId: user.uid,
@@ -69,7 +69,8 @@ componentDidMount(){
           this.setState({
             admin: resp.admin,
             alumni: resp.alumni,
-            jobPoster: resp.jobPoster
+            jobPoster: resp.jobPoster,
+            'userName': resp.name
           })
         })
       });
@@ -294,7 +295,6 @@ componentDidMount(){
                     <div>
                       <UserBar  userId={this.state.userId} 
                                 userName={this.state.userName} 
-                                userEmail={this.state.email} 
                                 loggedIn={this.state.loggedIn} 
                                 provider={this.state.provider} 
                                 jobPoster={this.state.jobPoster} 

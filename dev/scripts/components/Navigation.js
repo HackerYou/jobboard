@@ -23,6 +23,7 @@ class Navigation extends React.Component {
   render(){
     return(
       <nav className="side-nav">
+        <p className="user-name">{this.props.userName}</p>
         {this.props.alumni && <NavLink to="/jobFeed" onClick={this.props.toggleSideNav}>Find a Job</NavLink>}
         {this.props.alumni && <NavLink to="/mySavedJobs" onClick={this.props.toggleSideNav}>Saved Jobs</NavLink>}
         {this.props.jobPoster && <NavLink to="/myPostedJobs" onClick={this.props.toggleSideNav}>Posted Jobs</NavLink>}
