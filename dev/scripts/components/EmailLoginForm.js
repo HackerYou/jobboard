@@ -17,6 +17,7 @@ class EmailLoginForm extends React.Component {
     e.preventDefault();
     let email = this.state.email
     let password = this.state.password
+    let userSubmittedName = this.state.userSubmittedName;
 
     firebase.auth().signInWithEmailAndPassword(email, password).catch( (error) => {
       let errorCode = error.code;
@@ -29,14 +30,16 @@ class EmailLoginForm extends React.Component {
           let errorMessage = error.message;
           console.log(errorCode, errorMessage)
         })
-        .then(this.setUserInDB);
+          .then(this.setUserInDB.bind(null,userSubmittedName))
       }
       
-    }).then(this.setUserInDB)
+    }).then(this.setUserInDB.bind(null,userSubmittedName))
+  
   }
 
-  setUserInDB = (res) => {
-    console.log(user)
+  setUserInDB = (userSubmittedName,res) => {
+    console.log(userSubmittedName)
+      // console.log(usm, email)
       //get the information at the user's uid node in the user database
       const userRef = firebase.database().ref(`users/${res.user.uid}`)
 
@@ -46,7 +49,8 @@ class EmailLoginForm extends React.Component {
         if (snapshot.val() === null){
           // else, create a user in the database 
           userRef.set({
-            'name': 'Friend of HackerYou',
+            'name': userSubmittedName,
+            // 'email':this.state.email,
             'jobPoster': true,
             'alumni': false,
             'admin': false
@@ -104,7 +108,7 @@ class EmailLoginForm extends React.Component {
                 <input type="password" name="password" placeholder="password" onChange={this.onChangePassword} value={this.state.password} />
               </label>
             </div>
-            <button className="action" onClick={this.signInWithEmail}>{this.state.returningUser ? `Sign in` : `Create account`}</button>
+            <button className="action" onClick={this.signInWithEmail}>Create Account</button>
             <button className="login-button action" onClick={this.props.loginWithGoogle}>Create Account with Google</button>
           </form>)} />
 
@@ -120,7 +124,7 @@ class EmailLoginForm extends React.Component {
                 <input type="password" name="password" placeholder="password" onChange={this.onChangePassword} value={this.state.password} />
               </label>
             </div>
-            <button className="action" onClick={this.signInWithEmail}>{this.state.returningUser ? `Sign in` : `Create account`}</button>
+            <button className="action" onClick={this.signInWithEmail}>Sign in</button>
             <button className="login-button action" onClick={this.props.loginWithGoogle}>Log in with Google</button>
           </form>)} />
       </div>

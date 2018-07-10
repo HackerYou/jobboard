@@ -101,16 +101,13 @@ componentDidMount(){
   }
 
   loginWithReadme = (e) =>{
-    // e.preventDefault();
 
     this.setState({
       provider:'readme'
     })
   }
 
-  loginWithGoogle = (e) => {
-    e.preventDefault();
-    
+  loginWithGoogle = (e) => {    
     this.setState({
       provider: 'google'
     })
@@ -143,14 +140,12 @@ componentDidMount(){
   }
 
   loginWithEmail = (e) => {
-    // e.preventDefault();
     this.setState({
       provider: 'email'
     })
   }
 
   signOut = (e) => {
-    e.preventDefault();
     firebase.auth().signOut();
     this.dbRef.off('value');
     this.setState({
