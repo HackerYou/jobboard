@@ -2,6 +2,20 @@ import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
 
+moment.updateLocale('en', {
+  relativeTime: {
+      future: "in %s",
+      past: "%s ago",
+      s:  "today",
+      m:  "today",
+      mm: "today",
+      h:  "today",
+      hh: "today",
+      d:  "1 day",
+      dd: "%d days",
+  }
+});
+
 class JobPreview extends React.Component {
   constructor(props){
     super(props);
@@ -116,12 +130,13 @@ class JobPreview extends React.Component {
   }
   render() {
     const classes = moment(this.props.datePosted, 'YYYYMMDD').isBefore(moment().subtract(24, 'hours')) ? 'job-preview' : 'job-preview job-preview-recent';
+    console.log(moment(this.props.datePosted, 'YYYYMMDD').endOf('day').isBefore(moment().subtract(24, 'hours')))
     return (
       <div className={this.props.active} className={classes}>
         <p onClick={(e) => { this.props.showJobDetails(this.props.jobId) }}>{this.props.jobTitle}</p>
         <span >{this.props.companyName}</span> |
         <span>{this.props.jobLocation}</span>
-        <span>Posted {moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow()}</span>
+        <span>Posted {moment(this.props.datePosted, 'YYYYMMDD').endOf('day').isBefore(moment().subtract(24, 'hours')) ? moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow() : moment(this.props.datePosted, 'YYYYMMDD').fromNow()}</span>
 
         {this.props.admin && this.props.approved === false && <button className="action" onClick={(e) => { this.approveJob(this.props.jobId) }}>Approve Job</button>}
 

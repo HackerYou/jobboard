@@ -192,7 +192,6 @@ componentDidMount(){
   }
 
   getDateData = (key, param) =>{
-    console.log(key, param);
     return new Promise((res,rej) => {
       const dbRef = firebase.database().ref(`jobs/approved`)
       if (param == 'any') {
@@ -201,10 +200,8 @@ componentDidMount(){
           res(data)
         })
       } else {
-        console.log(param);
           dbRef.orderByChild(key).startAt(param).once('value', snapshot => {
             const data = snapshot.val()
-            console.log(data);
             res(data)
         })
       } 
@@ -244,7 +241,7 @@ componentDidMount(){
     Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, matchingTimeSincePosting, ...searchKeywords])
  
       .then( allDataSets => {
-        console.log(`this is all data sets`, allDataSets)
+        //console.log(`this is all data sets`, allDataSets)
         //console.log('got em all');
 
         let allJobKeys =[]
@@ -298,7 +295,7 @@ componentDidMount(){
           })
         }
 
-        console.log(`filteredJobs `, filteredJobs)
+        //console.log(`filteredJobs `, filteredJobs)
         return filteredJobs
       })
       .then( res =>{
