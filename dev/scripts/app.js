@@ -70,7 +70,7 @@ componentDidMount(){
             admin: resp.admin,
             alumni: resp.alumni,
             jobPoster: resp.jobPoster,
-            'userName': resp.name
+            userName: resp.name
           })
         })
       });
@@ -108,7 +108,8 @@ componentDidMount(){
     })
   }
 
-  loginWithGoogle = (e) => {    
+  loginWithGoogle = (e) => {   
+    e.preventDefault(); 
     this.setState({
       provider: 'google'
     })
@@ -172,7 +173,7 @@ componentDidMount(){
   getData = (key, param) =>{
     return new Promise((res,rej) => {
       const dbRef = firebase.database().ref(`jobs/approved`)
-      if (param == 'any') {
+      if (param === 'any') {
         dbRef.once('value', snapshot => {
           const data = snapshot.val()
           res(data)
@@ -215,7 +216,7 @@ componentDidMount(){
     Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, ...searchKeywords])
  
       .then( allDataSets => {
-        // console.log(`this is all data sets`, allDataSets)
+        console.log(`this is all data sets`, allDataSets)
         // console.log('got em all');
 
         let allJobKeys =[]
