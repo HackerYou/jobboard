@@ -3,6 +3,7 @@ import JobPreview from './JobPreview'
 import FullJob from './FullJob'
 
 import { sortJobsChronologically } from '../helpers';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 class JobFeed extends React.Component { 
   constructor(props){
@@ -24,12 +25,19 @@ class JobFeed extends React.Component {
     return(
       <div className="job-feed-container job-feed-container-regular">
       <div className="job-feed">
+        <TransitionGroup>
+      
           {Object.keys(this.props.filteredJobs).length === 0 && <h3>No posted jobs match your query</h3> || Object.keys(this.props.filteredJobs).length === undefined  && <h3>No posted jobs match your query</h3>}
           {/* get the keys from the jobs we're holding in state, those keys are the jobIds */}
           {sortedJobIds.map((jobId) =>{
             // find jobs by jobId
             let job = this.props.filteredJobs[jobId]
             return(
+              <CSSTransition
+              key={jobId}
+              timeout={500}
+              classNames="fade"
+              >
                 <JobPreview 
                 showJobDetails={this.showJobDetails}
                 saveJob={this.saveJob}
@@ -50,9 +58,11 @@ class JobFeed extends React.Component {
                 addressee={this.props.addressee}
                 jobPoster={this.props.jobPoster}
                 />
+              </CSSTransition>
             )
           })
       }
+      </TransitionGroup>
       </div>
         {this.state.showDetails && Object.keys(this.props.filteredJobs).length != 0 && < FullJob
                                         jobId={this.state.showingJobId}
