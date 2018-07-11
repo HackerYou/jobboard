@@ -4,7 +4,7 @@ import JobPreview from './JobPreview'
 import Search from './Search'
 import FullJob from './FullJob'
 
-import sortJobsChronologically from '../ChronologicalSort';
+import { sortJobsChronologically } from '../helpers';
 
 class ApprovedJobs extends React.Component {
     constructor(props) {

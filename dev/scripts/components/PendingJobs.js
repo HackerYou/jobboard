@@ -3,7 +3,7 @@ import firebase from 'firebase';
 import JobPreview from './JobPreview'
 import FullJob from './FullJob'
 
-import sortJobsChronologically from '../ChronologicalSort';
+import { sortJobsChronologically } from '../helpers';
 
 class PendingJobs extends React.Component {
     constructor(props) {

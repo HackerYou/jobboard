@@ -1,4 +1,4 @@
-const sortJobsChronologically = (jobs) => {
+export const sortJobsChronologically = (jobs) => {
     const jobDates = Object.keys(jobs).map(jobId => {
         return [jobId, jobs[jobId].timeCreated];
       });
@@ -13,4 +13,4 @@ const sortJobsChronologically = (jobs) => {
     return sortedJobIds;
 };
 
-export default sortJobsChronologically;
+export const keywordList = ['css', 'js', 'html', 'jquery', 'indesign', 'ruby', 'sketch', 'react', 'angular', 'mongoDB', 'node', 'wordpress', 'full stack', 'front end', 'back end', 'ux', 'ui', 'design', 'photoshop', 'excel'];

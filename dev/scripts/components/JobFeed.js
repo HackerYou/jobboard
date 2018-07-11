@@ -2,7 +2,7 @@ import React from 'react';
 import JobPreview from './JobPreview'
 import FullJob from './FullJob'
 
-import sortJobsChronologically from '../ChronologicalSort';
+import { sortJobsChronologically } from '../helpers';
 
 class JobFeed extends React.Component { 
   constructor(props){

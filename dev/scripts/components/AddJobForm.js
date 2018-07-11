@@ -2,7 +2,7 @@ import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
 import Keyword from './Keyword'
-import keywordList from '../KeywordList'
+import { keywordList } from '../helpers'
 
 class AddJobForm extends React.Component {
     constructor(props) {
