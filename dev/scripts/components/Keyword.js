@@ -14,7 +14,6 @@ class Keyword extends React.Component {
         isChecked: !isChecked,
       }
     ));
-    console.log(this.state.isChecked);
 
     this.props.handleCheckboxChange(this.props.word);
   }

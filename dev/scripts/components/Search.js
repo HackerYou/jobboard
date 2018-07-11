@@ -86,7 +86,7 @@ class Search extends React.Component {
               <div className="selectContainer">
                 <select name="timeSincePosting" id="timeSincePosting" onChange={this.handleChange} placeholder="time since posting">
                   <option name="timeSincePosting" value="" id="timeSincePostingOption" disabled selected>Time Since Posting</option>
-                  <option name="timeSincePosting" value="1" >Any</option>
+                  <option name="timeSincePosting" value="1">Any</option>
                   <option name="timeSincePosting" value={moment().subtract(3, 'days').format('YYYYMMDD')}>last 3 days</option>
                   <option name="timeSincePosting" value={moment().subtract(7, 'days').format('YYYYMMDD')}>last week</option>
                   <option name="timeSincePosting" value={moment().subtract(14, 'days').format('YYYYMMDD')}>last two weeks</option>

@@ -20,7 +20,6 @@ class JobFeed extends React.Component {
     })
   }
   render(){
-    console.log(this.props.filteredJobs)
     const sortedJobIds = Object.keys(this.props.filteredJobs).length > 0 ? sortJobsChronologically(this.props.filteredJobs) : []; 
     return(
       <div className="job-feed-container job-feed-container-regular">

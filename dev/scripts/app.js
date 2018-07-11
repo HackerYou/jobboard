@@ -228,7 +228,7 @@ class App extends React.Component {
 
   findJobInDatabase = (jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) =>{
 
-    let matchingLocation = this.getData(`jobLocation`, jobLocation)
+    let matchingLocation = this.getData(`jobLocation`, jobLocation === '' ? 'any' : jobLocation)
     let matchingSalary = this.getData(`salary`, salary)
     let matchingTimeCommitment = this.getData(`jobCommitment`, jobCommitment)
 
@@ -242,11 +242,11 @@ class App extends React.Component {
       .then( allDataSets => {
         console.log(`this is all data sets`, allDataSets)
         //console.log('got em all');
-        if (allDataSets[0] == null){
-          filteredJobs = {}
-          
-          return filteredJobs
-        }
+        // if (allDataSets[0] == null){
+        //   filteredJobs = {}
+
+        //   return filteredJobs
+        // }
         let allJobKeys =[]
         let allJobs = {}
         let numberOfParams=0
@@ -290,6 +290,7 @@ class App extends React.Component {
           }
         });
         if (chosenJobsKeys.length < 2 && numberOfParams > 1) {
+          console.log(`no jobs`)
           this.setState({
             filteredJobs:{}
           })
@@ -307,6 +308,7 @@ class App extends React.Component {
   }
 
   search = (e, jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) => {
+    console.log(jobLocation)
     e.preventDefault();
     this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords)
   } 
