@@ -187,6 +187,23 @@ componentDidMount(){
     });
   }
 
+  getDateData = (key, param) =>{
+    return new Promise((res,rej) => {
+      const dbRef = firebase.database().ref(`jobs/approved`)
+      if (param == 'any') {
+        dbRef.once('value', snapshot => {
+          const data = snapshot.val()
+          res(data)
+        })
+      } else {
+          dbRef.orderByChild(key).startAt(param).once('value', snapshot => {
+            const data = snapshot.val()
+            res(data)
+        })
+      } 
+    });
+  }
+
   getKeywordData = (keyword) => {
     // console.log(keyword)
     // axois call to functions endpoint with keyword as a param
@@ -204,20 +221,24 @@ componentDidMount(){
       })
     
   }
+
+
   findJobInDatabase = (jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) =>{
 
     let matchingLocation = this.getData(`jobLocation`, jobLocation)
     let matchingSalary = this.getData(`salary`, salary)
     let matchingTimeCommitment = this.getData(`jobCommitment`, jobCommitment)
 
+    let matchingTimeSincePosting = this.getDateData(`timeCreated`, parseInt(timeSincePosting))
+    
     // replace the keywords array with an array of promises 
     searchKeywords = searchKeywords.map(this.getKeywordData)
 
-    Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, ...searchKeywords])
+    Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, matchingTimeSincePosting, ...searchKeywords])
  
       .then( allDataSets => {
-        console.log(`this is all data sets`, allDataSets)
-        // console.log('got em all');
+        //console.log(`this is all data sets`, allDataSets)
+        //console.log('got em all');
 
         let allJobKeys =[]
         let allJobs = {}
@@ -270,7 +291,7 @@ componentDidMount(){
           })
         }
 
-        // console.log(`filteredJobs `, filteredJobs)
+        //console.log(`filteredJobs `, filteredJobs)
         return filteredJobs
       })
       .then( res =>{

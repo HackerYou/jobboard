@@ -1,7 +1,9 @@
 import React from 'react';
 import firebase from 'firebase';
+import moment from 'moment';
 import Keyword from './Keyword'
 import keywordList from '../KeywordList'
+
 class AddJobForm extends React.Component {
     constructor(props) {
         super(props)
@@ -32,8 +34,8 @@ class AddJobForm extends React.Component {
         e.preventDefault();
         let keywords = Array.from(this.state.selectedCheckboxes)
 
-        let timeCreated = new Date()
-        timeCreated = timeCreated.toString()
+        let timeCreated = moment().format('YYYYMMDD');
+        //timeCreated = timeCreated.toString()
 
         dbRef.push({
             jobTitle: this.state.jobTitle,

@@ -2,6 +2,8 @@ import React from 'react';
 import keywordList  from '../KeywordList'
 import Keyword from './Keyword.js'
 
+import moment from 'moment';
+
 class Search extends React.Component {
   constructor(props){
     super(props);
@@ -85,10 +87,10 @@ class Search extends React.Component {
                 <select name="timeSincePosting" id="timeSincePosting" onChange={this.handleChange} placeholder="time since posting">
                   <option name="timeSincePosting" value="" id="timeSincePostingOption" disabled selected>Time Since Posting</option>
                   <option name="timeSincePosting" value="any">Any</option>
-                  <option name="timeSincePosting" value="lastThreeDays">last 3 days</option>
-                  <option name="timeSincePosting" value="lastWeek">last week</option>
-                  <option name="timeSincePosting" value="lastTwoWeeks">last two weeks</option>
-                  <option name="timeSincePosting" value="lastMonth">last month</option>
+                  <option name="timeSincePosting" value={moment().subtract(3, 'days').format('YYYYMMDD')}>last 3 days</option>
+                  <option name="timeSincePosting" value={moment().subtract(7, 'days').format('YYYYMMDD')}>last week</option>
+                  <option name="timeSincePosting" value={moment().subtract(14, 'days').format('YYYYMMDD')}>last two weeks</option>
+                  <option name="timeSincePosting" value={moment().subtract(1, 'month').format('YYYYMMDD')}>last month</option>
                 </select>
                 <select name="salary" id="salary" onChange={this.handleChange} >
                   <option name="salary" value="" id="salaryOption" selected disabled>Salary</option>
