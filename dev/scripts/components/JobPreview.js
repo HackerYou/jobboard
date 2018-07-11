@@ -2,7 +2,7 @@ import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
 
-import classnames from 'classnames';
+// import classnames from 'classnames';
 
 moment.updateLocale('en', {
   relativeTime: {

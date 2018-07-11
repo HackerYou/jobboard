@@ -11,7 +11,7 @@ class Search extends React.Component {
       searchTerm:'',
       jobLocation: '',
       jobCommitment: '',
-      timeSincePosting:'',
+      timeSincePosting:0,
       salary:'',
       importedKeywords:keywordList,
       searchKeywords:[],
@@ -52,7 +52,7 @@ class Search extends React.Component {
       searchTerm: '',
       jobLocation: '',
       jobCommitment: '',
-      timeSincePosting: '',
+      timeSincePosting: 0,
       salary: '',
       searchKeywords: [],
       selectedCheckboxes: new Set()
@@ -66,7 +66,7 @@ class Search extends React.Component {
             {/* <input type="text" name="searchTerm" id="searchTerm" placeholder="Search" onChange={this.handleChange} value={this.state.searchTerm} />  */}
             <select name="jobLocation" id="jobLocation" onChange={this.handleChange}>
               <option name="jobLocation" id="locationOption" disabled defaultValue>Location</option>
-              <option name="jobLocation" value="any" id="">Anywhere</option>
+              <option name="jobLocation" value="any">Anywhere</option>
               <option name="jobLocation" value="Toronto" id="toronto" >Toronto</option>
               <option name="jobLocation" value="GTA" id="gta">GTA</option>
               <option name="jobLocation" value="Hamilton" id="hamilton">Hamilton</option>
@@ -86,7 +86,7 @@ class Search extends React.Component {
               <div className="selectContainer">
                 <select name="timeSincePosting" id="timeSincePosting" onChange={this.handleChange} placeholder="time since posting">
                   <option name="timeSincePosting" value="" id="timeSincePostingOption" disabled selected>Time Since Posting</option>
-                  <option name="timeSincePosting" value="any">Any</option>
+                  <option name="timeSincePosting" value="1" >Any</option>
                   <option name="timeSincePosting" value={moment().subtract(3, 'days').format('YYYYMMDD')}>last 3 days</option>
                   <option name="timeSincePosting" value={moment().subtract(7, 'days').format('YYYYMMDD')}>last week</option>
                   <option name="timeSincePosting" value={moment().subtract(14, 'days').format('YYYYMMDD')}>last two weeks</option>
@@ -106,7 +106,7 @@ class Search extends React.Component {
                 </select>
                 <select name="jobCommitment" id="jobCommitment" onChange={this.handleChange} >
                   <option name="jobCommitment" value='' id="commitment" selected disabled>Commitment</option>
-                  <option name="jobCommitment" value="any"> >Any</option>
+                  <option name="jobCommitment" value="any">Any</option>
                   <option name="jobCommitment" value="Contract">Contract</option>
                   <option name="jobCommitment" value="Part Time">Part Time</option>
                   <option name="jobCommitment" value="Full Time">Full Time</option>
