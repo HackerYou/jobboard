@@ -4,7 +4,7 @@ class Keyword extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      isChecked:false
+      isChecked: false
     }
   }
 
@@ -14,17 +14,15 @@ class Keyword extends React.Component {
         isChecked: !isChecked,
       }
     ));
-    console.log(this.state.isChecked);
-
     this.props.handleCheckboxChange(this.props.word);
   }
   render(){
     return(
-      <div >
+      <div>
           <input
             type="checkbox"
             value={this.props.word}
-            checked={this.state.isChecked}
+            checked={this.props.checkedList ? this.props.checkedList.has(this.props.word) : false}
             onChange={this.toggleCheckboxChange}
             id={this.props.word}
           />
