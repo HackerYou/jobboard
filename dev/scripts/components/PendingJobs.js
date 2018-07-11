@@ -3,6 +3,8 @@ import firebase from 'firebase';
 import JobPreview from './JobPreview'
 import FullJob from './FullJob'
 
+import sortJobsChronologically from '../ChronologicalSort';
+
 class PendingJobs extends React.Component {
     constructor(props) {
         super(props);
@@ -23,34 +25,36 @@ class PendingJobs extends React.Component {
             showingJobId: jobId
         })
     }
-
+    
     render() {
+        const sortedPendingJobIds = sortJobsChronologically(this.state.pendingJobs); 
+
         return <div className="job-feed-container job-feed-container--pending ">
             <div className="job-feed">
-                {this.state.pendingJobs && Object.keys(this.state.pendingJobs).map(jobId => {
+                {this.state.pendingJobs && sortedPendingJobIds.map(jobId => {
                     let job = this.state.pendingJobs[jobId];
-
-                    return (
-                        <JobPreview 
-                        showJobDetails={this.showJobDetails} 
-                        saveJob={this.saveJob} 
-                        key={jobId} 
-                        companyName={job.companyName} 
-                        jobTitle={job.jobTitle} 
-                        jobLocation={job.jobLocation} 
-                        jobDescription={job.jobDescription} datePosted={job.timeCreated} 
-                        jobId={jobId} 
-                        userId={this.props.userId} 
-                        approved={job.approved} 
-                        archived={job.archived}
-                        admin={true}
-                        active={this.state.showingJobId === jobId ? 'active' : null}
-                        alumni={this.props.alumni}
-                        admin={this.props.admin}
-                        addressee={this.props.addressee}
-                        jobPoster={this.props.jobPoster}
-                        />
-                    )
+                        return (
+                            <JobPreview 
+                            showJobDetails={this.showJobDetails} 
+                            saveJob={this.saveJob} 
+                            key={jobId} 
+                            companyName={job.companyName} 
+                            jobTitle={job.jobTitle} 
+                            jobLocation={job.jobLocation} 
+                            jobDescription={job.jobDescription} 
+                            datePosted={job.timeCreated} 
+                            jobId={jobId} 
+                            userId={this.props.userId} 
+                            approved={job.approved} 
+                            archived={job.archived}
+                            admin={true}
+                            active={this.state.showingJobId === jobId ? 'active' : null}
+                            alumni={this.props.alumni}
+                            admin={this.props.admin}
+                            addressee={this.props.addressee}
+                            jobPoster={this.props.jobPoster}
+                            />
+                        )
                 })
                 }
             </div>

@@ -4,6 +4,8 @@ import JobPreview from './JobPreview'
 import Search from './Search'
 import FullJob from './FullJob'
 
+import sortJobsChronologically from '../ChronologicalSort';
+
 class ApprovedJobs extends React.Component {
     constructor(props) {
         super(props);
@@ -27,11 +29,11 @@ class ApprovedJobs extends React.Component {
     }
 
     render() {
+        const sortedApprovedJobIds = sortJobsChronologically(this.state.approvedJobs); 
         return <div className="job-feed-container job-feed-container--approved ">
             <div className="job-feed">
-                {this.state.approvedJobs && Object.keys(this.state.approvedJobs).map(jobId => {
+                {this.state.approvedJobs && sortedApprovedJobIds.map(jobId => {
                     let job = this.state.approvedJobs[jobId];
-
                     return (
                         <JobPreview showJobDetails={this.showJobDetails} 
                         saveJob={this.saveJob} 
