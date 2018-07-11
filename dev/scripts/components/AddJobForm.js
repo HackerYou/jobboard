@@ -196,7 +196,7 @@ class AddJobForm extends React.Component {
 
                     <input type="submit" value="Submit Job Posting" className="action"/>
             </form>
-            {this.state.showSuccessmessage ? <p>Success! The job is on it's way to being filled! </p> : ''}
+            { this.state.showSuccessmessage && <p>Success! The job is on it's way to being filled! </p> }
         </div>
 )
     }
