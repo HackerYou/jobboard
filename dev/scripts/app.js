@@ -58,7 +58,7 @@ componentDidMount(){
     if (user !== null) {
       // this.dbRef.on('value', snapshot => { });
       this.userRef = firebase.database().ref(`users/${user.uid}`)
-      console.log(user)
+      // console.log(user)
       this.setState({
         loggedIn: true,
         userId: user.uid,
@@ -69,7 +69,8 @@ componentDidMount(){
           this.setState({
             admin: resp.admin,
             alumni: resp.alumni,
-            jobPoster: resp.jobPoster
+            jobPoster: resp.jobPoster,
+            userName: resp.name
           })
         })
       });
@@ -82,7 +83,6 @@ componentDidMount(){
         admin:'',
         alumni:'',
         jobPoster:''
-
       });
     }
   });
@@ -102,16 +102,14 @@ componentDidMount(){
   }
 
   loginWithReadme = (e) =>{
-    e.preventDefault();
 
     this.setState({
       provider:'readme'
     })
   }
 
-  loginWithGoogle = (e) => {
-    e.preventDefault();
-    
+  loginWithGoogle = (e) => {   
+    e.preventDefault(); 
     this.setState({
       provider: 'google'
     })
@@ -144,14 +142,12 @@ componentDidMount(){
   }
 
   loginWithEmail = (e) => {
-    e.preventDefault();
     this.setState({
       provider: 'email'
     })
   }
 
   signOut = (e) => {
-    e.preventDefault();
     firebase.auth().signOut();
     this.dbRef.off('value');
     this.setState({
@@ -177,7 +173,7 @@ componentDidMount(){
   getData = (key, param) =>{
     return new Promise((res,rej) => {
       const dbRef = firebase.database().ref(`jobs/approved`)
-      if (param == 'any') {
+      if (param === 'any') {
         dbRef.once('value', snapshot => {
           const data = snapshot.val()
           res(data)
@@ -318,70 +314,73 @@ componentDidMount(){
               <div className="wrapper">
             
                   {this.state.loggedIn ? 
-                      <div>
-                        <UserBar  userId={this.state.userId} 
-                                  userName={this.state.userName} 
-                                  userEmail={this.state.email} 
-                                  loggedIn={this.state.loggedIn} 
-                                  provider={this.state.provider} 
-                                  jobPoster={this.state.jobPoster} 
-                                  alumni={this.state.alumni} 
-                                  admin={this.state.admin} 
-                                  signOut={this.signOut} />
+                    <div>
+                      <UserBar  userId={this.state.userId} 
+                                userName={this.state.userName} 
+                                loggedIn={this.state.loggedIn} 
+                                provider={this.state.provider} 
+                                jobPoster={this.state.jobPoster} 
+                                alumni={this.state.alumni} 
+                                admin={this.state.admin} 
+                                signOut={this.signOut} />
                       <div className="tab-container">
-                      <Switch>
-                        <Route exact path="/addJobForm" render={() => <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.closePostAJob} />} />
+                        <Switch>
+                          <Route exact path="/addJobForm" render={() => <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.closePostAJob} />} />
 
-                        {this.state.admin && 
-                          <Switch>
-                            
-                            <Route exact path="/" render={() => ( <PendingJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} /> )} />
-                            
-                            <Route path="/approved" render={() => (<ApprovedJobs userId={this.state.userId}  alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
-                            
-                            <Route exact path="/jobFeed" render={() => (<div>
-                              <Search userId={this.state.userId} search={this.search} />
-                              <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs} />
-                            </div>)} />
-                          
-                          </Switch>
-                        }
-
-                        {this.state.alumni && 
-                          <div>
+                          {this.state.admin && 
                             <Switch>
+                              
+                              <Route exact path="/" render={() => ( <PendingJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} /> )} />
+                              
+                              <Route exact path="/approved" render={() => (<ApprovedJobs userId={this.state.userId}  alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                              
                               <Route exact path="/jobFeed" render={() => (<div>
-                                                                          <Search userId={this.state.userId} search={this.search} /> 
-                                                                          <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs}/>
-                                                                        </div>)}
-                              /> 
-                              <Route path="/mySavedJobs" render={() => (<MySavedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
-                              <Route path="/myPostedJobs" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                                <Search userId={this.state.userId} search={this.search} />
+                                <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs} />
+                              </div>)} />
+                            
                             </Switch>
-                          </div>
-                         }
-                        
-                        {this.state.jobPoster &&
+                          }
+
+                          {this.state.alumni && 
+                            <div>
+                              <Switch>
+                                <Route exact path="/jobFeed" render={() => (<div>
+                                                                            <Search userId={this.state.userId} search={this.search} /> 
+                                                                            <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs}/>
+                                                                          </div>)}
+                                /> 
+                                <Route exact path="/mySavedJobs" render={() => (<MySavedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                                <Route exact path="/myPostedJobs" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                              </Switch>
+                            </div>
+                          }
+                          
+                          {this.state.jobPoster &&
                             <Route exact path="/" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
-                        }
+                          }
 
-                      </Switch>
-
-                        </div> 
-                        {/* end tabContainer */}
-
-                    </div> 
-                    
-                    : 
-                    
+                        </Switch>
+                      </div> {/* end tab-container */}
+                    </div> // end wrapper
+          : 
+          
                     <div className="login-wrapper">
                       <h1>HackerYou Job Board</h1>
-                        <div className="login-button-container">
-                          <button className="action" onClick={this.loginWithReadme}>Find a Job</button>
-                          <button className="action" onClick={this.loginWithEmail}>Post a Job</button> 
-                        </div>
-                      {this.state.loggedIn === false && this.state.provider === "readme" && <ReadmeLoginForm />}
-                      {this.state.loggedIn === false && this.state.provider === "email" && <EmailLoginForm loginWithGoogle={this.loginWithGoogle}/>}
+                      {/* <Switch> */}
+                        <Route exact path="/" render={()=>(
+                            <div className="login-button-container">
+                              <Link to="/alumniLogin" className="action" onClick={this.loginWithReadme}>Find a Job</Link>
+                              <Link to="/posterLogin" className="action" onClick={this.loginWithEmail}>Post a Job</Link>
+                            </div>
+                        )} />
+
+                        {/* {this.state.loggedIn === false && this.state.provider === "readme" && <ReadmeLoginForm />} */}
+                        {/* {this.state.loggedIn === false && this.state.provider === "email" && <EmailLoginForm loginWithGoogle={this.loginWithGoogle} />} */}
+                        <Route exact path="/alumniLogin" component={ReadmeLoginForm} />
+                        <Route path="/posterLogin" render={()=> (<EmailLoginForm loginWithGoogle={this.loginWithGoogle} /> )} />
+                      {/* </Switch> */}
+
                     </div>
                     }
                 </div>

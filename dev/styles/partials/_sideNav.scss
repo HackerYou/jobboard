@@ -32,4 +32,12 @@
       }
 
     }
+    .user-name{
+      font-size: 25px;
+      position: absolute;
+      top: 0;
+      background-color: $primaryRed;
+      padding: 55px 0 20px 10px;
+      width: 100%;
+    }
 }
