@@ -15,7 +15,6 @@ import MySavedJobs from './components/MySavedJobs';
 
 import Search from './components/Search'
 import axios from 'axios';
-import groupby from 'lodash.groupby';
 import intersection from 'lodash.intersection';
 
 const config = {
@@ -39,15 +38,15 @@ class App extends React.Component {
       filteredJobs:{}
     }
 
+  }
+  componentDidMount(){
+    
     const dbRef = firebase.database().ref(`jobs/approved`)
     dbRef.on('value', snapshot => {
       this.setState({
         filteredJobs: snapshot.val()
       })
     })
-  }
-  componentDidMount(){
-  
   this.dbRef = firebase.database().ref();
 
   
@@ -64,12 +63,15 @@ class App extends React.Component {
       }, () => {
         this.userRef.on('value', snapshot => {
           let resp = snapshot.val()
-          this.setState({
-            admin: resp.admin,
-            alumni: resp.alumni,
-            jobPoster: resp.jobPoster,
-            userName: resp.name
-          })
+          if (resp != null){
+            this.setState({
+              admin: resp.admin,
+              alumni: resp.alumni,
+              jobPoster: resp.jobPoster,
+              userName: resp.name
+            })
+          }
+
         })
       });
 
@@ -189,12 +191,15 @@ class App extends React.Component {
   getDateData = (key, param) =>{
     return new Promise((res,rej) => {
       const dbRef = firebase.database().ref(`jobs/approved`)
-      if (param == 'any') {
+      if (param === 1) {
         dbRef.once('value', snapshot => {
           const data = snapshot.val()
           res(data)
         })
-      } else {
+      } else if(param === 0 ){
+          res(null)
+      }
+      else {
           dbRef.orderByChild(key).startAt(param).once('value', snapshot => {
             const data = snapshot.val()
             res(data)
@@ -223,21 +228,25 @@ class App extends React.Component {
 
   findJobInDatabase = (jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) =>{
 
-    let matchingLocation = this.getData(`jobLocation`, jobLocation)
+    let matchingLocation = this.getData(`jobLocation`, jobLocation === '' ? 'any' : jobLocation)
     let matchingSalary = this.getData(`salary`, salary)
     let matchingTimeCommitment = this.getData(`jobCommitment`, jobCommitment)
 
     let matchingTimeSincePosting = this.getDateData(`timeCreated`, parseInt(timeSincePosting))
-    
-    // replace the keywords array with an array of promises 
+
+      // replace the keywords array with an array of promises 
     searchKeywords = searchKeywords.map(this.getKeywordData)
 
     Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, matchingTimeSincePosting, ...searchKeywords])
- 
+    
       .then( allDataSets => {
         console.log(`this is all data sets`, allDataSets)
         //console.log('got em all');
+        // if (allDataSets[0] == null){
+        //   filteredJobs = {}
 
+        //   return filteredJobs
+        // }
         let allJobKeys =[]
         let allJobs = {}
         let numberOfParams=0
@@ -277,19 +286,15 @@ class App extends React.Component {
               // make the key equal to the value of the job information
               // add that job information to the filteredJobs object
               filteredJobs[job] = allJobs[job]
-              console.log(filteredJobs[job], allJobs[job])
-            } else{
-              // console.log('nope')
-            }
+            } 
           }
         });
         if (chosenJobsKeys.length < 2 && numberOfParams > 1) {
+          console.log(`no jobs`)
           this.setState({
-            filteredJobs:0
+            filteredJobs:{}
           })
         }
-
-        //console.log(`filteredJobs `, filteredJobs)
         return filteredJobs
       })
       .then( res =>{
@@ -303,6 +308,7 @@ class App extends React.Component {
   }
 
   search = (e, jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) => {
+    console.log(jobLocation)
     e.preventDefault();
     this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords)
   } 

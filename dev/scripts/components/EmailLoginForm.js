@@ -25,19 +25,35 @@ class EmailLoginForm extends React.Component {
       console.log(errorCode, errorMessage, email, password);
 
       if (error.code === `auth/user-not-found`) {
-        firebase.auth().createUserWithEmailAndPassword(email, password).catch( (error)=> {
+        // firebase.auth().createUserWithEmailAndPassword(email, password).catch( (error)=> {
           let errorCode = error.code;
           let errorMessage = error.message;
           console.log(errorCode, errorMessage)
-        })
-          .then(this.setUserInDB.bind(null,userSubmittedName))
+        // })
+        // .then(this.setUserInDB.bind(null,userSubmittedName))
       }
       
     }).then(this.setUserInDB.bind(null,userSubmittedName))
   
   }
 
+  createNewUser = (e) =>{
+    e.preventDefault();
+    let email = this.state.email
+    let password = this.state.password
+    let userSubmittedName = this.state.userSubmittedName;
+
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) => {
+      console.log(`creating`)
+      let errorCode = error.code;
+      let errorMessage = error.message;
+      console.log(errorCode, errorMessage)
+    })
+    .then(this.setUserInDB.bind(null, userSubmittedName))
+  }
+
   setUserInDB = (userSubmittedName,res) => {
+    console.log(res)
       //get the information at the user's uid node in the user database
       const userRef = firebase.database().ref(`users/${res.user.uid}`)
 
@@ -106,7 +122,7 @@ class EmailLoginForm extends React.Component {
                 <input type="password" name="password" placeholder="password" onChange={this.onChangePassword} value={this.state.password} />
               </label>
             </div>
-            <button className="action" onClick={this.signInWithEmail}>Create Account</button>
+            <button className="action" onClick={this.createNewUser}>Create Account</button>
             <button className="login-button action" onClick={this.props.loginWithGoogle}>Create Account with Google</button>
           </form>)} />
 
