@@ -2,15 +2,17 @@ import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
 
+import classnames from 'classnames';
+
 moment.updateLocale('en', {
   relativeTime: {
       future: "in %s",
       past: "%s ago",
-      s:  "today",
-      m:  "today",
-      mm: "today",
-      h:  "today",
-      hh: "today",
+      s:  "Today",
+      m:  "Today",
+      mm: "Today",
+      h:  "Today",
+      hh: "Today",
       d:  "1 day",
       dd: "%d days",
   }
@@ -62,13 +64,12 @@ class JobPreview extends React.Component {
   }
   approveJob =  (jobId) =>{
     //get the job in the user's postedJobs list
-    // const userApproveRef = firebase.database().ref(`users/${this.props.userId}/postedJobs/${this.props.jobId}`)
-    // console.log(this.props.userId, this.props.jobId)
+    //const userApproveRef = firebase.database().ref(`users/${this.props.userId}/postedJobs/${this.props.jobId}`)
+    //console.log(this.props.userId, this.props.jobId)
     //set the state of this component to archived: true
     this.setState({
       approved: true
     }, () => {
-
         //get the job in either the posted or pending list
         const jobRef = firebase.database().ref(`jobs/pending/${this.props.jobId}`)
 
@@ -76,9 +77,10 @@ class JobPreview extends React.Component {
           jobRef.update({
             approved: this.state.approved
           })
+
         // get all the job information that currently exists at that location 
         jobRef.once('value', snapshot => {
-
+          
           // create a local variable to hold our job information
           const job = snapshot.val();
 
@@ -130,13 +132,16 @@ class JobPreview extends React.Component {
   }
   render() {
     const classes = moment(this.props.datePosted, 'YYYYMMDD').isBefore(moment().subtract(24, 'hours')) ? 'job-preview' : 'job-preview job-preview-recent';
-    console.log(moment(this.props.datePosted, 'YYYYMMDD').endOf('day').isBefore(moment().subtract(24, 'hours')))
+    // const classes = classnames({
+    //   'job-preview': true,
+    //   'job-preview-recent': moment(this.props.datePosted, 'YYYYMMDD').isBefore(moment().subtract(24, 'hours')) === false
+    // });
     return (
-      <div className={this.props.active} className={classes}>
+      <div className={classes}>
         <p onClick={(e) => { this.props.showJobDetails(this.props.jobId) }}>{this.props.jobTitle}</p>
         <span >{this.props.companyName}</span> |
         <span>{this.props.jobLocation}</span>
-        <span>Posted {moment(this.props.datePosted, 'YYYYMMDD').endOf('day').isBefore(moment().subtract(24, 'hours')) ? moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow() : moment(this.props.datePosted, 'YYYYMMDD').fromNow()}</span>
+        <span>Posted {moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').add(1, 'days').format('YYYYMMDD') ? 'Yesterday' : moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').format('YYYYMMDD') ? moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow(true) : moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow() }</span>
 
         {this.props.admin && this.props.approved === false && <button className="action" onClick={(e) => { this.approveJob(this.props.jobId) }}>Approve Job</button>}
 

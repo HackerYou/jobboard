@@ -1,5 +1,5 @@
 import React from 'react';
-import keywordList  from '../KeywordList'
+import { keywordList }  from '../helpers'
 import Keyword from './Keyword.js'
 
 import moment from 'moment';

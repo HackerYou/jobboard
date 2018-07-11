@@ -46,9 +46,7 @@ class App extends React.Component {
       })
     })
   }
-
-
-componentDidMount(){
+  componentDidMount(){
   
   this.dbRef = firebase.database().ref();
 
@@ -86,7 +84,7 @@ componentDidMount(){
       });
     }
   });
-} 
+  } 
 
   onChangeEmail = (e) =>{
     this.setState({
@@ -94,7 +92,6 @@ componentDidMount(){
     })
   }
 
-  
   onChangePassword = (e) =>{
     this.setState({
       password: e.target.value
@@ -159,11 +156,13 @@ componentDidMount(){
       jobPoster: ''
     });
   }
+
   postAJob = () => {
     this.setState({
       editing:true
     })
   }
+
   closePostAJob = () =>{
     this.setState({
       editing:false
@@ -222,7 +221,6 @@ componentDidMount(){
     
   }
 
-
   findJobInDatabase = (jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) =>{
 
     let matchingLocation = this.getData(`jobLocation`, jobLocation)
@@ -237,7 +235,7 @@ componentDidMount(){
     Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, matchingTimeSincePosting, ...searchKeywords])
  
       .then( allDataSets => {
-        //console.log(`this is all data sets`, allDataSets)
+        console.log(`this is all data sets`, allDataSets)
         //console.log('got em all');
 
         let allJobKeys =[]
@@ -269,7 +267,7 @@ componentDidMount(){
         let chosenJobsKeys = intersection(...allJobKeys)
       
         //go through allJobs using the keys from chosenJobsKeys
-        chosenJobsKeys.map(jobKey =>{
+        chosenJobsKeys.map(jobKey => {
 
           for (let job in allJobs) {
 
@@ -279,7 +277,7 @@ componentDidMount(){
               // make the key equal to the value of the job information
               // add that job information to the filteredJobs object
               filteredJobs[job] = allJobs[job]
-              // console.log(filteredJobs[job], allJobs[job])
+              console.log(filteredJobs[job], allJobs[job])
             } else{
               // console.log('nope')
             }
@@ -302,11 +300,13 @@ componentDidMount(){
       .catch( err => {
         console.log(err)
       }); 
-    }
+  }
+
   search = (e, jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) => {
     e.preventDefault();
     this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords)
   } 
+
   render() {
 
     return (
