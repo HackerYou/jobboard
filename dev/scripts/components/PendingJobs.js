@@ -62,7 +62,7 @@ class PendingJobs extends React.Component {
                                     approved={job.approved} 
                                     archived={job.archived}
                                     admin={true}
-                                    active={this.state.showingJobId === jobId ? 'active' : null}
+                                    active={this.state.showingJobId === jobId ? true : false}
                                     alumni={this.props.alumni}
                                     admin={this.props.admin}
                                     addressee={this.props.addressee}

@@ -1,16 +1,17 @@
 import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
+import classnames from 'classnames';
 
 moment.updateLocale('en', {
   relativeTime: {
       future: "in %s",
       past: "%s ago",
-      s:  "Today",
-      m:  "Today",
-      mm: "Today",
-      h:  "Today",
-      hh: "Today",
+      s:  "today",
+      m:  "today",
+      mm: "today",
+      h:  "today",
+      hh: "today",
       d:  "1 day",
       dd: "%d days",
   }
@@ -44,6 +45,7 @@ class JobPreview extends React.Component {
     
   }
   saveJob = (jobId) => {
+    console.log('saved job')
     // get the job in either the posted or pending list
     const jobRef = firebase.database().ref(`jobs/${this.props.approved ? 'approved' : 'pending'}/${this.props.jobId}`)
 
@@ -60,6 +62,7 @@ class JobPreview extends React.Component {
   }
 
   approveJob = (jobId) => {
+
 
       //get the job in either the posted or pending list
       const jobRef = firebase.database().ref(`jobs/pending/${this.props.jobId}`)
@@ -119,19 +122,33 @@ class JobPreview extends React.Component {
       })
   }
   render() {
-    const classes = moment(this.props.datePosted, 'YYYYMMDD').isBefore(moment().subtract(24, 'hours')) ? 'job-preview' : 'job-preview job-preview-recent';
+
+    const jobPreviewClasses = classnames('job-preview', {
+      'showing-job': this.props.active,
+      'job-preview-recent': moment(this.props.datePosted, 'YYYYMMDD').isBefore(moment().subtract(24, 'hours')) === false
+    });
     return (
-      <div className={classes}>
-        <p onClick={(e) => { this.props.showJobDetails(this.props.jobId) }}>{this.props.jobTitle}</p>
-        <span >{this.props.companyName}</span> |
-        <span>{this.props.jobLocation}</span>
-        <span>Posted {moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').add(1, 'days').format('YYYYMMDD') ? 'Yesterday' : moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').format('YYYYMMDD') ? moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow(true) : moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow() }</span>
+      <div className={jobPreviewClasses}>
+        <div className="left">
+          <p onClick={(e) => { this.props.showJobDetails(this.props.jobId) }} className="job-title">{this.props.jobTitle}</p>
+          <span className="company-name" >{this.props.companyName}</span> | &nbsp;
+          <span className="" >{this.props.jobLocation}</span>
+        </div>
+        <div className="right">
+          <p className="posted-on" >Posted {moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').add(1, 'days').format('YYYYMMDD') ? 'yesterday' : moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').format('YYYYMMDD') ? moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow(true) : moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow() }</p>
+          <div className="icon-container">
+            {this.props.admin && this.props.approved === false && <button className="icon" onClick={(e) => { this.approveJob(this.props.jobId) }}>
+              <img src="../assets/icon-approve.svg" className="approve-icon"  alt="approve job button" /> </button>}
 
-        {this.props.admin && this.props.approved === false && <button className="action" onClick={(e) => { this.approveJob(this.props.jobId) }}>Approve Job</button>}
+            {this.props.userId === this.state.posterId && <button className="icon" onClick={(e) => { this.archiveJob(this.props.jobId) }}><img src="../assets/icon-trash.svg" className=" archive-icon"  alt="archive job button" /></button> || this.props.admin && 
+              <button className="icon" onClick={(e) => { this.archiveJob(this.props.jobId) }}> <img src="../assets/icon-trash.svg" className="trash-icon"  alt="archive job button" /> </button>}
 
-        {this.props.userId === this.state.posterId && <button className="action" onClick={(e) => { this.archiveJob(this.props.jobId) }}>Archive Job</button> || this.props.admin && <button className="action" onClick={(e) => { this.archiveJob(this.props.jobId) }}>Archive Job</button> }
-
-        {this.props.alumni && this.props.admin === false &&this.props.savedList != false && <button className="action" onClick={(e) => { this.saveJob(this.props.jobId) }}>Save Job</button>} 
+            {this.props.alumni && this.props.admin === false && this.props.savedList != false && <button onClick={(e) => { this.saveJob(this.props.jobId) }} className="icon">
+              <img src="../assets/icon-favourite.svg" className="icon save-icon"  alt="save job button" /></button>
+            } 
+          </div>
+        </div>
+        
       </div>
   
     )

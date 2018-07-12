@@ -52,7 +52,7 @@ class JobFeed extends React.Component {
                 approved={job.approved}
                 userId={this.props.userId}
                 showArchive={true}
-                active={this.state.showingJobId === jobId ? 'active' : null}
+                active={this.state.showingJobId === jobId ? true : false}
                 alumni={this.props.alumni}
                 admin={this.props.admin}
                 addressee={this.props.addressee}
