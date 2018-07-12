@@ -58,52 +58,77 @@ class JobPreview extends React.Component {
       savedRef.set(job)
     })
   }
-  approveJob =  (jobId) =>{
-    this.setState({
-      approved: true
-    }, () => {
-        //get the job in either the posted or pending list
-        const jobRef = firebase.database().ref(`jobs/pending/${this.props.jobId}`)
+  // approveJob =  (jobId) =>{
+  //   this.setState({
+  //     approved: true
+  //   }, () => {
+  //       //get the job in either the posted or pending list
+  //       const jobRef = firebase.database().ref(`jobs/pending/${this.props.jobId}`)
 
-        // update the approved value to match the state 
-          jobRef.update({
-            approved: this.state.approved
-          })
+  //       // update the approved value to match the state 
+  //         jobRef.update({
+  //           approved: this.state.approved
+  //         })
 
-        // get all the job information that currently exists at that location 
-        jobRef.once('value', snapshot => {
+  //       // get all the job information that currently exists at that location 
+  //       jobRef.once('value', snapshot => {
           
-          // create a local variable to hold our job information
-          const job = snapshot.val();
+  //         // create a local variable to hold our job information
+  //         const job = snapshot.val();
 
-          //get the location in the archived list where this  job should live after it's archived 
-          const approvedJobRef = firebase.database().ref(`jobs/approved/${this.props.jobId}`)
+  //         //get the location in the archived list where this  job should live after it's archived 
+  //         const approvedJobRef = firebase.database().ref(`jobs/approved/${this.props.jobId}`)
 
-          // set the value of that node to be all the job information we got from line 49
-          approvedJobRef.set(job)
+  //         // set the value of that node to be all the job information we got from line 49
+  //         approvedJobRef.set(job)
 
-          // delete the job from the pending or approved job list
-          jobRef.remove()
-        })
-        this.props.removePendingJob(jobId);
-    })
+  //         // delete the job from the pending or approved job list
+  //         jobRef.remove()
+  //       })
+  //       this.props.removePendingJob(jobId);
+  //   })
+  // }
+  approveJob = (jobId) => {
+
+      //get the job in either the posted or pending list
+      const jobRef = firebase.database().ref(`jobs/pending/${this.props.jobId}`)
+
+      // update the approved value to match the state 
+      jobRef.update({
+        approved: this.state.approved
+      })
+
+      // get all the job information that currently exists at that location 
+      jobRef.once('value', snapshot => {
+
+        // create a local variable to hold our job information
+        const job = snapshot.val();
+
+        //get the location in the archived list where this  job should live after it's archived 
+        const approvedJobRef = firebase.database().ref(`jobs/approved/${this.props.jobId}`)
+
+        // set the value of that node to be all the job information we got from line 49
+        approvedJobRef.set(job)
+
+        // delete the job from the pending or approved job list
+        jobRef.remove()
+      })
+      this.props.removePendingJob(jobId);
+
   }
   archiveJob = (jobId) => {
     //get the job in the user's postedJobs list
     const userArchiveRef = firebase.database().ref(`users/${this.props.userId}/postedJobs/${this.props.jobId}`)
-    //set the state of this component to archived: true
-    this.setState({
-      archived: true
-    }, () => {
+    
       //when the state is set, go to that job in the user's postedJobs list and change the value of archived to true
       userArchiveRef.update({
-        archived: this.state.archived
+        archived: true
       })
 
       //get the job in either the posted or pending list
-      const jobRef = firebase.database().ref(`jobs/${this.props.approved ? 'approved': 'pending'}/${this.props.jobId}`)
-      
-      
+      const jobRef = firebase.database().ref(`jobs/${this.props.approved ? 'approved' : 'pending'}/${this.props.jobId}`)
+
+
       // get all the job information that currently exists at that location 
       jobRef.once('value', snapshot => {
         // create a local variable to hold our job information
@@ -114,15 +139,13 @@ class JobPreview extends React.Component {
         })
         //get the location in the archived list where this  job should live after it's archived 
         const archivedJobRef = firebase.database().ref(`jobs/archived/${this.props.jobId}`)
-  
+
         // set the value of that node to be all the job information we got from line 49
         archivedJobRef.set(job)
-  
+
         // delete the job from the pending or approved job list
         jobRef.remove()
       })
-    })
-
   }
   render() {
     const classes = moment(this.props.datePosted, 'YYYYMMDD').isBefore(moment().subtract(24, 'hours')) ? 'job-preview' : 'job-preview job-preview-recent';
@@ -141,7 +164,7 @@ class JobPreview extends React.Component {
 
         {this.props.userId === this.state.posterId && <button className="action" onClick={(e) => { this.archiveJob(this.props.jobId) }}>Archive Job</button> || this.props.admin && <button className="action" onClick={(e) => { this.archiveJob(this.props.jobId) }}>Archive Job</button> }
 
-        {this.props.alumni && this.props.admin === false && this.props.savedList != true && <button className="action" onClick={(e) => { this.saveJob(this.props.jobId) }}>Save Job</button>} 
+        {this.props.alumni && this.props.admin === false &&this.props.savedList != false && <button className="action" onClick={(e) => { this.saveJob(this.props.jobId) }}>Save Job</button>} 
       </div>
   
     )
