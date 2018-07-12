@@ -58,36 +58,7 @@ class JobPreview extends React.Component {
       savedRef.set(job)
     })
   }
-  // approveJob =  (jobId) =>{
-  //   this.setState({
-  //     approved: true
-  //   }, () => {
-  //       //get the job in either the posted or pending list
-  //       const jobRef = firebase.database().ref(`jobs/pending/${this.props.jobId}`)
 
-  //       // update the approved value to match the state 
-  //         jobRef.update({
-  //           approved: this.state.approved
-  //         })
-
-  //       // get all the job information that currently exists at that location 
-  //       jobRef.once('value', snapshot => {
-          
-  //         // create a local variable to hold our job information
-  //         const job = snapshot.val();
-
-  //         //get the location in the archived list where this  job should live after it's archived 
-  //         const approvedJobRef = firebase.database().ref(`jobs/approved/${this.props.jobId}`)
-
-  //         // set the value of that node to be all the job information we got from line 49
-  //         approvedJobRef.set(job)
-
-  //         // delete the job from the pending or approved job list
-  //         jobRef.remove()
-  //       })
-  //       this.props.removePendingJob(jobId);
-  //   })
-  // }
   approveJob = (jobId) => {
 
       //get the job in either the posted or pending list
@@ -149,10 +120,6 @@ class JobPreview extends React.Component {
   }
   render() {
     const classes = moment(this.props.datePosted, 'YYYYMMDD').isBefore(moment().subtract(24, 'hours')) ? 'job-preview' : 'job-preview job-preview-recent';
-    // const classes = classnames({
-    //   'job-preview': true,
-    //   'job-preview-recent': moment(this.props.datePosted, 'YYYYMMDD').isBefore(moment().subtract(24, 'hours')) === false
-    // });
     return (
       <div className={classes}>
         <p onClick={(e) => { this.props.showJobDetails(this.props.jobId) }}>{this.props.jobTitle}</p>
