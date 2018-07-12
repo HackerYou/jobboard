@@ -1,5 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
+import { Link } from 'react-router-dom';
+
 
 class ReadmeLoginForm extends React.Component {
   constructor() {
@@ -76,13 +78,26 @@ class ReadmeLoginForm extends React.Component {
   }
   render() {
     return (
-        <form action="submit" id="readmeSignInForm">
-          <label htmlFor="">email:</label>
-          <input type="email" name="email" id="" placeholder="enter your readme email" onChange={this.onChangeEmail} value={this.state.email} />
-          <label htmlFor="">password:</label>
-          <input type="password" name="password" placeholder="enter your readme password" onChange={this.onChangePassword} value={this.state.password} />
-          <input type="submit" onClick={this.signInWithReadme}/>
-        </form>
+      <div className="secondWrapper">
+        <div className="signInForm">
+          <form action="submit" id="readmeSignInForm" >
+            <header className="formHeader">
+              <h2>HackerYou Alumni</h2>
+              <p>Log in with Read Me below.</p>
+            </header>
+            <div className="formTextInput">
+              <label htmlFor="">email:</label>
+              <input type="email" name="email" id="" placeholder="enter your readme email" onChange={this.onChangeEmail} value={this.state.email} />
+            </div>
+            <div className="formTextInput">
+              <label htmlFor="">password:</label>
+              <input type="password" name="password" placeholder="enter your readme password" onChange={this.onChangePassword} value={this.state.password} />
+            </div>
+            <input type="submit" className="action login-button" onClick={this.signInWithReadme}/>
+          </form>
+          <p className="otherOption">If you would like to submit a job, <Link to="/posterLogin" className="" onClick={this.loginWithEmail}> sign in here. </Link></p>
+        </div>
+      </div>
     )
   }
 }
