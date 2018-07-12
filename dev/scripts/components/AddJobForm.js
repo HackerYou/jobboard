@@ -53,6 +53,8 @@ class AddJobForm extends React.Component {
             approved: this.state.approved,
             archived: this.state.archived,
             addressee: this.state.addressee,
+            applicationLink: this.state.applicationLink,
+            addresseeEmail: this.state.addresseeEmail,
             timeCreated:timeCreated
         }).then(res => {
             let uniqueKey = res.path.pieces_[2];
@@ -70,6 +72,8 @@ class AddJobForm extends React.Component {
                 approved: this.state.approved,
                 archived: this.state.archived,
                 addressee: this.state.addressee,
+                applicationLink: this.state.applicationLink,
+                addresseeEmail: this.state.addresseeEmail,
                 timeCreated: timeCreated
             });
 
@@ -187,11 +191,11 @@ class AddJobForm extends React.Component {
                     </div>
                     <div className="formTextInput">
                         <label htmlFor="addresseeEmail">Email to send application to</label>
-                        <input type="text" name="addresseeEmail" id="addresseeEmail" placeholder="Email to send application to" required="false" onChange={this.handleChange} value={this.state.addresseeEmail} />
+                        <input type="email" name="addresseeEmail" id="addresseeEmail" placeholder="Email to send application to" required="true" onChange={this.handleChange} value={this.state.addresseeEmail} />
                     </div>
                     <div className="formTextInput">
-                        <label htmlFor="applicationLink">Link to Application</label>
-                        <input type="text" name="applicationLink" id="applicationLink" placeholder="Link to Application" required="false" onChange={this.handleChange} value={this.state.applicationLink} />
+                        <label htmlFor="applicationLink">Link to Application (Optional)</label>
+                        <input type="url" name="applicationLink" id="applicationLink" placeholder="Link to Application (Optional)" onChange={this.handleChange} value={this.state.applicationLink} />
                     </div>
 
                     <input type="submit" value="Submit Job Posting" className="action"/>

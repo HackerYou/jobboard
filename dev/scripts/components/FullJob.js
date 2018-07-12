@@ -27,8 +27,7 @@ class FullJob extends React.Component {
         <p className="jobDescription">{this.props.jobDescription}</p>
 
         {/* {this.props.addressee.includes("@") ? <a href={`mailto:${this.props.addressee}`}>Apply Email</a> : <a href={`${this.props.addressee}`} target="_blank">Apply URL</a>} */}
-      
-
+        <a className="action" href={this.props.applicationLink ? this.props.applicationLink : `mailto:${this.props.addresseeEmail}?subject=${this.props.jobTitle}&body=Hi%20${this.props.addressee}`}>Apply Now</a>
       </div>
     )
   }

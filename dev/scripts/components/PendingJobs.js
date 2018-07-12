@@ -86,6 +86,8 @@ class PendingJobs extends React.Component {
                 jobCommitment={this.state.pendingJobs[`${this.state.showingJobId}`]['jobCommitment']}
                 archived={this.state.pendingJobs[`${this.state.showingJobId}`]['archived']}
                 addressee={this.state.pendingJobs[`${this.state.showingJobId}`]['addressee']}
+                applicationLink={this.state.pendingJobs[`${this.state.showingJobId}`]['applicationLink']}
+                addresseeEmail={this.state.pendingJobs[`${this.state.showingJobId}`]['addresseeEmail']}
             />}
           </div>;
     }
