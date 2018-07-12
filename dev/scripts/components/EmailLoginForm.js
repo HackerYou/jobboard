@@ -1,6 +1,6 @@
 import React from 'react';
 import firebase from 'firebase';
-import { Link, Route, Switch } from 'react-router-dom';
+import { NavLink, Link, Route, Switch } from 'react-router-dom';
 
 class EmailLoginForm extends React.Component {
   constructor(){
@@ -96,47 +96,51 @@ class EmailLoginForm extends React.Component {
   
   render(){
     return(
-      <div>
-        <h3>Job Posters</h3>
-        <div className="cta-container">
-          <Link to="/posterLogin/createAccount" className="action" onClick={this.createAccount}>New User</Link>
-          <Link to="/posterLogin/returningUser" className="action" onClick={this.returningUser}>Returning User</Link>
-        </div>
-        <Route exact match path="/posterLogin/createAccount" render={()=>(<form action="submit" id="emailSignInForm" className="">
-              <div className="">
-                <label htmlFor="userSubmittedName">
-                  <input type="userSubmittedName" name="userSubmittedName" id="userSubmittedName" required="false" placeholder="name" onChange={this.onChangeUserSubmittedName} value={this.state.userSubmittedName} />
-                </label>
+      <div className="secondWrapper">
+        <div className="signInForm">
+          <h2>Job Posters</h2>
+          <p>Are you a...</p>
+          <div className="userType">
+            <NavLink to="/posterLogin/createAccount" className="userTypeLink" activeClassName='activeLink' onClick={this.createAccount}>New User</NavLink>
+            <NavLink to="/posterLogin/returningUser" className="userTypeLink" activeClassName='activeLink' onClick={this.returningUser}>Returning User</NavLink>
+          </div>
+          <Route exact match path="/posterLogin/createAccount" render={()=>(<form action="submit" id="emailSignInForm" className="">
+              <div className="formTextInput">
+                <label htmlFor="userSubmittedName">Name</label>
+                <input type="userSubmittedName" name="userSubmittedName" id="userSubmittedName" required="false" placeholder="name" onChange={this.onChangeName} value={this.state.userSubmittedName} />
               </div>
-            <div className="">
-              <label htmlFor="email">
+              <div className="formTextInput">
+                <label htmlFor="email">Email</label>
                 <input type="email" name="email" id="" placeholder="email address" onChange={this.onChangeEmail} value={this.state.email} />
-              </label>
-            </div>
-            <div className="">
-              <label htmlFor="password">
+              </div>
+              <div className="formTextInput">
+                <label htmlFor="password">Password</label>
                 <input type="password" name="password" placeholder="password" onChange={this.onChangePassword} value={this.state.password} />
-              </label>
-            </div>
-            <button className="action" onClick={this.createNewUser}>Create Account</button>
-            <button className="login-button action" onClick={this.props.loginWithGoogle}>Create Account with Google</button>
-          </form>)} />
+              </div>
+              <button className="action login-button" onClick={this.createNewUser}>Create Account</button>
+              <p className="orSeparation">OR</p>
+              <button className="login-button action" onClick={this.props.loginWithGoogle}>Create Account with Google</button>
+            </form>)} />
 
-          <Route exact match path="/posterLogin/returningUser" render={()=>(<form action="submit" id="emailSignInForm" className="">
-            <div className="">
-              <label htmlFor="email">
+            <Route exact match path="/posterLogin/returningUser" render={()=>(<form action="submit" id="emailSignInForm" className="">
+              <div className="formTextInput">
+                <label htmlFor="email">Email</label>
                 <input type="email" name="email" id="" placeholder="email address" onChange={this.onChangeEmail} value={this.state.email} />
-              </label>
-            </div>
+              </div>
 
-            <div className="">
-              <label htmlFor="password">
+              <div className="formTextInput">
+                <label htmlFor="password">Password</label>
                 <input type="password" name="password" placeholder="password" onChange={this.onChangePassword} value={this.state.password} />
-              </label>
-            </div>
-            <button className="action" onClick={this.signInWithEmail}>Sign in</button>
-            <button className="login-button action" onClick={this.props.loginWithGoogle}>Log in with Google</button>
-          </form>)} />
+              </div>
+
+              <button className="action login-button" onClick={this.signInWithEmail}>Sign in</button>
+              <p className="orSeparation">OR</p>
+              <button className="login-button action" onClick={this.props.loginWithGoogle}>Log in with Google</button>
+            </form>
+            )} 
+            />
+            <p className="otherOption">If you would like to search for jobs, <Link to="/posterLogin" className="" onClick={this.loginWithReadme}> sign in here. </Link></p>
+        </div>
       </div>
     )
   }

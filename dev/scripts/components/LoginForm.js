@@ -33,7 +33,7 @@ class LoginForm extends React.Component {
         firebase.auth().signInWithCustomToken(res.token)
           .catch(err => console.error(err));
       });
-  });
+  };
   loginWithReadme = (e) => {
     e.preventDefault();
     fetch(`https://notes-api.hackeryou.com/v2/user/firebaseAuth?email=${this.state.email}&password=${this.state.password}`)
@@ -42,7 +42,7 @@ class LoginForm extends React.Component {
         firebase.auth().signInWithCustomToken(res.token)
           .catch(err => console.error(err));
       });
-  }
+  };
 
 
   onChangeEmail = (e) => {
@@ -62,7 +62,7 @@ class LoginForm extends React.Component {
           <input type="email" name="email" id="" placeholder="enter your readme email" onChange={this.onChangeEmail} value={this.state.email} />
           <label htmlFor="">password:</label>
           <input type="password" name="password" placeholder="enter your readme password" onChange={this.onChangePassword} value={this.state.password} />
-          <input type="submit" onSubmit={this.handleSubmit}/>
+          <input type="submit" className="action" onSubmit={this.handleSubmit}/>
         </form>
     )
   }
