@@ -44,6 +44,7 @@ class ReadmeLoginForm extends React.Component {
                     'admin': false
                   })
                 }
+                this.props.history.push('/')
               })
             })
           })
