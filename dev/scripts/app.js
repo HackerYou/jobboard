@@ -240,13 +240,6 @@ class App extends React.Component {
     Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, matchingTimeSincePosting, ...searchKeywords])
     
       .then( allDataSets => {
-        console.log(`this is all data sets`, allDataSets)
-        //console.log('got em all');
-        // if (allDataSets[0] == null){
-        //   filteredJobs = {}
-
-        //   return filteredJobs
-        // }
         let allJobKeys =[]
         let allJobs = {}
         let numberOfParams=0
@@ -290,7 +283,6 @@ class App extends React.Component {
           }
         });
         if (chosenJobsKeys.length < 2 && numberOfParams > 1) {
-          console.log(`no jobs`)
           this.setState({
             filteredJobs:{}
           })
@@ -308,7 +300,6 @@ class App extends React.Component {
   }
 
   search = (e, jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) => {
-    console.log(jobLocation)
     e.preventDefault();
     this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords)
   } 
