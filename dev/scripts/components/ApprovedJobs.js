@@ -78,7 +78,8 @@ class ApprovedJobs extends React.Component {
                 jobCommitment={this.state.approvedJobs[`${this.state.showingJobId}`]['jobCommitment']}
                 archived={this.state.approvedJobs[`${this.state.showingJobId}`]['archived']}
                 addressee={this.state.approvedJobs[`${this.state.showingJobId}`]['addressee']}
-
+                applicationLink={this.state.approvedJobs[`${this.state.showingJobId}`]['applicationLink']}
+                addresseeEmail={this.state.approvedJobs[`${this.state.showingJobId}`]['addresseeEmail']}
             />}
           </div>;
     }
