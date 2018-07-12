@@ -28,13 +28,8 @@ class ReadmeLoginForm extends React.Component {
             console.error(error.code, error.message)
           })
           .then((res) =>{
-            //get the user's uid from the auth portion of firebase
-            // let user = firebase.auth().currentUser
-            console.log(res, res.user, res.user.uid)
             //if the user exists already in the database, don't do anything
-            // const userRef = firebase.database().ref(`users/${user.uid}`)
             const userRef = firebase.database().ref(`users/${res.user.uid}`)
-            console.log(res, this.state.email)
             //update the user's email in the auth table
             res.user.updateEmail(this.state.email).then( () =>{
               userRef.once('value', (snapshot) => {

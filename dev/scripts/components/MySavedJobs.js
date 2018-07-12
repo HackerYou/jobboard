@@ -54,6 +54,7 @@ class MySavedJobs extends React.Component {
                         alumni={this.props.alumni}
                         admin={this.props.admin}
                         jobPoster={this.props.jobPoster}
+                        savedList={true}
                         />);
                     } 
                 })}
