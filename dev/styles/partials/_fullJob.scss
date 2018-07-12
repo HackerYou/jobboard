@@ -1,12 +1,22 @@
-.fullJob{
+.full-job{
   width: 50%;
   padding: 2%;
   background-color: $tertiaryGrey;
-  .jobTitle {
-    font-size: 30px;
+  font-size: 12px;
+  line-height: 19px;
+  .job-title {
+    font-size: 28px;
+    font-weight: bold;
   }
-  .companyName {
+  .company-name {
       color: $primaryRed;
+    }
+    .company-name, .job-location{
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 20px;
   }
-
+  .job-description{
+    margin-top: 20px;
+  }
 }

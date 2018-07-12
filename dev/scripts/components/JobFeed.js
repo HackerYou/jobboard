@@ -57,6 +57,7 @@ class JobFeed extends React.Component {
                 admin={this.props.admin}
                 addressee={this.props.addressee}
                 jobPoster={this.props.jobPoster}
+                salary={this.salary}
                 />
               </CSSTransition>
             )
@@ -73,7 +74,10 @@ class JobFeed extends React.Component {
                                         datePosted={this.props.filteredJobs[`${this.state.showingJobId}`]['datePosted']}
                                         approved={this.props.filteredJobs[`${this.state.showingJobId}`]['approved']}
                                         jobCommitment={this.props.filteredJobs[`${this.state.showingJobId}`]['jobCommitment']}
-                                        addressee={this.props.filteredJobs[`${this.state.showingJobId}`]['addressee']}/>
+                                        addressee={this.props.filteredJobs[`${this.state.showingJobId}`]['addressee']}
+                                        salary={this.props.salary}
+
+                                        />
           }
 
       </div>

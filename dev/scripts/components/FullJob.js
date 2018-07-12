@@ -1,5 +1,4 @@
 import React from 'react';
-import firebase from 'firebase';
 
 class FullJob extends React.Component {
   constructor(props) {
@@ -15,12 +14,12 @@ class FullJob extends React.Component {
   
   render() {
     return (
-      <div className="fullJob">
-        <h2 className="jobTitle">{this.props.jobTitle}</h2>
-        <p className="companyName">{this.props.companyName}</p>
-        <p className="jobLocation">{this.props.jobLocation}</p>
-        <p className="jobCommitment">{this.props.jobCommitment}</p>
-        <p className="jobDescription">{this.props.jobDescription}</p>
+      <div className="full-job">
+        <h2 className="job-title">{this.props.jobTitle}</h2>
+        <span className="company-name">{this.props.companyName}</span><span className="job-location"> |  {this.props.jobLocation}</span>
+        <p className="job-commitment">{this.props.jobCommitment}</p>
+        <p className="job-description">{this.props.jobDescription}</p>
+        {/* <p className="salary">Salary range: {this.props.salary}k</p> */}
         <a className="action" href={this.props.applicationLink ? this.props.applicationLink : `mailto:${this.props.addresseeEmail}?subject=${this.props.jobTitle}&body=Hi%20${this.props.addressee}`}>Apply Now</a>
       </div>
     )
