@@ -5,6 +5,8 @@ import Search from './Search'
 import FullJob from './FullJob'
 
 import { sortJobsChronologically } from '../helpers';
+import { CSSTransition,TransitionGroup } from 'react-transition-group';
+
 
 class ApprovedJobs extends React.Component {
     constructor(props) {
@@ -19,7 +21,6 @@ class ApprovedJobs extends React.Component {
         dbRef.on('value', snapshot => {
             this.setState({ approvedJobs: snapshot.val() });
         })
-
     }
     showJobDetails = (jobId) => {
         this.setState({
@@ -32,30 +33,39 @@ class ApprovedJobs extends React.Component {
         const sortedApprovedJobIds = sortJobsChronologically(this.state.approvedJobs); 
         return <div className="job-feed-container job-feed-container--approved ">
             <div className="job-feed">
-                {this.state.approvedJobs && sortedApprovedJobIds.map(jobId => {
-                    let job = this.state.approvedJobs[jobId];
-                    return (
-                        <JobPreview showJobDetails={this.showJobDetails} 
-                        saveJob={this.saveJob} 
-                        key={jobId} 
-                        companyName={job.companyName} 
-                        jobTitle={job.jobTitle} 
-                        jobLocation={job.jobLocation} 
-                        jobDescription={job.jobDescription} 
-                        datePosted={job.timeCreated} 
-                        archived={job.archived} 
-                        approved={job.approved} 
-                        jobId={jobId} 
-                        userId={this.props.userId} 
-                        active={this.state.showingJobId === jobId ? 'active' : null}
-                        alumni={this.props.alumni}
-                        admin={this.props.admin}
-                        addressee={this.props.addressee}
-                        jobPoster={this.props.jobPoster}
-                        />
-                    )
-                })
-                }
+                <TransitionGroup>
+                    {this.state.approvedJobs && sortedApprovedJobIds.map(jobId => {
+                        let job = this.state.approvedJobs[jobId];
+                        return (
+                            <CSSTransition
+                            key={jobId}
+                            timeout={500}
+                            classNames="fade"
+                            >
+                                <JobPreview showJobDetails={this.showJobDetails} 
+                                saveJob={this.saveJob} 
+                                key={jobId} 
+                                companyName={job.companyName} 
+                                jobTitle={job.jobTitle} 
+                                jobLocation={job.jobLocation} 
+                                jobDescription={job.jobDescription} 
+                                datePosted={job.timeCreated} 
+                                archived={job.archived} 
+                                approved={job.approved} 
+                                jobId={jobId} 
+                                userId={this.props.userId} 
+                                active={this.state.showingJobId === jobId ? 'active' : null}
+                                alumni={this.props.alumni}
+                                admin={this.props.admin}
+                                addressee={this.props.addressee}
+                                jobPoster={this.props.jobPoster}
+                                />
+                            </CSSTransition>
+                                
+                        )
+                    })
+                    }
+                </TransitionGroup>
             </div>
             {this.state.showDetails && <FullJob
                 jobId={this.state.showingJobId}
@@ -68,7 +78,8 @@ class ApprovedJobs extends React.Component {
                 jobCommitment={this.state.approvedJobs[`${this.state.showingJobId}`]['jobCommitment']}
                 archived={this.state.approvedJobs[`${this.state.showingJobId}`]['archived']}
                 addressee={this.state.approvedJobs[`${this.state.showingJobId}`]['addressee']}
-
+                applicationLink={this.state.approvedJobs[`${this.state.showingJobId}`]['applicationLink']}
+                addresseeEmail={this.state.approvedJobs[`${this.state.showingJobId}`]['addresseeEmail']}
             />}
           </div>;
     }

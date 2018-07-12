@@ -2,8 +2,6 @@ import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
 
-// import classnames from 'classnames';
-
 moment.updateLocale('en', {
   relativeTime: {
       future: "in %s",
@@ -87,6 +85,7 @@ class JobPreview extends React.Component {
           // delete the job from the pending or approved job list
           jobRef.remove()
         })
+        this.props.removePendingJob(jobId);
     })
   }
   archiveJob = (jobId) => {
@@ -123,6 +122,7 @@ class JobPreview extends React.Component {
         jobRef.remove()
       })
     })
+
   }
   render() {
     const classes = moment(this.props.datePosted, 'YYYYMMDD').isBefore(moment().subtract(24, 'hours')) ? 'job-preview' : 'job-preview job-preview-recent';
