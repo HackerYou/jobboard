@@ -11,14 +11,17 @@ class MyPostedJobs extends React.Component {
         }
     }
     componentDidMount() {
-        let dbRef = firebase.database().ref(`users/${this.props.userId}/postedJobs`)
-        dbRef.on('value', snapshot => {
+        this.dbRef = firebase.database().ref(`users/${this.props.userId}/postedJobs`)
+        this.dbRef.on('value', snapshot => {
             if (snapshot != null){
              this.setState({ postedJobs: snapshot.val() });
             } else{
                 return
             }
         })
+    }
+    componentWillUnmount() {
+        this.dbRef.off('value');
     }
     showJobDetails = (jobId) => {
         const dbRef = firebase.database().ref(`users/${this.props.userId}/postedJobs/${jobId}`);
