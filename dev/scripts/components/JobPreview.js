@@ -141,7 +141,7 @@ class JobPreview extends React.Component {
 
         {this.props.userId === this.state.posterId && <button className="action" onClick={(e) => { this.archiveJob(this.props.jobId) }}>Archive Job</button> || this.props.admin && <button className="action" onClick={(e) => { this.archiveJob(this.props.jobId) }}>Archive Job</button> }
 
-        {this.props.alumni && this.props.admin === false && <button className="action" onClick={(e) => { this.saveJob(this.props.jobId) }}>Save Job</button>} 
+        {this.props.alumni && this.props.admin === false && this.props.savedList != true && <button className="action" onClick={(e) => { this.saveJob(this.props.jobId) }}>Save Job</button>} 
       </div>
   
     )
