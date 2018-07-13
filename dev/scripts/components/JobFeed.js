@@ -96,6 +96,8 @@ class JobFeed extends React.Component {
                                         approved={this.props.filteredJobs[`${this.state.showingJobId}`]['approved']}
                                         jobCommitment={this.props.filteredJobs[`${this.state.showingJobId}`]['jobCommitment']}
                                         addressee={this.props.filteredJobs[`${this.state.showingJobId}`]['addressee']}
+                                        addresseeEmail={this.props.filteredJobs[`${this.state.showingJobId}`]['addresseeEmail']}
+                                        applicationLink={this.props.filteredJobs[`${this.state.showingJobId}`]['applicationLink']}
                                         salary={this.props.salary}
 
                                         />
