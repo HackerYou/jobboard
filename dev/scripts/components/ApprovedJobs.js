@@ -59,6 +59,7 @@ class ApprovedJobs extends React.Component {
                                 admin={this.props.admin}
                                 addressee={this.props.addressee}
                                 jobPoster={this.props.jobPoster}
+                                salary={this.salary}
                                 />
                             </CSSTransition>
                                 
@@ -80,6 +81,8 @@ class ApprovedJobs extends React.Component {
                 addressee={this.state.approvedJobs[`${this.state.showingJobId}`]['addressee']}
                 applicationLink={this.state.approvedJobs[`${this.state.showingJobId}`]['applicationLink']}
                 addresseeEmail={this.state.approvedJobs[`${this.state.showingJobId}`]['addresseeEmail']}
+                salary={this.props.salary}
+
             />}
           </div>;
     }

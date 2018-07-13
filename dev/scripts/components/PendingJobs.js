@@ -62,12 +62,13 @@ class PendingJobs extends React.Component {
                                     approved={job.approved} 
                                     archived={job.archived}
                                     admin={true}
-                                    active={this.state.showingJobId === jobId ? 'active' : null}
+                                    active={this.state.showingJobId === jobId ? true : false}
                                     alumni={this.props.alumni}
                                     admin={this.props.admin}
                                     addressee={this.props.addressee}
                                     jobPoster={this.props.jobPoster}
                                     removePendingJob={this.changePendingJobs}
+                                    salary={job.salary}
                                     />
                                 </CSSTransition>
                             )
@@ -88,6 +89,7 @@ class PendingJobs extends React.Component {
                 addressee={this.state.pendingJobs[`${this.state.showingJobId}`]['addressee']}
                 applicationLink={this.state.pendingJobs[`${this.state.showingJobId}`]['applicationLink']}
                 addresseeEmail={this.state.pendingJobs[`${this.state.showingJobId}`]['addresseeEmail']}
+                salary={this.props.salary}
             />}
           </div>;
     }
