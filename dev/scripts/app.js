@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Switch, Link, NavLink, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Link, Route} from 'react-router-dom';
 import firebase from 'firebase';
 import ReadmeLoginForm from './components/ReadmeLoginForm';
 import EmailLoginForm from './components/EmailLoginForm';
@@ -314,11 +314,6 @@ class App extends React.Component {
 
 
   render() {
-    const loginWrapperClasses = classnames(
-      'login-wrapper', 
-      {
-      'provider-chosen': this.state.provider !== ''
-      });
     return (
             <Router>
               <div className="wrapper">
@@ -354,7 +349,13 @@ class App extends React.Component {
 
                           {this.state.alumni && 
                             <div>
+
                               <Switch>
+                                <Route exact path="/" render={() => (<div>
+                                                                            <Search userId={this.state.userId} search={this.search} /> 
+                                                                            <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs}/>
+                                                                          </div>)}
+                                /> 
                                 <Route exact path="/jobFeed" render={() => (<div>
                                                                             <Search userId={this.state.userId} search={this.search} /> 
                                                                             <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs}/>

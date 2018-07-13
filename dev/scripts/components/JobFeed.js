@@ -9,10 +9,20 @@ class JobFeed extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      showingJobId: ''
+      showingJobId: '',
+      startingJobHighlight: true
     }
   }
   componentDidMount(){
+    if(this.props && Object.keys(this.props.filteredJobs).length > 0 && this.state.startingJobHighlight){
+     const sortedJobIds = sortJobsChronologically(this.props.filteredJobs);
+     const firstJob = sortedJobIds[0];
+     this.setState({
+      showDetails:true,
+      showingJobId: firstJob,
+      startingJobHighlight: false
+    })
+    }
   }
   showJobDetails = (jobId) =>{
     this.setState({
