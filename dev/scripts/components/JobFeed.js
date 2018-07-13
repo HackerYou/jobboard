@@ -11,26 +11,30 @@ class JobFeed extends React.Component {
     super(props);
     this.state = {
       showingJobId: '',
-      startingJobHighlight: true,
-      usersSavedJobs: []
+      usersSavedJobs: [],
+      firstJob: sortJobsChronologically(this.props.filteredJobs)[0],
+      showDetails:true,
     }
   }
   componentDidMount(){
     this.dbref = firebase.database().ref(`users/${this.props.userId}/savedJobs`);
-    if(this.props && Object.keys(this.props.filteredJobs).length > 0 && this.state.startingJobHighlight){
+    if(this.props && Object.keys(this.props.filteredJobs).length > 0){
       this.dbref.on('value',(snapshot) => {
         const data = snapshot.val();
         const usersSavedJobs = data ? Object.keys(data) : [];
-        const sortedJobIds = sortJobsChronologically(this.props.filteredJobs);
-        const firstJob = sortedJobIds[0];
         this.setState({
-          showDetails:true,
-          showingJobId: firstJob,
-          startingJobHighlight: false,
           usersSavedJobs
         });
       });
     }
+  }
+  static getDerivedStateFromProps(props, state) {
+    if (!Object.keys(props.filteredJobs).includes(state.firstJob)) {
+      return {
+        firstJob: sortJobsChronologically(props.filteredJobs)[0],
+      };
+    }
+    return null;
   }
 
   componentWillUnmount() {
@@ -39,7 +43,6 @@ class JobFeed extends React.Component {
   
   showJobDetails = (jobId) =>{
     this.setState({
-      showDetails:true,
       showingJobId:jobId
     })
   }
@@ -69,7 +72,7 @@ class JobFeed extends React.Component {
             approved={job.approved}
             userId={this.props.userId}
             showArchive={true}
-            active={this.state.showingJobId === jobId ? 'active' : null}
+            active={this.state.showingJobId === jobId ? 'active' : this.state.showingJobId === '' && this.state.firstJob === jobId ? 'active' : null}
             alumni={this.props.alumni}
             admin={this.props.admin}
             addressee={this.props.addressee}
@@ -79,7 +82,6 @@ class JobFeed extends React.Component {
         </CSSTransition>
       )
     })
-
     return jobs.length > 0 ? jobs : (
       <CSSTransition
         key='not-found'
@@ -92,6 +94,7 @@ class JobFeed extends React.Component {
   }
 
   render(){
+    let jobId = this.state.showingJobId === '' ? this.state.firstJob : this.state.showingJobId;
     return(
       <div className="job-feed-container job-feed-container-regular">
       <div className="job-feed">
@@ -101,17 +104,17 @@ class JobFeed extends React.Component {
 
       </div>
         {this.state.showDetails && Object.keys(this.props.filteredJobs).length != 0 && < FullJob
-                                        jobId={this.state.showingJobId}
-                                        jobTitle={this.props.filteredJobs[`${this.state.showingJobId}`]['jobTitle']}
-                                        jobLocation={this.props.filteredJobs[`${this.state.showingJobId}`]['jobLocation']}
-                                        jobDescription={this.props.filteredJobs[`${this.state.showingJobId}`]['jobDescription']}
-                                        companyName={this.props.filteredJobs[`${this.state.showingJobId}`]['companyName']}
-                                        datePosted={this.props.filteredJobs[`${this.state.showingJobId}`]['datePosted']}
-                                        approved={this.props.filteredJobs[`${this.state.showingJobId}`]['approved']}
-                                        jobCommitment={this.props.filteredJobs[`${this.state.showingJobId}`]['jobCommitment']}
-                                        addressee={this.props.filteredJobs[`${this.state.showingJobId}`]['addressee']}
-                                        addresseeEmail={this.props.filteredJobs[`${this.state.showingJobId}`]['addresseeEmail']}
-                                        applicationLink={this.props.filteredJobs[`${this.state.showingJobId}`]['applicationLink']}
+                                        jobId={jobId}
+                                        jobTitle={this.props.filteredJobs[`${jobId}`]['jobTitle']}
+                                        jobLocation={this.props.filteredJobs[`${jobId}`]['jobLocation']}
+                                        jobDescription={this.props.filteredJobs[`${jobId}`]['jobDescription']}
+                                        companyName={this.props.filteredJobs[`${jobId}`]['companyName']}
+                                        datePosted={this.props.filteredJobs[`${jobId}`]['datePosted']}
+                                        approved={this.props.filteredJobs[`${jobId}`]['approved']}
+                                        jobCommitment={this.props.filteredJobs[`${jobId}`]['jobCommitment']}
+                                        addressee={this.props.filteredJobs[`${jobId}`]['addressee']}
+                                        addresseeEmail={this.props.filteredJobs[`${jobId}`]['addresseeEmail']}
+                                        applicationLink={this.props.filteredJobs[`${jobId}`]['applicationLink']}
                                         salary={this.props.salary}
 
                                         />
