@@ -45,6 +45,7 @@ class JobPreview extends React.Component {
     
   }
   saveJob = (jobId) => {
+    console.log(`save job: `, jobId)
     // get the job in either the posted or pending list
     const jobRef = firebase.database().ref(`jobs/${this.props.approved ? 'approved' : 'pending'}/${this.props.jobId}`)
 
@@ -126,9 +127,9 @@ class JobPreview extends React.Component {
       'job-preview-recent': moment(this.props.datePosted, 'YYYYMMDD').isBefore(moment().subtract(24, 'hours')) === false
     });
     return (
-      <div className={jobPreviewClasses}>
-        <div className="left">
-          <p onClick={(e) => { this.props.showJobDetails(this.props.jobId) }} className="job-title">{this.props.jobTitle}</p>
+      <div className={jobPreviewClasses} >
+        <div className="left" onClick={(e) => { this.props.showJobDetails(this.props.jobId) }}>
+          <p className="job-title">{this.props.jobTitle}</p>
           <span className="company-name" >{this.props.companyName}</span> | &nbsp;
           <span className="" >{this.props.jobLocation}</span>
         </div>
