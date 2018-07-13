@@ -20,50 +20,61 @@ class JobFeed extends React.Component {
       showingJobId:jobId
     })
   }
-  render(){
+
+  renderJobs() {
     const sortedJobIds = Object.keys(this.props.filteredJobs).length > 0 ? sortJobsChronologically(this.props.filteredJobs) : []; 
+    const jobs = sortedJobIds.map((jobId) => {
+      // find jobs by jobId
+      let job = this.props.filteredJobs[jobId]
+      return (
+        <CSSTransition
+          key={jobId}
+          timeout={500}
+          classNames="fade"
+        >
+          <JobPreview
+            showJobDetails={this.showJobDetails}
+            saveJob={this.saveJob}
+            key={jobId}
+            companyName={job.companyName}
+            jobTitle={job.jobTitle}
+            jobLocation={job.jobLocation}
+            jobDescription={job.jobDescription}
+            datePosted={job.timeCreated}
+            jobId={jobId}
+            archived={job.archived}
+            approved={job.approved}
+            userId={this.props.userId}
+            showArchive={true}
+            active={this.state.showingJobId === jobId ? 'active' : null}
+            alumni={this.props.alumni}
+            admin={this.props.admin}
+            addressee={this.props.addressee}
+            jobPoster={this.props.jobPoster}
+          />
+        </CSSTransition>
+      )
+    })
+
+    return jobs.length > 0 ? jobs : (
+      <CSSTransition
+        key='not-found'
+        timeout={500}
+        classNames="fade"
+      >
+        <h3>No posted jobs match your query</h3>
+      </CSSTransition>
+      )
+  }
+
+  render(){
     return(
       <div className="job-feed-container job-feed-container-regular">
       <div className="job-feed">
         <TransitionGroup>
-      
-          {Object.keys(this.props.filteredJobs).length === 0 && <h3>No posted jobs match your query</h3> || Object.keys(this.props.filteredJobs).length === undefined  && <h3>No posted jobs match your query</h3>}
-          {/* get the keys from the jobs we're holding in state, those keys are the jobIds */}
-          {sortedJobIds.map((jobId) =>{
-            // find jobs by jobId
-            let job = this.props.filteredJobs[jobId]
-            return(
-              <CSSTransition
-              key={jobId}
-              timeout={500}
-              classNames="fade"
-              >
-                <JobPreview 
-                showJobDetails={this.showJobDetails}
-                saveJob={this.saveJob}
-                key={jobId}
-                companyName={job.companyName}
-                jobTitle={job.jobTitle}
-                jobLocation={job.jobLocation}
-                jobDescription={job.jobDescription}
-                datePosted={job.timeCreated}
-                jobId={jobId}
-                archived={job.archived}
-                approved={job.approved}
-                userId={this.props.userId}
-                showArchive={true}
-                active={this.state.showingJobId === jobId ? true : false}
-                alumni={this.props.alumni}
-                admin={this.props.admin}
-                addressee={this.props.addressee}
-                jobPoster={this.props.jobPoster}
-                salary={this.salary}
-                />
-              </CSSTransition>
-            )
-          })
-      }
-      </TransitionGroup>
+          {this.renderJobs()}
+        </TransitionGroup>
+
       </div>
         {this.state.showDetails && Object.keys(this.props.filteredJobs).length != 0 && < FullJob
                                         jobId={this.state.showingJobId}

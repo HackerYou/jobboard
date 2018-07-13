@@ -16,6 +16,7 @@ import MySavedJobs from './components/MySavedJobs';
 import Search from './components/Search'
 import axios from 'axios';
 import intersection from 'lodash.intersection';
+import classnames from 'classnames';
 
 const config = {
   apiKey: "AIzaSyDhpZQDqygKV1G_ne9JJwxxWPnYYKxaX0Q",
@@ -101,7 +102,6 @@ class App extends React.Component {
   }
 
   loginWithReadme = (e) =>{
-
     this.setState({
       provider:'readme'
     })
@@ -143,6 +143,13 @@ class App extends React.Component {
   loginWithEmail = (e) => {
     this.setState({
       provider: 'email'
+    })
+  }
+
+  changeProvider = () => {
+    const newProvider = this.state.provider === 'email' ? 'readme' : 'email';
+    this.setState({
+      provider: newProvider
     })
   }
 
@@ -240,13 +247,6 @@ class App extends React.Component {
     Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, matchingTimeSincePosting, ...searchKeywords])
     
       .then( allDataSets => {
-        console.log(`this is all data sets`, allDataSets)
-        //console.log('got em all');
-        // if (allDataSets[0] == null){
-        //   filteredJobs = {}
-
-        //   return filteredJobs
-        // }
         let allJobKeys =[]
         let allJobs = {}
         let numberOfParams=0
@@ -290,7 +290,6 @@ class App extends React.Component {
           }
         });
         if (chosenJobsKeys.length < 2 && numberOfParams > 1) {
-          console.log(`no jobs`)
           this.setState({
             filteredJobs:{}
           })
@@ -308,13 +307,18 @@ class App extends React.Component {
   }
 
   search = (e, jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) => {
-    console.log(jobLocation)
     e.preventDefault();
     this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords)
   } 
 
-  render() {
 
+
+  render() {
+    const loginWrapperClasses = classnames(
+      'login-wrapper', 
+      {
+      'provider-chosen': this.state.provider !== ''
+      });
     return (
             <Router>
               <div className="wrapper">
@@ -371,14 +375,16 @@ class App extends React.Component {
                     </div> // end wrapper
           : 
           
-                    <div className="login-wrapper">
-                      <h1>HackerYou Job Board</h1>
+                    <div className='login-wrapper'>
                       {/* <Switch> */}
                         <Route exact path="/" render={()=>(
+                          <div className="login-content-wrapper">
+                            <h1>HackerYou Job Board</h1>
                             <div className="login-button-container">
-                              <Link to="/alumniLogin" className="action" onClick={this.loginWithReadme}>Find a Job</Link>
-                              <Link to="/posterLogin" className="action" onClick={this.loginWithEmail}>Post a Job</Link>
+                              <Link to="/alumniLogin" className="action login-button" onClick={this.loginWithReadme}>Find a Job</Link>
+                              <Link to="/posterLogin" className="action login-button" onClick={this.loginWithEmail}>Post a Job</Link>
                             </div>
+                          </div>
                         )} />
 
                         {/* {this.state.loggedIn === false && this.state.provider === "readme" && <ReadmeLoginForm />} */}
@@ -386,7 +392,6 @@ class App extends React.Component {
                         <Route exact path="/alumniLogin" component={ReadmeLoginForm} />
                         <Route path="/posterLogin" render={()=> (<EmailLoginForm loginWithGoogle={this.loginWithGoogle} /> )} />
                       {/* </Switch> */}
-
                     </div>
                     }
                 </div>
