@@ -66,12 +66,13 @@
             font-weight: bold;
             margin: 0 10px;
             &:hover{
-            color:$secondaryGrey;
+                color:$secondaryGrey;
             }
             &:focus, .active{
-            color:$primaryRed;
-            }            
+                color:$primaryRed;
+            }
         }
     }
+
 }
 
