@@ -115,7 +115,7 @@ class Search extends React.Component {
                 {/* <label htmlFor="keywords">Keywords</label> */}
                 {keywordList.map(word => {
                   return (
-                    <Keyword key={word} word={word} handleCheckboxChange={this.handleCheckboxChange} />
+                    <Keyword key={word} word={word} handleCheckboxChange={this.handleCheckboxChange} checkedList={this.state.selectedCheckboxes} />
                   )
                 })
                 }

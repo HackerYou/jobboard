@@ -8,7 +8,7 @@ class FullJob extends React.Component {
   }
 }
   componentDidMount() {
-    console.log(this.props.applicationLink, this.props.addresseeEmail)
+    // console.log(this.props.applicationLink, this.props.addresseeEmail)
   }
 
   

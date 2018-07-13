@@ -76,3 +76,18 @@
   }
 
 }
+.toggleDown-exit {
+  height:100%;
+}
+.toggleDown-exit-active {
+  height:0;
+  transition: opacity 500ms ease-in;
+}
+
+.toggleDown-enter {
+  height: 0;
+}
+.toggleDown-enter-active {
+  height:100%;
+  transition: opacity 500ms ease-in;
+}
