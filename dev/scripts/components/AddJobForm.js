@@ -10,12 +10,12 @@ class AddJobForm extends React.Component {
         this.state = {
             jobTitle: '',
             companyName: '',
-            jobLocation: '',
+            jobLocation: 'Toronto',
             jobCommitment: '',
             jobDescription: '',
             importedKeywords:keywordList,
             keywords: [],
-            salary:'',
+            salary:'51-60',
             timeCreated:'',
             posterId: props.userId,
             addressee: '',
@@ -39,7 +39,6 @@ class AddJobForm extends React.Component {
         let keywords = Array.from(this.state.selectedCheckboxes)
 
         let timeCreated = moment().format('YYYYMMDD');
-        //timeCreated = timeCreated.toString()
 
         dbRef.push({
             jobTitle: this.state.jobTitle,
@@ -117,7 +116,7 @@ class AddJobForm extends React.Component {
                 <p>Fill out the information about your job posting below.</p>
 
                 <form method="POST" id="addJobForm" autoComplete="off" name="addJobForm" onSubmit={this.submitJob}>
-                    <button onClick={this.props.close}><img src="../../../assets/icon-x.svg" alt="Close form button"/></button>
+                
                     <div className="inputGroup">
                         <div className="formTextInput">
                             <label htmlFor="jobTitle">Job Title</label>
@@ -134,7 +133,8 @@ class AddJobForm extends React.Component {
                         <div className="formTextInput">
                             <label htmlFor="jobLocation">Job Location</label>
                             <select name="jobLocation" id="jobLocation" placeholder="Job Location" required="true" onChange={this.handleChange} value={this.state.jobLocation}>
-                                <option name="jobLocation" value="Toronto" id="toronto">Toronto</option>
+                                <option name="jobLocation" value="Location" id="location" disabled>Location</option>
+                                <option name="jobLocation" value="Toronto" id="toronto" defaultValue>Toronto</option>
                                 <option name="jobLocation" value="GTA" id="gta">GTA</option>
                                 <option name="jobLocation" value="Hamilton" id="hamilton">Hamilton</option>
                                 <option name="jobLocation" value="Guelph" id="guelph">Guelph</option>
@@ -147,9 +147,6 @@ class AddJobForm extends React.Component {
                             </select> 
                         </div>
                     </div>
-
-                    {/* <label htmlFor="keywords">Key Words</label>
-                    <input type="text" name="keywords" id="keywords" placeholder="HTML, CSS, javascript" onChange={this.handleChange} value={this.state.keywords} /> */}
                     <div className="keywords-container">
                         <label htmlFor="keywords">Keywords/Tags</label>
                         {this.state.importedKeywords.map(word => {
@@ -173,15 +170,15 @@ class AddJobForm extends React.Component {
                     <div className="formTextInput">
                         <label htmlFor="salary">Salary</label>
                         <select name="salary" id="salary" onChange={this.handleChange} value={this.state.salary}>
-                            <option name="salary" value="-" id="-" selected>-</option>
-                            <option name="salary" value="under40">under $40,000</option>
-                            <option name="salary" value="40-50">$40,000 - $50,000</option>
-                            <option name="salary" value="51-60">$50,001 - $60,000</option>
-                            <option name="salary" value="61-70">$60,001 - $70,000</option>
-                            <option name="salary" value="71-80">$70,001 - $80,000</option>
-                            <option name="salary" value="81-90">$80,001 - $90,000</option>
-                            <option name="salary" value="91-100">$90,001 - $100,000</option>
+                            <option name="salary" value="-" disabled>Salary Range</option>
                             <option name="salary" value="100+">over $100,000</option>
+                            <option name="salary" value="91-100">$90,001 - $100,000</option>
+                            <option name="salary" value="81-90">$80,001 - $90,000</option>
+                            <option name="salary" value="71-80">$70,001 - $80,000</option>
+                            <option name="salary" value="61-70">$60,001 - $70,000</option>
+                            <option name="salary" value="51-60" defaultValue>$50,001 - $60,000</option>
+                            <option name="salary" value="40-50">$40,000 - $50,000</option>
+                            <option name="salary" value="under40" >under $40,000</option>
                         </select>
                     </div>
                     <div>         
