@@ -113,8 +113,8 @@ class AddJobForm extends React.Component {
     render() {
         return (
             <div className="jobForm">
-                <p>Fill out the information about your job posting below.</p>
-
+                <p>Submit a job to our job board by filling in the fields below.</p>
+                <p>When the job's been approved and becomes visible to our alumni community, one of our administrators will let you know!</p>
                 <form method="POST" id="addJobForm" autoComplete="off" name="addJobForm" onSubmit={this.submitJob}>
                 
                     <div className="inputGroup">
@@ -196,7 +196,7 @@ class AddJobForm extends React.Component {
 
                     <input type="submit" value="Submit Job Posting" className="action"/>
             </form>
-            { this.state.showSuccessmessage && <p>Success! The job is on it's way to being filled! </p> }
+            { this.state.showSuccessmessage && <p>Thank you! One of our administrators will review your posting and let you know when it's live! </p> }
         </div>
 )
     }

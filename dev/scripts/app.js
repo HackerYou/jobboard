@@ -247,6 +247,7 @@ class App extends React.Component {
     Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, matchingTimeSincePosting, ...searchKeywords])
     
       .then( allDataSets => {
+        console.log(`all data sets baby`, allDataSets)
         let allJobKeys =[]
         let allJobs = {}
         let numberOfParams=0

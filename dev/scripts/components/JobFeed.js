@@ -22,6 +22,12 @@ class JobFeed extends React.Component {
       this.dbref.on('value',(snapshot) => {
         const data = snapshot.val();
         const usersSavedJobs = data ? Object.keys(data) : [];
+<<<<<<< Updated upstream
+=======
+        const sortedJobIds = sortJobsChronologically(this.props.filteredJobs);
+        const firstJob = sortedJobIds[0];
+
+>>>>>>> Stashed changes
         this.setState({
           usersSavedJobs
         });
@@ -88,7 +94,7 @@ class JobFeed extends React.Component {
         timeout={500}
         classNames="fade"
       >
-        <h3>No posted jobs match your query</h3>
+        <h3 className="error-message">No posted jobs match your query</h3>
       </CSSTransition>
       )
   }
