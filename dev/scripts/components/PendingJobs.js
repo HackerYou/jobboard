@@ -53,7 +53,7 @@ class PendingJobs extends React.Component {
                                     saveJob={this.saveJob} 
                                     key={jobId} 
                                     companyName={job.companyName} 
-                                    jobTitle={job.jobTitle} 
+                                    jobTitle={job.jobTitle ? job.jobTitle: null} 
                                     jobLocation={job.jobLocation} 
                                     jobDescription={job.jobDescription} 
                                     datePosted={job.timeCreated} 
