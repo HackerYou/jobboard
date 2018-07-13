@@ -99,7 +99,6 @@ class EmailLoginForm extends React.Component {
       <div className="secondWrapper">
         <div className="signInForm">
           <h2>Job Posters</h2>
-          <p>Are you a...</p>
           <div className="userType">
             <NavLink to="/posterLogin/createAccount" className="userTypeLink" activeClassName='activeLink' onClick={this.createAccount}>New User</NavLink>
             <NavLink to="/posterLogin/returningUser" className="userTypeLink" activeClassName='activeLink' onClick={this.returningUser}>Returning User</NavLink>
@@ -107,7 +106,7 @@ class EmailLoginForm extends React.Component {
           <Route exact match path="/posterLogin/createAccount" render={()=>(<form action="submit" id="emailSignInForm" className="">
               <div className="formTextInput">
                 <label htmlFor="userSubmittedName">Name</label>
-                <input type="userSubmittedName" name="userSubmittedName" id="userSubmittedName" required="false" placeholder="name" onChange={this.onChangeName} value={this.state.userSubmittedName} />
+              <input type="userSubmittedName" name="userSubmittedName" id="userSubmittedName" required="false" placeholder="name" onChange={this.onChangeUserSubmittedName} value={this.state.userSubmittedName} />
               </div>
               <div className="formTextInput">
                 <label htmlFor="email">Email</label>

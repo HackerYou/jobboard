@@ -20,7 +20,7 @@ class FullJob extends React.Component {
         <p className="job-commitment">{this.props.jobCommitment}</p>
         <p className="job-description">{this.props.jobDescription}</p>
         {/* <p className="salary">Salary range: {this.props.salary}k</p> */}
-        <a className="action" href={this.props.applicationLink ? this.props.applicationLink : `mailto:${this.props.addresseeEmail}?subject=${this.props.jobTitle}&body=Hi%20${this.props.addressee}`}>Apply Now</a>
+        <a className="action" target="_blank" href={this.props.applicationLink ? this.props.applicationLink : `mailto:${this.props.addresseeEmail}?subject=${this.props.jobTitle}&body=Hi%20${this.props.addressee}`}>Apply Now</a>
       </div>
     )
   }

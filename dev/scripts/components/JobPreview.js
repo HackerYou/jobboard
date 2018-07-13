@@ -62,20 +62,19 @@ class JobPreview extends React.Component {
 
   approveJob = (jobId) => {
 
-
       //get the job in either the posted or pending list
       const jobRef = firebase.database().ref(`jobs/pending/${this.props.jobId}`)
 
       // update the approved value to match the state 
       jobRef.update({
-        approved: this.state.approved
+        approved: true
       })
 
       // get all the job information that currently exists at that location 
       jobRef.once('value', snapshot => {
-
         // create a local variable to hold our job information
         const job = snapshot.val();
+        console.log(job)
 
         //get the location in the archived list where this  job should live after it's archived 
         const approvedJobRef = firebase.database().ref(`jobs/approved/${this.props.jobId}`)
@@ -87,8 +86,8 @@ class JobPreview extends React.Component {
         jobRef.remove()
       })
       this.props.removePendingJob(jobId);
-
   }
+
   archiveJob = (jobId) => {
     //get the job in the user's postedJobs list
     const userArchiveRef = firebase.database().ref(`users/${this.props.userId}/postedJobs/${this.props.jobId}`)
