@@ -11,7 +11,7 @@ class PendingJobs extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pendingJobs: []
+            pendingJobs: {}
         }
     }
     componentDidMount() {
@@ -34,46 +34,60 @@ class PendingJobs extends React.Component {
             pendingJobs: newPendingJobs
         })
     }
-    render() {
+
+    renderJobs() {
         const sortedPendingJobIds = sortJobsChronologically(this.state.pendingJobs); 
+        const jobs = sortedPendingJobIds.length > 0 ? sortedPendingJobIds.map(jobId => {
+            let job = this.state.pendingJobs[jobId];
+            return (
+                <CSSTransition
+                    key={jobId}
+                    timeout={500}
+                    classNames="fade"
+                >
+                    <JobPreview
+                        showJobDetails={this.showJobDetails}
+                        saveJob={this.saveJob}
+                        key={jobId}
+                        companyName={job.companyName}
+                        jobTitle={job.jobTitle}
+                        jobLocation={job.jobLocation}
+                        jobDescription={job.jobDescription}
+                        datePosted={job.timeCreated}
+                        jobId={jobId}
+                        userId={this.props.userId}
+                        approved={job.approved}
+                        archived={job.archived}
+                        admin={true}
+                        active={this.state.showingJobId === jobId ? true : false}
+                        alumni={this.props.alumni}
+                        admin={this.props.admin}
+                        addressee={this.props.addressee}
+                        jobPoster={this.props.jobPoster}
+                        removePendingJob={this.changePendingJobs}
+                        salary={job.salary}
+                    />
+                </CSSTransition>
+            )
+        }) : [];
+
+        return jobs.length > 0 ? jobs : (
+            <CSSTransition
+                key={'no-pending-jobs'}
+                timeout={500}
+                classNames="fade"
+            >
+                <h3>No pending Jobs</h3>
+            </CSSTransition>
+        )
+    }
+
+    render() {
 
         return <div className="job-feed-container job-feed-container--pending ">
             <div className="job-feed">
                 <TransitionGroup>
-                    {this.state.pendingJobs && sortedPendingJobIds.map(jobId => {
-                        let job = this.state.pendingJobs[jobId];
-                            return (
-                                <CSSTransition
-                                key={jobId}
-                                timeout={500}
-                                classNames="fade"
-                                >
-                                    <JobPreview 
-                                    showJobDetails={this.showJobDetails} 
-                                    saveJob={this.saveJob} 
-                                    key={jobId} 
-                                    companyName={job.companyName} 
-                                    jobTitle={job.jobTitle ? job.jobTitle: null} 
-                                    jobLocation={job.jobLocation} 
-                                    jobDescription={job.jobDescription} 
-                                    datePosted={job.timeCreated} 
-                                    jobId={jobId} 
-                                    userId={this.props.userId} 
-                                    approved={job.approved} 
-                                    archived={job.archived}
-                                    admin={true}
-                                    active={this.state.showingJobId === jobId ? true : false}
-                                    alumni={this.props.alumni}
-                                    admin={this.props.admin}
-                                    addressee={this.props.addressee}
-                                    jobPoster={this.props.jobPoster}
-                                    removePendingJob={this.changePendingJobs}
-                                    salary={job.salary}
-                                    />
-                                </CSSTransition>
-                            )
-                    })
-                    }
+                    {this.renderJobs()}
                 </TransitionGroup>
             </div>
             {this.state.showDetails && <FullJob
