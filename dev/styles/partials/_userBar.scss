@@ -65,7 +65,7 @@
             &:hover{
                 color:$secondaryGrey;
             }
-            &:focus, .active{
+            &.active, &:focus{
                 color:$primaryRed;
             }
         }

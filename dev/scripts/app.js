@@ -319,7 +319,6 @@ class App extends React.Component {
     return (
             <Router>
               <div className="wrapper">
-            
                   {this.state.loggedIn ? 
                     <div>
                       <UserBar  userId={this.state.userId} 
