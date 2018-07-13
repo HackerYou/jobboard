@@ -45,7 +45,6 @@ class JobPreview extends React.Component {
     
   }
   saveJob = (jobId) => {
-    console.log('saved job')
     // get the job in either the posted or pending list
     const jobRef = firebase.database().ref(`jobs/${this.props.approved ? 'approved' : 'pending'}/${this.props.jobId}`)
 
@@ -138,7 +137,7 @@ class JobPreview extends React.Component {
           <p className="posted-on" >Posted {moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').add(1, 'days').format('YYYYMMDD') ? 'yesterday' : moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').format('YYYYMMDD') ? moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow(true) : moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow() }</p>
           <div className="icon-container">
             {this.props.admin && this.props.approved === false && <button className="icon" onClick={(e) => { this.approveJob(this.props.jobId) }}>
-              <img src="../assets/icon-approve.svg" className="approve-icon"  alt="approve job button" /> </button>}
+              <img src="../assets/icon-approve.svg" className="approve-icon"  alt="approve job button" /></button>}
 
             {this.props.userId === this.state.posterId && <button className="icon" onClick={(e) => { this.archiveJob(this.props.jobId) }}><img src="../assets/icon-trash.svg" className=" archive-icon"  alt="archive job button" /></button> || this.props.admin && 
               <button className="icon" onClick={(e) => { this.archiveJob(this.props.jobId) }}> <img src="../assets/icon-trash.svg" className="trash-icon"  alt="archive job button" /> </button>}
