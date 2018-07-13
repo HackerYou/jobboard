@@ -45,7 +45,6 @@ class JobPreview extends React.Component {
     
   }
   saveJob = (jobId) => {
-    console.log(`save job: `, jobId)
     // get the job in either the posted or pending list
     const jobRef = firebase.database().ref(`jobs/${this.props.approved ? 'approved' : 'pending'}/${this.props.jobId}`)
 
@@ -75,7 +74,6 @@ class JobPreview extends React.Component {
       jobRef.once('value', snapshot => {
         // create a local variable to hold our job information
         const job = snapshot.val();
-        console.log(job)
 
         //get the location in the archived list where this  job should live after it's archived 
         const approvedJobRef = firebase.database().ref(`jobs/approved/${this.props.jobId}`)
@@ -128,7 +126,7 @@ class JobPreview extends React.Component {
     });
     return (
       <div className={jobPreviewClasses} >
-        <div className="left" onClick={(e) => { this.props.showJobDetails(this.props.jobId) }}>
+        <div className="left" onClick={() => { this.props.showJobDetails(this.props.jobId) }}>
           <p className="job-title">{this.props.jobTitle}</p>
           <span className="company-name" >{this.props.companyName}</span> | &nbsp;
           <span className="" >{this.props.jobLocation}</span>
