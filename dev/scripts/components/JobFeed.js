@@ -22,6 +22,7 @@ class JobFeed extends React.Component {
   }
 
   renderJobs() {
+    console.log(this.props.filteredJobs);
     const sortedJobIds = Object.keys(this.props.filteredJobs).length > 0 ? sortJobsChronologically(this.props.filteredJobs) : []; 
     const jobs = sortedJobIds.map((jobId) => {
       // find jobs by jobId

@@ -42,51 +42,49 @@ class App extends React.Component {
   }
   componentDidMount(){
     
-    const dbRef = firebase.database().ref(`jobs/approved`)
-    dbRef.on('value', snapshot => {
-      this.setState({
-        filteredJobs: snapshot.val()
-      })
-    })
-  this.dbRef = firebase.database().ref();
-
-  
-  firebase.auth().onAuthStateChanged(user => {
-    
-    if (user !== null) {
-      // this.dbRef.on('value', snapshot => { });
-      this.userRef = firebase.database().ref(`users/${user.uid}`)
-      // console.log(user)
-      this.setState({
-        loggedIn: true,
-        userId: user.uid,
-        userName: user.displayName
-      }, () => {
-        this.userRef.on('value', snapshot => {
-          let resp = snapshot.val()
-          if (resp != null){
-            this.setState({
-              admin: resp.admin,
-              alumni: resp.alumni,
-              jobPoster: resp.jobPoster,
-              userName: resp.name
-            })
-          }
-
+    this.dbRef = firebase.database().ref(`jobs/approved`)
+    this.dbRef.on('value', snapshot => {
+      const data = snapshot.val();
+      if(data !== null) {
+        this.setState({
+          filteredJobs: data
         })
-      });
-
-    } else {
-      this.setState({
-        loggedIn: false,
-        userId: '',
-        userName: '',
-        admin:'',
-        alumni:'',
-        jobPoster:''
-      });
-    }
-  });
+      }
+    })
+  
+    firebase.auth().onAuthStateChanged(user => {
+      if (user !== null) {
+        // this.dbRef.on('value', snapshot => { });
+        this.userRef = firebase.database().ref(`users/${user.uid}`)
+        // console.log(user)
+        this.setState({
+          loggedIn: true,
+          userId: user.uid,
+          userName: user.displayName
+        }, () => {
+          this.userRef.on('value', snapshot => {
+            let resp = snapshot.val()
+            if (resp != null){
+              this.setState({
+                admin: resp.admin,
+                alumni: resp.alumni,
+                jobPoster: resp.jobPoster,
+                userName: resp.name
+              });
+            }
+          });
+        });
+      } else {
+        this.setState({
+          loggedIn: false,
+          userId: '',
+          userName: '',
+          admin:'',
+          alumni:'',
+          jobPoster:''
+        });
+      }
+    });
   } 
 
   onChangeEmail = (e) =>{
@@ -156,6 +154,7 @@ class App extends React.Component {
   signOut = (e) => {
     firebase.auth().signOut();
     this.dbRef.off('value');
+    this.userRef.off('value');
     this.setState({
       loggedIn: false,
       userId: '',
