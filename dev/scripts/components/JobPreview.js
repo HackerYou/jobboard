@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from 'firebase';
 import moment from 'moment';
+import classnames from 'classnames';
 
 moment.updateLocale('en', {
   relativeTime: {
@@ -44,10 +45,10 @@ class JobPreview extends React.Component {
     
   }
   saveJob = (jobId) => {
-    console.log(this.props.jobId, this.props.userId, this.props.approved)
+    console.log('saved job')
     // get the job in either the posted or pending list
     const jobRef = firebase.database().ref(`jobs/${this.props.approved ? 'approved' : 'pending'}/${this.props.jobId}`)
-    // console.log(jobRef)
+
     // get all the job information that currently exists at that location 
     jobRef.once('value', snapshot => {
       // create a local variable to hold our job information
@@ -58,57 +59,50 @@ class JobPreview extends React.Component {
       // set the value of that node to be all the job information we got from the jobRef.once
       savedRef.set(job)
     })
-    console.log(`savejob in job preview fired`, this.props.jobId, this.props.userId)
   }
-  approveJob =  (jobId) =>{
-    //get the job in the user's postedJobs list
-    // const userApproveRef = firebase.database().ref(`users/${this.props.userId}/postedJobs/${this.props.jobId}`)
-    // console.log(this.props.userId, this.props.jobId)
-    //set the state of this component to archived: true
-    this.setState({
-      approved: true
-    }, () => {
 
-        //get the job in either the posted or pending list
-        const jobRef = firebase.database().ref(`jobs/pending/${this.props.jobId}`)
+  approveJob = (jobId) => {
 
-        // update the approved value to match the state 
-          jobRef.update({
-            approved: this.state.approved
-          })
-        // get all the job information that currently exists at that location 
-        jobRef.once('value', snapshot => {
 
-          // create a local variable to hold our job information
-          const job = snapshot.val();
+      //get the job in either the posted or pending list
+      const jobRef = firebase.database().ref(`jobs/pending/${this.props.jobId}`)
 
-          //get the location in the archived list where this  job should live after it's archived 
-          const approvedJobRef = firebase.database().ref(`jobs/approved/${this.props.jobId}`)
+      // update the approved value to match the state 
+      jobRef.update({
+        approved: this.state.approved
+      })
 
-          // set the value of that node to be all the job information we got from line 49
-          approvedJobRef.set(job)
+      // get all the job information that currently exists at that location 
+      jobRef.once('value', snapshot => {
 
-          // delete the job from the pending or approved job list
-          jobRef.remove()
-        })
-    })
+        // create a local variable to hold our job information
+        const job = snapshot.val();
+
+        //get the location in the archived list where this  job should live after it's archived 
+        const approvedJobRef = firebase.database().ref(`jobs/approved/${this.props.jobId}`)
+
+        // set the value of that node to be all the job information we got from line 49
+        approvedJobRef.set(job)
+
+        // delete the job from the pending or approved job list
+        jobRef.remove()
+      })
+      this.props.removePendingJob(jobId);
+
   }
   archiveJob = (jobId) => {
     //get the job in the user's postedJobs list
     const userArchiveRef = firebase.database().ref(`users/${this.props.userId}/postedJobs/${this.props.jobId}`)
-    //set the state of this component to archived: true
-    this.setState({
-      archived: true
-    }, () => {
+    
       //when the state is set, go to that job in the user's postedJobs list and change the value of archived to true
       userArchiveRef.update({
-        archived: this.state.archived
+        archived: true
       })
 
       //get the job in either the posted or pending list
-      const jobRef = firebase.database().ref(`jobs/${this.props.approved ? 'approved': 'pending'}/${this.props.jobId}`)
-      
-      
+      const jobRef = firebase.database().ref(`jobs/${this.props.approved ? 'approved' : 'pending'}/${this.props.jobId}`)
+
+
       // get all the job information that currently exists at that location 
       jobRef.once('value', snapshot => {
         // create a local variable to hold our job information
@@ -119,30 +113,42 @@ class JobPreview extends React.Component {
         })
         //get the location in the archived list where this  job should live after it's archived 
         const archivedJobRef = firebase.database().ref(`jobs/archived/${this.props.jobId}`)
-  
+
         // set the value of that node to be all the job information we got from line 49
         archivedJobRef.set(job)
-  
+
         // delete the job from the pending or approved job list
         jobRef.remove()
       })
-    })
   }
   render() {
-    const classes = moment(this.props.datePosted, 'YYYYMMDD').isBefore(moment().subtract(24, 'hours')) ? 'job-preview' : 'job-preview job-preview-recent';
-    console.log(moment(this.props.datePosted, 'YYYYMMDD').endOf('day').isBefore(moment().subtract(24, 'hours')))
+
+    const jobPreviewClasses = classnames('job-preview', {
+      'showing-job': this.props.active,
+      'job-preview-recent': moment(this.props.datePosted, 'YYYYMMDD').isBefore(moment().subtract(24, 'hours')) === false
+    });
     return (
-      <div className={this.props.active} className={classes}>
-        <p onClick={(e) => { this.props.showJobDetails(this.props.jobId) }}>{this.props.jobTitle}</p>
-        <span >{this.props.companyName}</span> |
-        <span>{this.props.jobLocation}</span>
-        <span>Posted {moment(this.props.datePosted, 'YYYYMMDD').endOf('day').isBefore(moment().subtract(24, 'hours')) ? moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow() : moment(this.props.datePosted, 'YYYYMMDD').fromNow()}</span>
+      <div className={jobPreviewClasses}>
+        <div className="left">
+          <p onClick={(e) => { this.props.showJobDetails(this.props.jobId) }} className="job-title">{this.props.jobTitle}</p>
+          <span className="company-name" >{this.props.companyName}</span> | &nbsp;
+          <span className="" >{this.props.jobLocation}</span>
+        </div>
+        <div className="right">
+          <p className="posted-on" >Posted {moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').add(1, 'days').format('YYYYMMDD') ? 'yesterday' : moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').format('YYYYMMDD') ? moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow(true) : moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow() }</p>
+          <div className="icon-container">
+            {this.props.admin && this.props.approved === false && <button className="icon" onClick={(e) => { this.approveJob(this.props.jobId) }}>
+              <img src="../assets/icon-approve.svg" className="approve-icon"  alt="approve job button" /> </button>}
 
-        {this.props.admin && this.props.approved === false && <button className="action" onClick={(e) => { this.approveJob(this.props.jobId) }}>Approve Job</button>}
+            {this.props.userId === this.state.posterId && <button className="icon" onClick={(e) => { this.archiveJob(this.props.jobId) }}><img src="../assets/icon-trash.svg" className=" archive-icon"  alt="archive job button" /></button> || this.props.admin && 
+              <button className="icon" onClick={(e) => { this.archiveJob(this.props.jobId) }}> <img src="../assets/icon-trash.svg" className="trash-icon"  alt="archive job button" /> </button>}
 
-        {this.props.userId === this.state.posterId && <button className="action" onClick={(e) => { this.archiveJob(this.props.jobId) }}>Archive Job</button> || this.props.admin && <button className="action" onClick={(e) => { this.archiveJob(this.props.jobId) }}>Archive Job</button> }
-
-        {this.props.alumni && this.props.admin === false && <button className="action" onClick={(e) => { this.saveJob(this.props.jobId) }}>Save Job</button>} 
+            {this.props.alumni && this.props.admin === false && this.props.savedList != false && <button onClick={(e) => { this.saveJob(this.props.jobId) }} className="icon">
+              <img src="../assets/icon-favourite.svg" className="icon save-icon"  alt="save job button" /></button>
+            } 
+          </div>
+        </div>
+        
       </div>
   
     )

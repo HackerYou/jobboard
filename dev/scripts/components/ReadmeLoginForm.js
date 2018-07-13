@@ -1,11 +1,12 @@
 import React from 'react';
 import firebase from 'firebase';
+import { Link } from 'react-router-dom';
+
 
 class ReadmeLoginForm extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      userName: this.props.userName,
       loggedIn: false,
       password: '',
       email: '',
@@ -29,28 +30,25 @@ class ReadmeLoginForm extends React.Component {
             console.error(error.code, error.message)
           })
           .then((res) =>{
-            //get the user's uid from the auth portion of firebase
-            let user = firebase.auth().currentUser
-            
-            //if the user exists already in the database
-            const userRef = firebase.database().ref(`users/${user.uid}`)
-              userRef.on('value', function (snapshot) {
+            //if the user exists already in the database, don't do anything
+            const userRef = firebase.database().ref(`users/${res.user.uid}`)
+            //update the user's email in the auth table
+            res.user.updateEmail(this.state.email).then( () =>{
+              userRef.once('value', (snapshot) => {
+                // see if there's anything at that location
                 const userData = snapshot.val();
-
-                //if the user already exists, return
-                if (userData !=null) {
-
-              } else {  
-               // else create an entry for the user in the database 
+                // if not, create an entry for the user in the database 
+                if (userData === null) {
                   userRef.set({
-                    'name': user.displayName || this.state.user,
+                    'name': res.user.displayName || res.user.email,
                     'alumni': true,
                     'jobPoster': true,
-                    'admin':false
+                    'admin': false
                   })
-
                 }
+                this.props.history.push('/')
               })
+            })
           })
           
         } else {
@@ -76,13 +74,26 @@ class ReadmeLoginForm extends React.Component {
   }
   render() {
     return (
-        <form action="submit" id="readmeSignInForm">
-          <label htmlFor="">email:</label>
-          <input type="email" name="email" id="" placeholder="enter your readme email" onChange={this.onChangeEmail} value={this.state.email} />
-          <label htmlFor="">password:</label>
-          <input type="password" name="password" placeholder="enter your readme password" onChange={this.onChangePassword} value={this.state.password} />
-          <input type="submit" onClick={this.signInWithReadme}/>
-        </form>
+      <div className="secondWrapper">
+        <div className="signInForm">
+          <form action="submit" id="readmeSignInForm" >
+            <header className="formHeader">
+              <h2>HackerYou Alumni</h2>
+              <p>Log in with Read Me below.</p>
+            </header>
+            <div className="formTextInput">
+              <label htmlFor="">email:</label>
+              <input type="email" name="email" id="" placeholder="enter your readme email" onChange={this.onChangeEmail} value={this.state.email} />
+            </div>
+            <div className="formTextInput">
+              <label htmlFor="">password:</label>
+              <input type="password" name="password" placeholder="enter your readme password" onChange={this.onChangePassword} value={this.state.password} />
+            </div>
+            <input type="submit" className="action login-button" onClick={this.signInWithReadme}/>
+          </form>
+          <p className="otherOption">If you would like to submit a job, <Link to="/posterLogin" className="" onClick={this.loginWithEmail}> sign in here. </Link></p>
+        </div>
+      </div>
     )
   }
 }
