@@ -1,8 +1,6 @@
 import React from 'react';
 import Navigation from './Navigation';
 import TabNav from './TabNav';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-
 
 class UserBar extends React.Component {
   constructor(props){
