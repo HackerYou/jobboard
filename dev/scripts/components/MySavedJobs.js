@@ -58,6 +58,9 @@ class MySavedJobs extends React.Component {
                         admin={this.props.admin}
                         jobPoster={this.props.jobPoster}
                         savedList={true}
+                        addressee={job.addressee}
+                        applicationLink={job.applicationLink}
+                        addresseeEmail={job.addresseeEmail}
                         />);
                     } 
                 })}
@@ -72,6 +75,8 @@ class MySavedJobs extends React.Component {
                         datePosted={this.state.savedJobs[`${this.state.showingJobId}`]['datePosted']}
                         approved={this.state.savedJobs[`${this.state.showingJobId}`]['approved']}
                         jobCommitment={this.state.savedJobs[`${this.state.showingJobId}`]['jobCommitment']}
+                        applicationLink={this.state.savedJobs[`${this.state.showingJobId}`]['applicationLink']}
+                        addresseeEmail={this.state.savedJobs[`${this.state.showingJobId}`]['addresseeEmail']}
              />}
            
           </div>)
