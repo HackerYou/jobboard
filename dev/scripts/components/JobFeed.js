@@ -1,6 +1,7 @@
 import React from 'react';
 import JobPreview from './JobPreview'
 import FullJob from './FullJob'
+import firebase from 'firebase';
 
 import { sortJobsChronologically } from '../helpers';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -9,11 +10,33 @@ class JobFeed extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      showingJobId: ''
+      showingJobId: '',
+      startingJobHighlight: true,
+      usersSavedJobs: []
     }
   }
   componentDidMount(){
+    this.dbref = firebase.database().ref(`users/${this.props.userId}/savedJobs`);
+    if(this.props && Object.keys(this.props.filteredJobs).length > 0 && this.state.startingJobHighlight){
+      this.dbref.on('value',(snapshot) => {
+        const data = snapshot.val();
+        const usersSavedJobs = data ? Object.keys(data) : [];
+        const sortedJobIds = sortJobsChronologically(this.props.filteredJobs);
+        const firstJob = sortedJobIds[0];
+        this.setState({
+          showDetails:true,
+          showingJobId: firstJob,
+          startingJobHighlight: false,
+          usersSavedJobs
+        });
+      });
+    }
   }
+
+  componentWillUnmount() {
+    this.dbref.off('value');
+  }
+  
   showJobDetails = (jobId) =>{
     this.setState({
       showDetails:true,
@@ -22,7 +45,6 @@ class JobFeed extends React.Component {
   }
 
   renderJobs() {
-    console.log(this.props.filteredJobs);
     const sortedJobIds = Object.keys(this.props.filteredJobs).length > 0 ? sortJobsChronologically(this.props.filteredJobs) : []; 
     const jobs = sortedJobIds.map((jobId) => {
       // find jobs by jobId
@@ -52,6 +74,7 @@ class JobFeed extends React.Component {
             admin={this.props.admin}
             addressee={this.props.addressee}
             jobPoster={this.props.jobPoster}
+            savedList={this.state.usersSavedJobs.includes(jobId)}
           />
         </CSSTransition>
       )
@@ -87,6 +110,8 @@ class JobFeed extends React.Component {
                                         approved={this.props.filteredJobs[`${this.state.showingJobId}`]['approved']}
                                         jobCommitment={this.props.filteredJobs[`${this.state.showingJobId}`]['jobCommitment']}
                                         addressee={this.props.filteredJobs[`${this.state.showingJobId}`]['addressee']}
+                                        addresseeEmail={this.props.filteredJobs[`${this.state.showingJobId}`]['addresseeEmail']}
+                                        applicationLink={this.props.filteredJobs[`${this.state.showingJobId}`]['applicationLink']}
                                         salary={this.props.salary}
 
                                         />
