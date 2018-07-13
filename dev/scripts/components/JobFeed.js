@@ -1,6 +1,7 @@
 import React from 'react';
 import JobPreview from './JobPreview'
 import FullJob from './FullJob'
+import firebase from 'firebase';
 
 import { sortJobsChronologically } from '../helpers';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -10,20 +11,32 @@ class JobFeed extends React.Component {
     super(props);
     this.state = {
       showingJobId: '',
-      startingJobHighlight: true
+      startingJobHighlight: true,
+      usersSavedJobs: []
     }
   }
   componentDidMount(){
+    this.dbref = firebase.database().ref(`users/${this.props.userId}/savedJobs`);
     if(this.props && Object.keys(this.props.filteredJobs).length > 0 && this.state.startingJobHighlight){
-     const sortedJobIds = sortJobsChronologically(this.props.filteredJobs);
-     const firstJob = sortedJobIds[0];
-     this.setState({
-      showDetails:true,
-      showingJobId: firstJob,
-      startingJobHighlight: false
-    })
+      this.dbref.on('value',(snapshot) => {
+        const data = snapshot.val();
+        const usersSavedJobs = data ? Object.keys(data) : [];
+        const sortedJobIds = sortJobsChronologically(this.props.filteredJobs);
+        const firstJob = sortedJobIds[0];
+        this.setState({
+          showDetails:true,
+          showingJobId: firstJob,
+          startingJobHighlight: false,
+          usersSavedJobs
+        });
+      });
     }
   }
+
+  componentWillUnmount() {
+    this.dbref.off('value');
+  }
+  
   showJobDetails = (jobId) =>{
     this.setState({
       showDetails:true,
@@ -61,6 +74,7 @@ class JobFeed extends React.Component {
             admin={this.props.admin}
             addressee={this.props.addressee}
             jobPoster={this.props.jobPoster}
+            savedList={this.state.usersSavedJobs.includes(jobId)}
           />
         </CSSTransition>
       )

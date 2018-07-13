@@ -140,8 +140,8 @@ class JobPreview extends React.Component {
             {this.props.userId === this.state.posterId && <button className="icon" onClick={(e) => { this.archiveJob(this.props.jobId) }}><img src="../assets/icon-trash.svg" className=" archive-icon"  alt="archive job button" /></button> || this.props.admin && 
               <button className="icon" onClick={(e) => { this.archiveJob(this.props.jobId) }}> <img src="../assets/icon-trash.svg" className="trash-icon"  alt="archive job button" /> </button>}
 
-            {this.props.alumni && this.props.admin === false && this.props.savedList != false && <button onClick={(e) => { this.saveJob(this.props.jobId) }} className="icon">
-              <img src="../assets/icon-favourite.svg" className="icon save-icon"  alt="save job button" /></button>
+            {this.props.alumni && this.props.admin === false && <button onClick={(e) => { this.saveJob(this.props.jobId) }} className="icon">
+              <img src={this.props.savedList ? '../assets/icon-favourite-red.svg' : '../assets/icon-favourite.svg'} className="icon save-icon"  alt="save job button" /></button>
             } 
           </div>
         </div>
