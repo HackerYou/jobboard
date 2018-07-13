@@ -157,7 +157,7 @@ class AddJobForm extends React.Component {
                         }
                     </div>
 
-                    <div className="jobCommitmentContainter">
+                    <div className="jobCommitmentContainer">
                         <label htmlFor="fullTime">Full Time</label>
                         <input type="radio" name="jobCommitment" id="fullTime" value="Full Time" onChange={this.handleChange} checked={this.state.jobCommitment === 'Full Time' ? true : false} />
 

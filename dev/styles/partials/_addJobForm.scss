@@ -1,3 +1,32 @@
 #addJobForm {
   position: relative;
 }
+
+.jobCommitmentContainer {
+  padding: 20px;
+}
+
+input[type='radio']:focus {
+  outline: none;
+}
+input[type='radio'] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+input[type='radio']:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: 5px;
+    left: 3px;
+    position: relative;
+    background-color: #fff;
+    content: '';
+    display: inline-block;
+    border: 3px solid white;
+}
+    input[type='radio']:checked:after {
+    background-color: $primaryRed;
+}
