@@ -268,6 +268,7 @@ class App extends React.Component {
             //push that array of keys into an array of arrays
             allJobKeys.push(parametersKeys)
           }
+          // increase the number of parameters by one
           numberOfParams++
         })
 

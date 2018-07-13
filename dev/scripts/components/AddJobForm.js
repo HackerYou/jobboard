@@ -113,7 +113,7 @@ class AddJobForm extends React.Component {
     render() {
         return (
             <div className="jobForm">
-                <p>Submit a job to our job board by filling in the fields below.</p>
+                <p>Submit a role to our job board by filling in the fields below.</p>
                 <p>When the job's been approved and becomes visible to our alumni community, one of our administrators will let you know!</p>
                 <form method="POST" id="addJobForm" autoComplete="off" name="addJobForm" onSubmit={this.submitJob}>
                 
