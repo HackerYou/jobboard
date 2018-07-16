@@ -246,7 +246,7 @@ class App extends React.Component {
 
       .then( allDataSets => {
         
-        console.log(`all data sets`, allDataSets)
+        // console.log(`all data sets`, allDataSets)
         let allJobKeys =[]
         let allJobs = {}
         let numberOfParams=0
@@ -294,33 +294,25 @@ class App extends React.Component {
 
         // if there's more than one parameter and only one dataset, return nothing
         let dataSets = Object.values(allDataSets)
-        console.log(
-          numberOfParams,
-          nonnullDataSets,
-          jobLocation,
-          jobCommitment,
-          timeSincePosting,
-          searchKeywords
-        )
+
         for (let set in dataSets) {
           if (dataSets[set] != null) {
             nonnullDataSets++
           }
         }
 
-
         if (jobLocation === '') {
           
           if (jobCommitment === '' && timeSincePosting === 0 && searchKeywords.length === 0 && salary === ''){
             // if it's the first time a user has loaded the page
             // and they hit search, leave the values as they are
-          console.log( `first time`)
+          // console.log( `first time`)
           filteredJobs = this.state.filteredJobs
           } else if (numberOfParams >= 1 && nonnullDataSets <= 2) {
             // if there is more than one param
             // and only one dataset
             // return nothing
-            console.log(`fewer results than parameters`)
+            // console.log(`fewer results than parameters`)
             filteredJobs = {}
           }  
         }    
@@ -332,7 +324,6 @@ class App extends React.Component {
           (nonnullDataSets<numberOfParams ) && 
           (jobCommitment === '' || timeSincePosting === 0 || searchKeywords.length === 0) 
           ){
-            console.log('ugh')
             filteredJobs = {}
           } 
         if ((jobLocation === '' || jobLocation === 'any') && jobCommitment === 'any'){
