@@ -296,9 +296,8 @@ class App extends React.Component {
         let dataSets = Object.values(allDataSets)
         console.log(
           numberOfParams,
-          // advancedSearch,
-          jobLocation,
           nonnullDataSets,
+          jobLocation,
           jobCommitment,
           timeSincePosting,
           searchKeywords
@@ -325,19 +324,20 @@ class App extends React.Component {
             filteredJobs = {}
           }  
         }    
-        // if location has been chosen by user
+        // if location has been chosen by user or is at its initial state
         // and one or more of the advanced search fields are filled in
         // and there is only one dataset coming back 
         // return nothing
-        if ((
-          jobLocation === '' || jobLocation ==='any')
-          && 
-          (nonnullDataSets < 2 && numberOfParams >=1) && 
-          (jobCommitment === '' || timeSincePosting === 0 || searchKeywords.length === 0)
+        if (jobLocation ==='any' && 
+          (nonnullDataSets<numberOfParams ) && 
+          (jobCommitment === '' || timeSincePosting === 0 || searchKeywords.length === 0) 
           ){
-            console.log(`blep`)
+            console.log('ugh')
             filteredJobs = {}
-        }  
+          } 
+        if ((jobLocation === '' || jobLocation === 'any') && jobCommitment === 'any'){
+          
+        }
 
         return filteredJobs
       })
