@@ -41,7 +41,6 @@ class MySavedJobs extends React.Component {
                         return (
                         <JobPreview 
                         showJobDetails={this.showJobDetails} 
-                        saveJob={this.saveJob} 
                         key={jobId} 
                         companyName={job.companyName} 
                         jobTitle={job.jobTitle} 
