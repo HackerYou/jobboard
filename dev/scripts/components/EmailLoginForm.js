@@ -22,7 +22,6 @@ class EmailLoginForm extends React.Component {
     firebase.auth().signInWithEmailAndPassword(email, password).catch( (error) => {
       let errorCode = error.code;
       let errorMessage = error.message;
-      console.log(errorCode, errorMessage, email, password);
 
       if (error.code === `auth/user-not-found`) {
           let errorCode = error.code;
@@ -41,7 +40,6 @@ class EmailLoginForm extends React.Component {
     let userSubmittedName = this.state.userSubmittedName;
 
     firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) => {
-      console.log(`creating`)
       let errorCode = error.code;
       let errorMessage = error.message;
       console.log(errorCode, errorMessage)
