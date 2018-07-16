@@ -47,7 +47,6 @@ class MyPostedJobs extends React.Component {
                     return (
                         <JobPreview
                             showJobDetails={this.showJobDetails}
-                            saveJob={this.saveJob}
                             key={jobId}
                             companyName={job.companyName}
                             jobTitle={job.jobTitle}
@@ -70,7 +69,7 @@ class MyPostedJobs extends React.Component {
             })
         : [];
 
-        return jobs.length > 0 ? jobs : <h3>No Posted Jobs</h3>
+        return jobs.length > 0 ? jobs : <h3 className="message-no-jobs">You haven't submitted a job yet!</h3>
     }
 
     render() {

@@ -54,16 +54,17 @@ class Search extends React.Component {
       timeSincePosting: 0,
       salary: '',
       searchKeywords: [],
-      selectedCheckboxes: new Set()
+      selectedCheckboxes: new Set(),
+
     })
   }
   render() {
     return (
       <div className="search">
-        <form action="submit" onSubmit={(e) => { this.props.search(e, this.state.jobLocation, this.state.jobCommitment, this.state.timeSincePosting, this.state.salary, this.state.searchKeywords) }}>
+        <form action="submit" onSubmit={(e) => { this.props.search(e, this.state.jobLocation, this.state.jobCommitment, this.state.timeSincePosting, this.state.salary, this.state.searchKeywords, this.state.advancedSearch) }}>
           <div className="searchTop">
             {/* <input type="text" name="searchTerm" id="searchTerm" placeholder="Search" onChange={this.handleChange} value={this.state.searchTerm} />  */}
-            <select name="jobLocation" id="jobLocation" onChange={this.handleChange}>
+            <select name="jobLocation" id="jobLocation" onChange={this.handleChange} >
               <option name="jobLocation" id="locationOption" disabled defaultValue>Location</option>
               <option name="jobLocation" value="any">Anywhere</option>
               <option name="jobLocation" value="Toronto" id="toronto" >Toronto</option>

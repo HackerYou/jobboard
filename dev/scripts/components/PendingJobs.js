@@ -82,7 +82,7 @@ class PendingJobs extends React.Component {
                 timeout={500}
                 classNames="fade"
             >
-                <h3>No pending Jobs</h3>
+                <h3 className="message-no-jobs">No pending jobs!</h3>
             </CSSTransition>
         )
     }
