@@ -37,7 +37,7 @@ class App extends React.Component {
       loggedIn: false,
       userId: '', 
       provider:'',
-      filteredJobs:{}
+      filteredJobs:{},
     }
 
   }
@@ -232,8 +232,7 @@ class App extends React.Component {
       })
     
   }
-  findJobInDatabase = (jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) =>{
-    console.log(jobCommitment)
+  findJobInDatabase = (jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords, advancedSearch) =>{
     let matchingLocation = this.getData(`jobLocation`, jobLocation === '' ? 'any' : jobLocation)
     let matchingSalary = this.getData(`salary`, salary)
     let matchingTimeCommitment = this.getData(`jobCommitment`, jobCommitment)
@@ -244,8 +243,9 @@ class App extends React.Component {
     searchKeywords = searchKeywords.map(this.getKeywordData)
 
     Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, matchingTimeSincePosting, ...searchKeywords])
-    
+
       .then( allDataSets => {
+        
         console.log(`all data sets`, allDataSets)
         let allJobKeys =[]
         let allJobs = {}
@@ -294,16 +294,51 @@ class App extends React.Component {
 
         // if there's more than one parameter and only one dataset, return nothing
         let dataSets = Object.values(allDataSets)
-
+        console.log(
+          numberOfParams,
+          // advancedSearch,
+          jobLocation,
+          nonnullDataSets,
+          jobCommitment,
+          timeSincePosting,
+          searchKeywords
+        )
         for (let set in dataSets) {
           if (dataSets[set] != null) {
             nonnullDataSets++
           }
         }
-        if (nonnullDataSets === 1 && numberOfParams > 0) {
-          console.log(`both are 1`)
-          filteredJobs = {}
-        }
+
+
+        if (jobLocation === '') {
+          
+          if (jobCommitment === '' && timeSincePosting === 0 && searchKeywords.length === 0 && salary === ''){
+            // if it's the first time a user has loaded the page
+            // and they hit search, leave the values as they are
+          console.log( `first time`)
+          filteredJobs = this.state.filteredJobs
+          } else if (numberOfParams >= 1 && nonnullDataSets <= 2) {
+            // if there is more than one param
+            // and only one dataset
+            // return nothing
+            console.log(`fewer results than parameters`)
+            filteredJobs = {}
+          }  
+        }    
+        // if location has been chosen by user
+        // and one or more of the advanced search fields are filled in
+        // and there is only one dataset coming back 
+        // return nothing
+        if ((
+          jobLocation === '' || jobLocation ==='any')
+          && 
+          (nonnullDataSets < 2 && numberOfParams >=1) && 
+          (jobCommitment === '' || timeSincePosting === 0 || searchKeywords.length === 0)
+          ){
+            console.log(`blep`)
+            filteredJobs = {}
+        }  
+
         return filteredJobs
       })
       .then( res =>{
@@ -316,9 +351,9 @@ class App extends React.Component {
       }); 
   }
 
-  search = (e, jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) => {
+  search = (e, jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords, advancedSearch) => {
     e.preventDefault();
-    this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords)
+    this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords, advancedSearch)
   } 
 
 
@@ -397,8 +432,6 @@ class App extends React.Component {
                           </div>
                         )} />
 
-                        {/* {this.state.loggedIn === false && this.state.provider === "readme" && <ReadmeLoginForm />} */}
-                        {/* {this.state.loggedIn === false && this.state.provider === "email" && <EmailLoginForm loginWithGoogle={this.loginWithGoogle} />} */}
                         <Route exact path="/alumniLogin" component={ReadmeLoginForm} />
                         <Route path="/posterLogin" render={()=> (<EmailLoginForm loginWithGoogle={this.loginWithGoogle} /> )} />
                       {/* </Switch> */}
