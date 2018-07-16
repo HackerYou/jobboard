@@ -88,7 +88,7 @@ class JobFeed extends React.Component {
         timeout={500}
         classNames="fade"
       >
-        <h3>No posted jobs match your query</h3>
+        <h3 className="message-no-jobs">No posted jobs match your query</h3>
       </CSSTransition>
       )
   }

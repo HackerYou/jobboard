@@ -6,12 +6,12 @@
  background-color: $tertiaryGrey;
  position: relative;
  display: flex;
+  max-height: calc(100vh - 100px);
 }
 
 .job-feed{
   overflow-y:scroll;
   width: 50%;
-  max-height: calc(100vh - 100px);
   -webkit-font-smoothing:antialiased;
     &:after{
       clear:both;
