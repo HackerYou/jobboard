@@ -12,14 +12,19 @@ class ApprovedJobs extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            approvedJobs: []
+            approvedJobs: [],
+            showingJobId: ''
         }
     }
     componentDidMount() {
         const dbRef = firebase.database().ref(`jobs/approved`)
 
         dbRef.on('value', snapshot => {
-            this.setState({ approvedJobs: snapshot.val() });
+            this.setState({ 
+                approvedJobs: snapshot.val(), 
+                firstJob : sortJobsChronologically(snapshot.val())[0],
+                showDetails: true
+            });
         })
     }
     showJobDetails = (jobId) => {
@@ -31,6 +36,7 @@ class ApprovedJobs extends React.Component {
 
     render() {
         const sortedApprovedJobIds = sortJobsChronologically(this.state.approvedJobs); 
+        let showingFullJobId = this.state.showingJobId === '' ? this.state.firstJob : this.state.showingJobId;
         return <div className="job-feed-container job-feed-container--approved ">
             <div className="job-feed">
                 <TransitionGroup>
@@ -54,7 +60,7 @@ class ApprovedJobs extends React.Component {
                                 approved={job.approved} 
                                 jobId={jobId} 
                                 userId={this.props.userId} 
-                                active={this.state.showingJobId === jobId ? 'active' : null}
+                                active={this.state.showingJobId === jobId ? 'active' : (this.state.showingJobId === '' && this.state.firstJob === jobId ? 'active' : null)}
                                 alumni={this.props.alumni}
                                 admin={this.props.admin}
                                 addressee={this.props.addressee}
@@ -69,18 +75,18 @@ class ApprovedJobs extends React.Component {
                 </TransitionGroup>
             </div>
             {this.state.showDetails && <FullJob
-                jobId={this.state.showingJobId}
-                jobTitle={this.state.approvedJobs[`${this.state.showingJobId}`]['jobTitle']}
-                jobLocation={this.state.approvedJobs[`${this.state.showingJobId}`]['jobLocation']}
-                jobDescription={this.state.approvedJobs[`${this.state.showingJobId}`]['jobDescription']}
-                companyName={this.state.approvedJobs[`${this.state.showingJobId}`]['companyName']}
-                datePosted={this.state.approvedJobs[`${this.state.showingJobId}`]['datePosted']}
-                approved={this.state.approvedJobs[`${this.state.showingJobId}`]['approved']}
-                jobCommitment={this.state.approvedJobs[`${this.state.showingJobId}`]['jobCommitment']}
-                archived={this.state.approvedJobs[`${this.state.showingJobId}`]['archived']}
-                addressee={this.state.approvedJobs[`${this.state.showingJobId}`]['addressee']}
-                applicationLink={this.state.approvedJobs[`${this.state.showingJobId}`]['applicationLink']}
-                addresseeEmail={this.state.approvedJobs[`${this.state.showingJobId}`]['addresseeEmail']}
+                jobId={showingFullJobId}
+                jobTitle={this.state.approvedJobs[`${showingFullJobId}`]['jobTitle']}
+                jobLocation={this.state.approvedJobs[`${showingFullJobId}`]['jobLocation']}
+                jobDescription={this.state.approvedJobs[`${showingFullJobId}`]['jobDescription']}
+                companyName={this.state.approvedJobs[`${showingFullJobId}`]['companyName']}
+                datePosted={this.state.approvedJobs[`${showingFullJobId}`]['datePosted']}
+                approved={this.state.approvedJobs[`${showingFullJobId}`]['approved']}
+                jobCommitment={this.state.approvedJobs[`${showingFullJobId}`]['jobCommitment']}
+                archived={this.state.approvedJobs[`${showingFullJobId}`]['archived']}
+                addressee={this.state.approvedJobs[`${showingFullJobId}`]['addressee']}
+                applicationLink={this.state.approvedJobs[`${showingFullJobId}`]['applicationLink']}
+                addresseeEmail={this.state.approvedJobs[`${showingFullJobId}`]['addresseeEmail']}
                 salary={this.props.salary}
 
             />}

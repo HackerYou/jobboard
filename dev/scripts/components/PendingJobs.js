@@ -11,13 +11,18 @@ class PendingJobs extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pendingJobs: {}
+            pendingJobs: {},
+            showingJobId: ''
         }
     }
     componentDidMount() {
         const dbRef = firebase.database().ref(`jobs/pending`)
         dbRef.once('value', snapshot => {
-            this.setState({ pendingJobs : snapshot.val() });
+            this.setState({ 
+                pendingJobs : snapshot.val(),
+                firstJob : sortJobsChronologically(snapshot.val())[0],
+                showDetails: true,
+            });
         })
 
     }
@@ -59,7 +64,7 @@ class PendingJobs extends React.Component {
                         approved={job.approved}
                         archived={job.archived}
                         admin={true}
-                        active={this.state.showingJobId === jobId ? true : false}
+                        active={this.state.showingJobId === jobId ? 'active' : (this.state.showingJobId === '' && this.state.firstJob === jobId ? 'active' : null)}
                         alumni={this.props.alumni}
                         admin={this.props.admin}
                         addressee={this.props.addressee}
@@ -83,7 +88,7 @@ class PendingJobs extends React.Component {
     }
 
     render() {
-
+        let jobId = this.state.showingJobId === '' ? this.state.firstJob : this.state.showingJobId;
         return <div className="job-feed-container job-feed-container--pending ">
             <div className="job-feed">
                 <TransitionGroup>
@@ -91,18 +96,18 @@ class PendingJobs extends React.Component {
                 </TransitionGroup>
             </div>
             {this.state.showDetails && <FullJob
-                jobId={this.state.showingJobId}
-                jobTitle={this.state.pendingJobs[`${this.state.showingJobId}`]['jobTitle']}
-                jobLocation={this.state.pendingJobs[`${this.state.showingJobId}`]['jobLocation']}
-                jobDescription={this.state.pendingJobs[`${this.state.showingJobId}`]['jobDescription']}
-                companyName={this.state.pendingJobs[`${this.state.showingJobId}`]['companyName']}
-                datePosted={this.state.pendingJobs[`${this.state.showingJobId}`]['datePosted']}
-                approved={this.state.pendingJobs[`${this.state.showingJobId}`]['approved']}
-                jobCommitment={this.state.pendingJobs[`${this.state.showingJobId}`]['jobCommitment']}
-                archived={this.state.pendingJobs[`${this.state.showingJobId}`]['archived']}
-                addressee={this.state.pendingJobs[`${this.state.showingJobId}`]['addressee']}
-                applicationLink={this.state.pendingJobs[`${this.state.showingJobId}`]['applicationLink']}
-                addresseeEmail={this.state.pendingJobs[`${this.state.showingJobId}`]['addresseeEmail']}
+                jobId={jobId}
+                jobTitle={this.state.pendingJobs[`${jobId}`]['jobTitle']}
+                jobLocation={this.state.pendingJobs[`${jobId}`]['jobLocation']}
+                jobDescription={this.state.pendingJobs[`${jobId}`]['jobDescription']}
+                companyName={this.state.pendingJobs[`${jobId}`]['companyName']}
+                datePosted={this.state.pendingJobs[`${jobId}`]['datePosted']}
+                approved={this.state.pendingJobs[`${jobId}`]['approved']}
+                jobCommitment={this.state.pendingJobs[`${jobId}`]['jobCommitment']}
+                archived={this.state.pendingJobs[`${jobId}`]['archived']}
+                addressee={this.state.pendingJobs[`${jobId}`]['addressee']}
+                applicationLink={this.state.pendingJobs[`${jobId}`]['applicationLink']}
+                addresseeEmail={this.state.pendingJobs[`${jobId}`]['addresseeEmail']}
                 salary={this.props.salary}
             />}
           </div>;

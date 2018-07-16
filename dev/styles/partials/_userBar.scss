@@ -3,6 +3,9 @@
     justify-content: space-between;
     padding: 0 20px;
     background: $darkTertiaryGrey;
+    &.adminUserBar{
+        background: $secondaryGrey;
+    }
     .infoUserBar, .actionsUserBar{
         display: flex;
     }
@@ -66,7 +69,7 @@
             font-weight: bold;
             margin: 0 10px;
             &:hover{
-                color:$secondaryGrey;
+                color:$textGrey;
             }
             &.active, &:focus{
                 color:$primaryRed;

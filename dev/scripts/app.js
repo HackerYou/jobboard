@@ -367,7 +367,13 @@ class App extends React.Component {
                           }
                           
                           {this.state.jobPoster &&
-                            <Route exact path="/" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                          <div>
+                            <Switch>
+                              <Route exact path="/" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                              <Route exact path="/myPostedJobs" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+
+                            </Switch>
+                          </div>
                           }
 
                         </Switch>
