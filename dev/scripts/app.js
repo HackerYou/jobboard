@@ -232,9 +232,8 @@ class App extends React.Component {
       })
     
   }
-
   findJobInDatabase = (jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) =>{
-
+    console.log(jobCommitment)
     let matchingLocation = this.getData(`jobLocation`, jobLocation === '' ? 'any' : jobLocation)
     let matchingSalary = this.getData(`salary`, salary)
     let matchingTimeCommitment = this.getData(`jobCommitment`, jobCommitment)
@@ -247,10 +246,11 @@ class App extends React.Component {
     Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, matchingTimeSincePosting, ...searchKeywords])
     
       .then( allDataSets => {
-        console.log(`all data sets baby`, allDataSets)
+        console.log(`all data sets`, allDataSets)
         let allJobKeys =[]
         let allJobs = {}
         let numberOfParams=0
+        let nonnullDataSets =0
         let filteredJobs ={}
         allDataSets.map( singleJobDataSet => {
           let parametersKeys=[]
@@ -267,9 +267,9 @@ class App extends React.Component {
             }
             //push that array of keys into an array of arrays
             allJobKeys.push(parametersKeys)
+            numberOfParams++
           }
           // increase the number of parameters by one
-          numberOfParams++
         })
 
         // intersection() is a lodash function imported at the top of this page
@@ -291,10 +291,18 @@ class App extends React.Component {
             } 
           }
         });
-        if (chosenJobsKeys.length < 2 && numberOfParams > 1) {
-          this.setState({
-            filteredJobs:{}
-          })
+
+        // if there's more than one parameter and only one dataset, return nothing
+        let dataSets = Object.values(allDataSets)
+
+        for (let set in dataSets) {
+          if (dataSets[set] != null) {
+            nonnullDataSets++
+          }
+        }
+        if (nonnullDataSets === 1 && numberOfParams > 0) {
+          console.log(`both are 1`)
+          filteredJobs = {}
         }
         return filteredJobs
       })
