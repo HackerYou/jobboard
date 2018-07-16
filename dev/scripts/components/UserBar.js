@@ -1,6 +1,7 @@
 import React from 'react';
 import Navigation from './Navigation';
 import TabNav from './TabNav';
+import classnames from 'classnames';
 
 class UserBar extends React.Component {
   constructor(props){
@@ -16,8 +17,11 @@ toggleSideNav=() =>{
 }
   render(){
     const pathnames = ['/addJobForm', '/mySavedJobs', '/myPostedJobs'];
+    const userBarClasses = classnames('userBar', {
+      "adminUserBar": this.props.admin,
+    });
     return (
-    <div className="userBar">
+    <div className={userBarClasses}>
       <div className="infoUserBar">
         <div className="logo">
           <img src="../../../assets/hy-logo-mark.svg" alt="HackerYou College of Technology Logo" /> 
@@ -26,7 +30,7 @@ toggleSideNav=() =>{
         {this.props.alumni && !this.props.admin && pathnames.indexOf(location.pathname) === -1 && <h2>Find A Job</h2>}
         {location.pathname === "/addJobForm" && <h2>Post A Job</h2>}
         {location.pathname === "/mySavedJobs" && <h2>My Saved Jobs</h2>}
-        {location.pathname === "/myPostedJobs" && <h2>My Approved Jobs</h2>}
+        {location.pathname === "/myPostedJobs" || this.props.jobPoster && !this.props.admin && !this.props.alumni && pathnames.indexOf(location.pathname) === -1 && <h2>My Approved Jobs</h2>}
 
       </div>
       <div className="actionsUserBar">
