@@ -1,4 +1,8 @@
 export const sortJobsChronologically = (jobs) => {
+
+    if(!jobs) {
+        return [];
+    }
     const jobDates = Object.keys(jobs).map(jobId => {
         return [jobId, jobs[jobId].timeCreated];
       });

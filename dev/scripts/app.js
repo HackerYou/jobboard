@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
-  BrowserRouter as Router, 
+  Router, 
   Switch, 
   Link, 
   Route
 } from 'react-router-dom';
+import { createBrowserHistory as createHistory } from 'history';
 import firebase from 'firebase';
 import ReadmeLoginForm from './components/ReadmeLoginForm';
 import EmailLoginForm from './components/EmailLoginForm';
@@ -40,9 +41,11 @@ class App extends React.Component {
       userId: '', 
       provider:'',
       filteredJobs:{},
-    }
-
+    } 
   }
+
+  history = createHistory(this.props)
+
   componentDidMount(){
     
     this.dbRef = firebase.database().ref(`jobs/approved`)
@@ -51,15 +54,13 @@ class App extends React.Component {
       if(data !== null) {
         this.setState({
           filteredJobs: data
-        })
+        });
       }
-    })
+    });
   
     firebase.auth().onAuthStateChanged(user => {
       if (user !== null) {
-        // this.dbRef.on('value', snapshot => { });
         this.userRef = firebase.database().ref(`users/${user.uid}`)
-
         this.setState({
           loggedIn: true,
           userId: user.uid,
@@ -76,6 +77,7 @@ class App extends React.Component {
               });
             }
           });
+          this.history.push('/');
         });
       } else {
         this.setState({
@@ -102,7 +104,7 @@ class App extends React.Component {
     })
   }
 
-  loginWithReadme = (e) =>{
+  loginWithReadme = () =>{
     this.setState({
       provider:'readme'
     })
@@ -136,21 +138,14 @@ class App extends React.Component {
         });
       })
       .catch(err => {
-
+        console.error(err);
       });
 
   }
 
-  loginWithEmail = (e) => {
+  loginWithEmail = () => {
     this.setState({
       provider: 'email'
-    })
-  }
-
-  changeProvider = () => {
-    const newProvider = this.state.provider === 'email' ? 'readme' : 'email';
-    this.setState({
-      provider: newProvider
     })
   }
 
@@ -348,7 +343,7 @@ class App extends React.Component {
 
   render() {
     return (
-            <Router>
+            <Router history={this.history}>
               <div className="wrapper">
                   {this.state.loggedIn ? 
                     <div>
@@ -383,15 +378,18 @@ class App extends React.Component {
                             <div>
 
                               <Switch>
-                                <Route exact path="/" render={() => (<div>
-                                                                            <Search userId={this.state.userId} search={this.search} /> 
-                                                                            <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs}/>
-                                                                          </div>)}
+                                <Route exact path="/" render={() => (
+                                  <div>
+                                    <Search userId={this.state.userId} search={this.search} /> 
+                                    <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs}/>
+                                  </div>)}
                                 /> 
-                                <Route exact path="/jobFeed" render={() => (<div>
-                                                                            <Search userId={this.state.userId} search={this.search} /> 
-                                                                            <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs}/>
-                                                                          </div>)}
+                                <Route exact path="/jobFeed" render={() => (
+                                  <div>
+                                    <Search userId={this.state.userId} search={this.search} /> 
+                                    <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs}/>
+                                  </div>
+                                  )}
                                 /> 
                                 <Route exact path="/mySavedJobs" render={() => (<MySavedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
                                 <Route exact path="/myPostedJobs" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
@@ -413,7 +411,6 @@ class App extends React.Component {
                       </div> {/* end tab-container */}
                     </div> // end wrapper
           : 
-          
                     <div className='login-wrapper'>
                         <Route exact path="/" render={()=>(
                           <div className="login-content-wrapper">
@@ -433,7 +430,6 @@ class App extends React.Component {
                 </div>
             </Router>
     )
-
   }
 }
 

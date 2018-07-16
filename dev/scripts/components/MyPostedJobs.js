@@ -17,12 +17,12 @@ class MyPostedJobs extends React.Component {
     componentDidMount() {
         this.dbRef = firebase.database().ref(`users/${this.props.userId}/postedJobs`)
         this.dbRef.on('value', snapshot => {
-            if (snapshot != null){
-             this.setState({ 
-                 postedJobs: snapshot.val(),
-                 firstJob : sortJobsChronologically(snapshot.val())[0],
-                 showDetails: true
-             });
+            if (snapshot.val() != null){
+                this.setState({ 
+                    postedJobs: snapshot.val(),
+                    firstJob : sortJobsChronologically(snapshot.val())[0],
+                    showDetails: true
+                });
             }
         })
     }

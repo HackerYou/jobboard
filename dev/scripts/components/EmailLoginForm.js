@@ -63,8 +63,6 @@ class EmailLoginForm extends React.Component {
             'admin': false
           })
         }
-        console.log('Set user in DB');
-        this.props.history.push('/');
       });
     }
   onChangeEmail = (e) => {
