@@ -88,7 +88,8 @@ class PendingJobs extends React.Component {
     }
 
     render() {
-        let jobId = this.state.showingJobId === '' ? this.state.firstJob : this.state.showingJobId;
+        const jobId = this.state.showingJobId === '' ? this.state.firstJob : this.state.showingJobId;
+        const jobInfo = this.state.pendingJobs[`${jobId}`];
         return <div className="job-feed-container job-feed-container--pending ">
             <div className="job-feed">
                 <TransitionGroup>
@@ -97,17 +98,17 @@ class PendingJobs extends React.Component {
             </div>
             {this.state.showDetails && <FullJob
                 jobId={jobId}
-                jobTitle={this.state.pendingJobs[`${jobId}`]['jobTitle']}
-                jobLocation={this.state.pendingJobs[`${jobId}`]['jobLocation']}
-                jobDescription={this.state.pendingJobs[`${jobId}`]['jobDescription']}
-                companyName={this.state.pendingJobs[`${jobId}`]['companyName']}
-                datePosted={this.state.pendingJobs[`${jobId}`]['datePosted']}
-                approved={this.state.pendingJobs[`${jobId}`]['approved']}
-                jobCommitment={this.state.pendingJobs[`${jobId}`]['jobCommitment']}
-                archived={this.state.pendingJobs[`${jobId}`]['archived']}
-                addressee={this.state.pendingJobs[`${jobId}`]['addressee']}
-                applicationLink={this.state.pendingJobs[`${jobId}`]['applicationLink']}
-                addresseeEmail={this.state.pendingJobs[`${jobId}`]['addresseeEmail']}
+                jobTitle={jobInfo['jobTitle']}
+                jobLocation={jobInfo['jobLocation']}
+                jobDescription={jobInfo['jobDescription']}
+                companyName={jobInfo['companyName']}
+                datePosted={jobInfo['datePosted']}
+                approved={jobInfo['approved']}
+                jobCommitment={jobInfo['jobCommitment']}
+                archived={jobInfo['archived']}
+                addressee={jobInfo['addressee']}
+                applicationLink={jobInfo['applicationLink']}
+                addresseeEmail={jobInfo['addresseeEmail']}
                 salary={this.props.salary}
             />}
           </div>;

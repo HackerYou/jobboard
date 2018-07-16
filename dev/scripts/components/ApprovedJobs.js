@@ -36,7 +36,8 @@ class ApprovedJobs extends React.Component {
 
     render() {
         const sortedApprovedJobIds = sortJobsChronologically(this.state.approvedJobs); 
-        let showingFullJobId = this.state.showingJobId === '' ? this.state.firstJob : this.state.showingJobId;
+        const showingFullJobId = this.state.showingJobId === '' ? this.state.firstJob : this.state.showingJobId;
+        const jobInfo = this.state.approvedJobs[`${showingFullJobId}`];
         return <div className="job-feed-container job-feed-container--approved ">
             <div className="job-feed">
                 <TransitionGroup>
@@ -76,17 +77,17 @@ class ApprovedJobs extends React.Component {
             </div>
             {this.state.showDetails && <FullJob
                 jobId={showingFullJobId}
-                jobTitle={this.state.approvedJobs[`${showingFullJobId}`]['jobTitle']}
-                jobLocation={this.state.approvedJobs[`${showingFullJobId}`]['jobLocation']}
-                jobDescription={this.state.approvedJobs[`${showingFullJobId}`]['jobDescription']}
-                companyName={this.state.approvedJobs[`${showingFullJobId}`]['companyName']}
-                datePosted={this.state.approvedJobs[`${showingFullJobId}`]['datePosted']}
-                approved={this.state.approvedJobs[`${showingFullJobId}`]['approved']}
-                jobCommitment={this.state.approvedJobs[`${showingFullJobId}`]['jobCommitment']}
-                archived={this.state.approvedJobs[`${showingFullJobId}`]['archived']}
-                addressee={this.state.approvedJobs[`${showingFullJobId}`]['addressee']}
-                applicationLink={this.state.approvedJobs[`${showingFullJobId}`]['applicationLink']}
-                addresseeEmail={this.state.approvedJobs[`${showingFullJobId}`]['addresseeEmail']}
+                jobTitle={jobInfo['jobTitle']}
+                jobLocation={jobInfo['jobLocation']}
+                jobDescription={jobInfo['jobDescription']}
+                companyName={jobInfo['companyName']}
+                datePosted={jobInfo['datePosted']}
+                approved={jobInfo['approved']}
+                jobCommitment={jobInfo['jobCommitment']}
+                archived={jobInfo['archived']}
+                addressee={jobInfo['addressee']}
+                applicationLink={jobInfo['applicationLink']}
+                addresseeEmail={jobInfo['addresseeEmail']}
                 salary={this.props.salary}
 
             />}

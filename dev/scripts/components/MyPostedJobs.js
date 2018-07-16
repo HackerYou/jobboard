@@ -75,6 +75,7 @@ class MyPostedJobs extends React.Component {
 
     render() {
         let jobId = this.state.showingJobId === '' ? this.state.firstJob : this.state.showingJobId;
+        const jobInfo = this.state.postedJobs[`${jobId}`];
         return (
             <div className="job-feed-container job-feed-container--my-posted">
                 <div className="job-feed">
@@ -82,14 +83,14 @@ class MyPostedJobs extends React.Component {
                 </div>
                 {this.state.showDetails && <FullJob 
                             jobId={jobId} 
-                            jobTitle={this.state.postedJobs[`${jobId}`]['jobTitle']}
-                            jobLocation={this.state.postedJobs[`${jobId}`]['jobLocation']}
-                            jobDescription={this.state.postedJobs[`${jobId}`]['jobDescription']}
-                            companyName={this.state.postedJobs[`${jobId}`]['companyName']}
-                            datePosted={this.state.postedJobs[`${jobId}`]['datePosted']}
-                            approved={this.state.postedJobs[`${jobId}`]['approved']}
-                            jobCommitment={this.state.postedJobs[`${jobId}`]['jobCommitment']}
-                            addressee={this.state.postedJobs[`${jobId}`]['addressee']}
+                            jobTitle={jobInfo['jobTitle']}
+                            jobLocation={jobInfo['jobLocation']}
+                            jobDescription={jobInfo['jobDescription']}
+                            companyName={jobInfo['companyName']}
+                            datePosted={jobInfo['datePosted']}
+                            approved={jobInfo['approved']}
+                            jobCommitment={jobInfo['jobCommitment']}
+                            addressee={jobInfo['addressee']}
                 />}
            
             </div>)

@@ -38,7 +38,8 @@ class MySavedJobs extends React.Component {
 
     render() {
         const sortedSavedJobIds = sortJobsChronologically(this.state.savedJobs); 
-        let showingFullJobId = this.state.showingJobId === '' ? this.state.firstJob : this.state.showingJobId;
+        const showingFullJobId = this.state.showingJobId === '' ? this.state.firstJob : this.state.showingJobId;
+        const jobInfo = this.state.savedJobs[`${showingFullJobId}`];
         return (
         <div className="job-feed-container job-feed-container--my-saved">
             <div className="job-feed">
@@ -77,15 +78,15 @@ class MySavedJobs extends React.Component {
             </div>
             {this.state.showDetails && <FullJob 
                         jobId={showingFullJobId} 
-                        jobTitle={this.state.savedJobs[`${showingFullJobId}`]['jobTitle']}
-                        jobLocation={this.state.savedJobs[`${showingFullJobId}`]['jobLocation']}
-                        jobDescription={this.state.savedJobs[`${showingFullJobId}`]['jobDescription']}
-                        companyName={this.state.savedJobs[`${showingFullJobId}`]['companyName']}
-                        datePosted={this.state.savedJobs[`${showingFullJobId}`]['datePosted']}
-                        approved={this.state.savedJobs[`${showingFullJobId}`]['approved']}
-                        jobCommitment={this.state.savedJobs[`${showingFullJobId}`]['jobCommitment']}
-                        applicationLink={this.state.savedJobs[`${showingFullJobId}`]['applicationLink']}
-                        addresseeEmail={this.state.savedJobs[`${showingFullJobId}`]['addresseeEmail']}
+                        jobTitle={jobInfo['jobTitle']}
+                        jobLocation={jobInfo['jobLocation']}
+                        jobDescription={jobInfo['jobDescription']}
+                        companyName={jobInfo['companyName']}
+                        datePosted={jobInfo['datePosted']}
+                        approved={jobInfo['approved']}
+                        jobCommitment={jobInfo['jobCommitment']}
+                        applicationLink={jobInfo['applicationLink']}
+                        addresseeEmail={jobInfo['addresseeEmail']}
              />}
            
           </div>)
