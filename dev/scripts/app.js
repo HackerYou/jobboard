@@ -306,29 +306,26 @@ class App extends React.Component {
           if (jobCommitment === '' && timeSincePosting === 0 && searchKeywords.length === 0 && salary === ''){
             // if it's the first time a user has loaded the page
             // and they hit search, leave the values as they are
-          // console.log( `first time`)
           filteredJobs = this.state.filteredJobs
-          } else if (numberOfParams >= 1 && nonnullDataSets <= 2) {
+          } else if (numberOfParams >= 1 && nonnullDataSets <= 2 ) {
             // if there is more than one param
-            // and only one dataset
-            // return nothing
-            // console.log(`fewer results than parameters`)
-            filteredJobs = {}
-          }  
+            // and there aren't any serachkeywords
+            if (searchKeywords.length <=1){
+              // return nothing
+              filteredJobs = {}
+            }
+          } 
         }    
         // if location has been chosen by user or is at its initial state
         // and one or more of the advanced search fields are filled in
         // and there is only one dataset coming back 
         // return nothing
-        if (jobLocation ==='any' && 
+        if (jobLocation === 'any' && 
           (nonnullDataSets<numberOfParams ) && 
           (jobCommitment === '' || timeSincePosting === 0 || searchKeywords.length === 0) 
           ){
             filteredJobs = {}
           } 
-        if ((jobLocation === '' || jobLocation === 'any') && jobCommitment === 'any'){
-          
-        }
 
         return filteredJobs
       })
