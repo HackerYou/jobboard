@@ -46,17 +46,21 @@ class JobPreview extends React.Component {
   }
   saveJob = (jobId) => {
     // get the job in either the posted or pending list
-    const jobRef = firebase.database().ref(`jobs/${this.props.approved ? 'approved' : 'pending'}/${this.props.jobId}`)
+    const jobRef = firebase.database().ref(`jobs/${this.props.approved ? 'approved' : 'pending'}/${this.props.jobId}`);
 
     // get all the job information that currently exists at that location 
     jobRef.once('value', snapshot => {
       // create a local variable to hold our job information
       const job = snapshot.val();
       //choose where we want to save the job in the user's profile
-      const savedRef = firebase.database().ref(`users/${this.props.userId}/savedJobs/${this.props.jobId}`)
-
+      const savedRef = firebase.database().ref(`users/${this.props.userId}/savedJobs/${this.props.jobId}`);
       // set the value of that node to be all the job information we got from the jobRef.once
-      savedRef.set(job)
+      if(this.props.savedList) {
+        savedRef.remove();
+      }
+      else {
+        savedRef.set(job);
+      }
     })
   }
 
