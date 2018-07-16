@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Switch, Link, Route} from 'react-router-dom';
+import {
+  BrowserRouter as Router, 
+  Switch, 
+  Link, 
+  Route
+} from 'react-router-dom';
 import firebase from 'firebase';
 import ReadmeLoginForm from './components/ReadmeLoginForm';
 import EmailLoginForm from './components/EmailLoginForm';
 import UserBar from './components/UserBar';
-import Navigation from './components/Navigation';
 import AddJobForm from './components/AddJobForm';
 import JobFeed from './components/JobFeed';
 import PendingJobs from './components/PendingJobs';
@@ -16,7 +20,6 @@ import MySavedJobs from './components/MySavedJobs';
 import Search from './components/Search'
 import axios from 'axios';
 import intersection from 'lodash.intersection';
-import classnames from 'classnames';
 
 const config = {
   apiKey: "AIzaSyDhpZQDqygKV1G_ne9JJwxxWPnYYKxaX0Q",
@@ -28,7 +31,6 @@ const config = {
 };
 
 firebase.initializeApp(config);
-
 
 class App extends React.Component {
   constructor(){
@@ -57,7 +59,7 @@ class App extends React.Component {
       if (user !== null) {
         // this.dbRef.on('value', snapshot => { });
         this.userRef = firebase.database().ref(`users/${user.uid}`)
-        // console.log(user)
+
         this.setState({
           loggedIn: true,
           userId: user.uid,
@@ -152,7 +154,7 @@ class App extends React.Component {
     })
   }
 
-  signOut = (e) => {
+  signOut = () => {
     firebase.auth().signOut();
     this.dbRef.off('value');
     this.userRef.off('value');
@@ -196,7 +198,7 @@ class App extends React.Component {
   }
 
   getDateData = (key, param) =>{
-    return new Promise((res,rej) => {
+    return new Promise((res) => {
       const dbRef = firebase.database().ref(`jobs/approved`)
       if (param === 1) {
         dbRef.once('value', snapshot => {
@@ -311,8 +313,6 @@ class App extends React.Component {
     this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords)
   } 
 
-
-
   render() {
     return (
             <Router>
@@ -376,7 +376,6 @@ class App extends React.Component {
           : 
           
                     <div className='login-wrapper'>
-                      {/* <Switch> */}
                         <Route exact path="/" render={()=>(
                           <div className="login-content-wrapper">
                             <h1>HackerYou Job Board</h1>
@@ -387,11 +386,9 @@ class App extends React.Component {
                           </div>
                         )} />
 
-                        {/* {this.state.loggedIn === false && this.state.provider === "readme" && <ReadmeLoginForm />} */}
-                        {/* {this.state.loggedIn === false && this.state.provider === "email" && <EmailLoginForm loginWithGoogle={this.loginWithGoogle} />} */}
                         <Route exact path="/alumniLogin" component={ReadmeLoginForm} />
-                        <Route path="/posterLogin" render={()=> (<EmailLoginForm loginWithGoogle={this.loginWithGoogle} /> )} />
-                      {/* </Switch> */}
+                        <Route path="/posterLogin" render={()=> (<EmailLoginForm loginWithGoogle={this.loginWithGoogle} /> )}
+                        />
                     </div>
                     }
                 </div>
