@@ -1,9 +1,42 @@
+.jobForm {
+  background: $tertiaryGrey;
+  padding: 60px 100px;
+  p {
+    padding: 15px 0 0px;
+  }
+  button {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: transparent;
+    border: none;
+    img {
+      width: 20px;
+    }
+  }
+}
+
 #addJobForm {
   position: relative;
+  .keywordContainerAddJob{
+    background: white;
+    padding: 0px 0px 0px 13px;
+    margin-bottom: 10px;
+    p{
+      font-variant: normal;
+      color: $primaryGrey;
+    }
+  }
+  .keywords-container{
+    padding: 20px 0px 20px 0px;
+  }
+  .inputGroup{
+    padding: 20px 0px;
+  }
 }
 
 .jobCommitmentContainer {
-  padding: 20px;
+  padding: 13px 20px;
 }
 
 input[type='radio']:focus {
@@ -27,6 +60,6 @@ input[type='radio']:after {
     display: inline-block;
     border: 3px solid white;
 }
-    input[type='radio']:checked:after {
+input[type='radio']:checked:after {
     background-color: $primaryRed;
 }
