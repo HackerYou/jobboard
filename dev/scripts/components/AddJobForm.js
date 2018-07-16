@@ -127,10 +127,6 @@ class AddJobForm extends React.Component {
                             <input type="text" name="companyName" id="companyName" placeholder="Company Name" required="true" onChange={this.handleChange} value={this.state.companyName} />  
                         </div>
                         <div className="formTextInput">
-                            <label htmlFor="addressee">Addressee for Cover Letter or Application</label>
-                            <input type="text" name="addressee" id="addressee" placeholder="Addressee for Cover Letter or Application" required="false" onChange={this.handleChange} value={this.state.addressee} />
-                        </div>
-                        <div className="formTextInput">
                             <label htmlFor="jobLocation">Job Location</label>
                             <select name="jobLocation" id="jobLocation" placeholder="Job Location" required="true" onChange={this.handleChange} value={this.state.jobLocation}>
                                 <option name="jobLocation" value="Location" id="location" disabled>Location</option>
@@ -146,54 +142,61 @@ class AddJobForm extends React.Component {
                                 <option name="jobLocation" value="Other" id="other">Other (mention in description)</option>
                             </select> 
                         </div>
-                    </div>
-                    <div className="keywords-container">
-                        <label htmlFor="keywords">Keywords/Tags</label>
-                        {this.state.importedKeywords.map(word => {
-                                return (
-                                    <Keyword key={word} word={word} handleCheckboxChange={this.handleCheckboxChange} checkedList={this.state.selectedCheckboxes} />
-                                )
-                        })
-                        }
-                    </div>
+                        <div className="formTextInput">
+                            <label htmlFor="addressee">Addressee for Cover Letter or Application (Optional) </label>
+                            <input type="text" name="addressee" id="addressee" placeholder="Addressee for Cover Letter or Application  (Optional)" required="false" onChange={this.handleChange} value={this.state.addressee} />
+                        </div>
+                       
+                        <div className="formTextInput">
+                            <label htmlFor="addresseeEmail">Email to send application to</label>
+                            <input type="email" name="addresseeEmail" id="addresseeEmail" placeholder="Email to send application to" required="true" onChange={this.handleChange} value={this.state.addresseeEmail} />
+                        </div>
+                        <div className="formTextInput">
+                            <label htmlFor="applicationLink">Link to Application (Optional)</label>
+                            <input type="url" name="applicationLink" id="applicationLink" placeholder="Link to Application (Optional)" onChange={this.handleChange} value={this.state.applicationLink} />
+                        </div>
+                        <div className="jobCommitmentContainer">
+                            <label htmlFor="fullTime">Full Time</label>
+                            <input type="radio" name="jobCommitment" id="fullTime" value="Full Time" onChange={this.handleChange} checked={this.state.jobCommitment === 'Full Time' ? true : false} />
 
-                    <div className="jobCommitmentContainer">
-                        <label htmlFor="fullTime">Full Time</label>
-                        <input type="radio" name="jobCommitment" id="fullTime" value="Full Time" onChange={this.handleChange} checked={this.state.jobCommitment === 'Full Time' ? true : false} />
+                            <label htmlFor="partTime">Part Time</label>
+                            <input type="radio" name="jobCommitment" id="partTime" value="Part Time" onChange={this.handleChange} checked={this.state.jobCommitment === 'Part Time' ? true : false} />
 
-                        <label htmlFor="partTime">Part Time</label>
-                        <input type="radio" name="jobCommitment" id="partTime" value="Part Time" onChange={this.handleChange} checked={this.state.jobCommitment === 'Part Time' ? true : false} />
-
-                        <label htmlFor="contract">Contract</label>
-                        <input type="radio" name="jobCommitment" id="contract" value="Contract" onChange={this.handleChange} checked={this.state.jobCommitment === 'Contract' ? true : false} />
+                            <label htmlFor="contract">Contract</label>
+                            <input type="radio" name="jobCommitment" id="contract" value="Contract" onChange={this.handleChange} checked={this.state.jobCommitment === 'Contract' ? true : false} />
+                        </div>
+                        <div className="formTextInput">
+                            <label htmlFor="salary">Salary</label>
+                            <select name="salary" id="salary" onChange={this.handleChange} value={this.state.salary}>
+                                <option name="salary" value="-" disabled>Salary Range</option>
+                                <option name="salary" value="100+">over $100,000</option>
+                                <option name="salary" value="91-100">$90,001 - $100,000</option>
+                                <option name="salary" value="81-90">$80,001 - $90,000</option>
+                                <option name="salary" value="71-80">$70,001 - $80,000</option>
+                                <option name="salary" value="61-70">$60,001 - $70,000</option>
+                                <option name="salary" value="51-60" defaultValue>$50,001 - $60,000</option>
+                                <option name="salary" value="40-50">$40,000 - $50,000</option>
+                                <option name="salary" value="under40" >under $40,000</option>
+                            </select>
+                        </div>
                     </div>
-                    <div className="formTextInput">
-                        <label htmlFor="salary">Salary</label>
-                        <select name="salary" id="salary" onChange={this.handleChange} value={this.state.salary}>
-                            <option name="salary" value="-" disabled>Salary Range</option>
-                            <option name="salary" value="100+">over $100,000</option>
-                            <option name="salary" value="91-100">$90,001 - $100,000</option>
-                            <option name="salary" value="81-90">$80,001 - $90,000</option>
-                            <option name="salary" value="71-80">$70,001 - $80,000</option>
-                            <option name="salary" value="61-70">$60,001 - $70,000</option>
-                            <option name="salary" value="51-60" defaultValue>$50,001 - $60,000</option>
-                            <option name="salary" value="40-50">$40,000 - $50,000</option>
-                            <option name="salary" value="under40" >under $40,000</option>
-                        </select>
+                    <div className="keywordContainerAddJob">
+                        <p>Select all relevant keywords below so job seekers can find your posting.</p>
+                        <div className="keywords-container">
+                            {this.state.importedKeywords.map(word => {
+                                    return (
+                                        <Keyword key={word} word={word} handleCheckboxChange={this.handleCheckboxChange} checkedList={this.state.selectedCheckboxes} />
+                                    )
+                            })
+                            }
+                        </div>
                     </div>
-                    <div>         
-                        <label htmlFor="jobDescription">Job Description</label>
-                        <textarea type="textarea" name="jobDescription" id="jobDescription" placeholder="Put dat descrippy here plz" cols="50" rows="10" onChange={this.handleChange} value={this.state.jobDescription} />
+                    <div className="inputGroup">
+                        <div className="formTextInput fullWidth">         
+                            <label htmlFor="jobDescription">Job Description</label>
+                            <textarea type="textarea" name="jobDescription" id="jobDescription" placeholder="Job Description" cols="50" rows="10" onChange={this.handleChange} value={this.state.jobDescription} />
+                        </div>
                     </div>
-                    <div className="formTextInput">
-                        <label htmlFor="addresseeEmail">Email to send application to</label>
-                        <input type="email" name="addresseeEmail" id="addresseeEmail" placeholder="Email to send application to" required="true" onChange={this.handleChange} value={this.state.addresseeEmail} />
-                    </div>
-                    <div className="formTextInput">
-                        <label htmlFor="applicationLink">Link to Application (Optional)</label>
-                        <input type="url" name="applicationLink" id="applicationLink" placeholder="Link to Application (Optional)" onChange={this.handleChange} value={this.state.applicationLink} />
-                    </div>
-
                     <input type="submit" value="Submit Job Posting" className="action"/>
             </form>
             { this.state.showSuccessmessage && <p>Thank you! One of our administrators will review your posting and let you know when it's live! </p> }
