@@ -137,7 +137,7 @@ class EmailLoginForm extends React.Component {
             </form>
             )} 
             />
-            <p className="otherOption">If you would like to search for jobs, <Link to="/posterLogin" className="" onClick={this.loginWithReadme}> sign in here. </Link></p>
+            <p className="otherOption">If you would like to search for jobs, <Link to="/alumniLogin" className="" onClick={this.loginWithReadme}> sign in here. </Link></p>
         </div>
       </div>
     )
