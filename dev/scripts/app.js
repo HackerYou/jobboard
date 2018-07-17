@@ -42,6 +42,7 @@ class App extends React.Component {
       provider:'',
       filteredJobs:{},
       width: 0,
+      allJobs: {}
     } 
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
@@ -57,7 +58,9 @@ class App extends React.Component {
       const data = snapshot.val();
       if(data !== null) {
         this.setState({
-          filteredJobs: data
+          filteredJobs: data,
+          //allJobs is the base data to go back to!
+          allJobs: data
         });
       }
     });
@@ -189,9 +192,9 @@ class App extends React.Component {
   }
 
   getData = (key, param) =>{
-    return new Promise((res,rej) => {
+    return new Promise((res) => {
       const dbRef = firebase.database().ref(`jobs/approved`)
-      if (param === 'any') {
+      if (param === 'any' || param === '') {
         dbRef.once('value', snapshot => {
           const data = snapshot.val()
           res(data)
@@ -242,8 +245,14 @@ class App extends React.Component {
       })
     
   }
-  findJobInDatabase = (jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords, advancedSearch) =>{
-    let matchingLocation = this.getData(`jobLocation`, jobLocation === '' ? 'any' : jobLocation)
+  findJobInDatabase = (
+    jobLocation = 'any' , 
+    jobCommitment = 'any' , 
+    timeSincePosting = 0, 
+    salary = 'any', 
+    searchKeywords = []) =>{
+
+    let matchingLocation = this.getData(`jobLocation`, jobLocation)
     let matchingSalary = this.getData(`salary`, salary)
     let matchingTimeCommitment = this.getData(`jobCommitment`, jobCommitment)
 
@@ -255,40 +264,43 @@ class App extends React.Component {
     Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, matchingTimeSincePosting, ...searchKeywords])
 
       .then( allDataSets => {
-        
-        //console.log(`all data sets`, allDataSets)
-        let allJobKeys =[]
-        let allJobs = {}
-        let numberOfParams=0
-        let nonnullDataSets =0
-        let filteredJobs ={}
-        allDataSets.map( singleJobDataSet => {
-          let parametersKeys=[]
+        if(allDataSets[0]  === null) {
+          this.setState({filteredJobs:{}});
+          return;
+        }
+        allDataSets = allDataSets.filter(dataSet => dataSet);
 
-          // for each dataset that is not null
-          if (singleJobDataSet != null){
+        let allJobKeys = [];
+        let allJobs = {};
+        let numberOfParams = 0;
+        let filteredJobs = {};
+        let nonnullDataSets = allDataSets.length;
+
+        allDataSets
+          .forEach(singleJobDataSet => {
+            let parametersKeys=[];
+            // for each dataset that is not null
             // get each job 
             for (let job in singleJobDataSet){
               // push each job's key into an array
-              parametersKeys.push(job)
-              singleJobDataSet[job].key = job
+              parametersKeys.push(job);
+              singleJobDataSet[job].key = job;
               // add each job to our collection of jobs for this search
-              allJobs[job] = (singleJobDataSet[job])
+              allJobs[job] = singleJobDataSet[job];
             }
             //push that array of keys into an array of arrays
-            allJobKeys.push(parametersKeys)
-            numberOfParams++
-          }
-          // increase the number of parameters by one
-        })
-
+            allJobKeys.push(parametersKeys);
+            numberOfParams++;
+            // increase the number of parameters by one
+          });
+        
         // intersection() is a lodash function imported at the top of this page
         // that returns all keys that are in all the arrays provided
-        // they're passed into the function here using the spread operator
-        let chosenJobsKeys = intersection(...allJobKeys)
-      
+        // they're passed into the function here using the spread operator  
+        const chosenJobsKeys = intersection(...allJobKeys)
+
         //go through allJobs using the keys from chosenJobsKeys
-        chosenJobsKeys.map(jobKey => {
+        chosenJobsKeys.forEach(jobKey => {
 
           for (let job in allJobs) {
 
@@ -302,25 +314,15 @@ class App extends React.Component {
           }
         });
 
-        // if there's more than one parameter and only one dataset, return nothing
-        let dataSets = Object.values(allDataSets)
-
-        for (let set in dataSets) {
-          if (dataSets[set] != null) {
-            nonnullDataSets++
-          }
-        }
-
-        if (jobLocation === '') {
-          
-          if (jobCommitment === '' && timeSincePosting === 0 && searchKeywords.length === 0 && salary === ''){
+        if (jobLocation === 'any') {          
+          if (jobCommitment === 'any' && timeSincePosting === 0 && searchKeywords.length === 0 && salary === 'any'){
             // if it's the first time a user has loaded the page
             // and they hit search, leave the values as they are
-          filteredJobs = this.state.filteredJobs
+            filteredJobs = this.state.allJobs;
           } else if (numberOfParams >= 1 && nonnullDataSets <= 2 ) {
             // if there is more than one param
-            // and there aren't any serachkeywords
-            if (searchKeywords.length <=1){
+            // and there aren't any searchkeywords
+            if (searchKeywords.length <= 1){ 
               // return nothing
               filteredJobs = {}
             }
@@ -330,28 +332,23 @@ class App extends React.Component {
         // and one or more of the advanced search fields are filled in
         // and there is only one dataset coming back 
         // return nothing
-        if (jobLocation === 'any' && 
-          (nonnullDataSets<numberOfParams ) && 
-          (jobCommitment === '' || timeSincePosting === 0 || searchKeywords.length === 0) 
-          ){
-            filteredJobs = {}
-          } 
 
-        return filteredJobs
-      })
-      .then( res =>{
-        this.setState({
-          filteredJobs: res
-        })
+        if (jobLocation === 'any' && 
+            (nonnullDataSets < numberOfParams ) && 
+            (jobCommitment === 'any' || timeSincePosting === 0 || searchKeywords.length === 0) 
+          ) {
+          filteredJobs = {}
+        } 
+        this.setState({ filteredJobs });
       })
       .catch( err => {
         console.log(err)
       }); 
   }
 
-  search = (e, jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords, advancedSearch) => {
+  search = (e, jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) => {
     e.preventDefault();
-    this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords, advancedSearch)
+    this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords)
   } 
 
   render() {
