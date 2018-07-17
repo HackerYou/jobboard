@@ -309,7 +309,7 @@ class App extends React.Component {
           } else if (numberOfParams >= 1 && nonnullDataSets <= 2 ) {
             // if there is more than one param
             // and there aren't any searchkeywords
-            if (searchKeywords.length <= 1){ //SOMETHING IS GOING ON HERE IN A BAD WAY.
+            if (searchKeywords.length <= 1){ 
               // return nothing
               filteredJobs = {}
             }
