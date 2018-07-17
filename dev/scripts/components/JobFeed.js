@@ -78,6 +78,7 @@ class JobFeed extends React.Component {
             addressee={this.props.addressee}
             jobPoster={this.props.jobPoster}
             savedList={this.state.usersSavedJobs.includes(jobId)}
+            width={this.props.width}
           />
         </CSSTransition>
       )
@@ -103,21 +104,20 @@ class JobFeed extends React.Component {
         </TransitionGroup>
 
       </div>
-        {this.state.showDetails && Object.keys(this.props.filteredJobs).length != 0 && < FullJob
-                                        jobId={jobId}
-                                        jobTitle={this.props.filteredJobs[`${jobId}`]['jobTitle']}
-                                        jobLocation={this.props.filteredJobs[`${jobId}`]['jobLocation']}
-                                        jobDescription={this.props.filteredJobs[`${jobId}`]['jobDescription']}
-                                        companyName={this.props.filteredJobs[`${jobId}`]['companyName']}
-                                        datePosted={this.props.filteredJobs[`${jobId}`]['datePosted']}
-                                        approved={this.props.filteredJobs[`${jobId}`]['approved']}
-                                        jobCommitment={this.props.filteredJobs[`${jobId}`]['jobCommitment']}
-                                        addressee={this.props.filteredJobs[`${jobId}`]['addressee']}
-                                        addresseeEmail={this.props.filteredJobs[`${jobId}`]['addresseeEmail']}
-                                        applicationLink={this.props.filteredJobs[`${jobId}`]['applicationLink']}
-                                        salary={this.props.salary}
-
-                                        />
+        {this.state.showDetails && Object.keys(this.props.filteredJobs).length != 0 && this.props.width > 630 && < FullJob
+            jobId={jobId}
+            jobTitle={this.props.filteredJobs[`${jobId}`]['jobTitle']}
+            jobLocation={this.props.filteredJobs[`${jobId}`]['jobLocation']}
+            jobDescription={this.props.filteredJobs[`${jobId}`]['jobDescription']}
+            companyName={this.props.filteredJobs[`${jobId}`]['companyName']}
+            datePosted={this.props.filteredJobs[`${jobId}`]['datePosted']}
+            approved={this.props.filteredJobs[`${jobId}`]['approved']}
+            jobCommitment={this.props.filteredJobs[`${jobId}`]['jobCommitment']}
+            addressee={this.props.filteredJobs[`${jobId}`]['addressee']}
+            addresseeEmail={this.props.filteredJobs[`${jobId}`]['addresseeEmail']}
+            applicationLink={this.props.filteredJobs[`${jobId}`]['applicationLink']}
+            salary={this.props.salary}
+            />
           }
 
       </div>

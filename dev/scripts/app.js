@@ -41,13 +41,17 @@ class App extends React.Component {
       userId: '', 
       provider:'',
       filteredJobs:{},
+      width: 0,
     } 
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
   history = createHistory(this.props)
 
   componentDidMount(){
-    
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+
     this.dbRef = firebase.database().ref(`jobs/approved`)
     this.dbRef.on('value', snapshot => {
       const data = snapshot.val();
@@ -92,6 +96,15 @@ class App extends React.Component {
     });
   } 
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions(){
+    this.setState({ 
+      width: window.innerWidth
+    });
+  }
   onChangeEmail = (e) =>{
     this.setState({
       email:e.target.value
@@ -354,7 +367,8 @@ class App extends React.Component {
                                 jobPoster={this.state.jobPoster} 
                                 alumni={this.state.alumni} 
                                 admin={this.state.admin} 
-                                signOut={this.signOut} />
+                                signOut={this.signOut} 
+                                width={this.state.width}/>
                       <div className="tab-container">
                         <Switch>
                           <Route exact path="/addJobForm" render={() => <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.closePostAJob} />} />
@@ -362,13 +376,13 @@ class App extends React.Component {
                           {this.state.admin && 
                             <Switch>
                               
-                              <Route exact path="/" render={() => ( <PendingJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} /> )} />
+                              <Route exact path="/" render={() => ( <PendingJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} width={this.state.width} /> )} />
                               
-                              <Route exact path="/approved" render={() => (<ApprovedJobs userId={this.state.userId}  alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                              <Route exact path="/approved" render={() => (<ApprovedJobs userId={this.state.userId}  alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} width={this.state.width} />)} />
                               
                               <Route exact path="/jobFeed" render={() => (<div>
                                 <Search userId={this.state.userId} search={this.search} />
-                                <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs} />
+                                <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs} width={this.state.width} />
                               </div>)} />
                             
                             </Switch>
@@ -381,18 +395,18 @@ class App extends React.Component {
                                 <Route exact path="/" render={() => (
                                   <div>
                                     <Search userId={this.state.userId} search={this.search} /> 
-                                    <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs}/>
+                                    <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs} width={this.state.width}/>
                                   </div>)}
                                 /> 
                                 <Route exact path="/jobFeed" render={() => (
                                   <div>
                                     <Search userId={this.state.userId} search={this.search} /> 
-                                    <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs}/>
+                                    <JobFeed userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} filteredJobs={this.state.filteredJobs} width={this.state.width}/>
                                   </div>
                                   )}
                                 /> 
-                                <Route exact path="/mySavedJobs" render={() => (<MySavedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
-                                <Route exact path="/myPostedJobs" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                                <Route exact path="/mySavedJobs" render={() => (<MySavedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} width={this.state.width} />)} />
+                                <Route exact path="/myPostedJobs" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} width={this.state.width} />)} />
                               </Switch>
                             </div>
                           }
@@ -400,8 +414,8 @@ class App extends React.Component {
                           {this.state.jobPoster &&
                           <div>
                             <Switch>
-                              <Route exact path="/" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
-                              <Route exact path="/myPostedJobs" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} />)} />
+                              <Route exact path="/" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} width={this.state.width} />)} />
+                              <Route exact path="/myPostedJobs" render={() => (<MyPostedJobs userId={this.state.userId} alumni={this.state.alumni} jobPoster={this.state.jobPoster} admin={this.state.admin} width={this.state.width}/>)} />
 
                             </Switch>
                           </div>
