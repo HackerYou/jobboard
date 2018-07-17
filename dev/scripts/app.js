@@ -236,14 +236,14 @@ class App extends React.Component {
 
     let matchingTimeSincePosting = this.getDateData(`timeCreated`, parseInt(timeSincePosting))
 
-      // replace the keywords array with an array of promises 
+    // replace the keywords array with an array of promises 
     searchKeywords = searchKeywords.map(this.getKeywordData)
 
     Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, matchingTimeSincePosting, ...searchKeywords])
 
       .then( allDataSets => {
         
-        // console.log(`all data sets`, allDataSets)
+        //console.log(`all data sets`, allDataSets)
         let allJobKeys =[]
         let allJobs = {}
         let numberOfParams=0
