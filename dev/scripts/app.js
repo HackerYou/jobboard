@@ -41,6 +41,7 @@ class App extends React.Component {
       userId: '', 
       provider:'',
       filteredJobs:{},
+      allJobs: {}
     } 
   }
 
@@ -53,7 +54,9 @@ class App extends React.Component {
       const data = snapshot.val();
       if(data !== null) {
         this.setState({
-          filteredJobs: data
+          filteredJobs: data,
+          //allJobs is the base data to go back to!
+          allJobs: data
         });
       }
     });
@@ -178,7 +181,7 @@ class App extends React.Component {
   getData = (key, param) =>{
     return new Promise((res) => {
       const dbRef = firebase.database().ref(`jobs/approved`)
-      if (param === 'any') {
+      if (param === 'any' || param === '') {
         dbRef.once('value', snapshot => {
           const data = snapshot.val()
           res(data)
@@ -229,9 +232,14 @@ class App extends React.Component {
       })
     
   }
-  findJobInDatabase = (jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords) =>{
+  findJobInDatabase = (
+    jobLocation = 'any' , 
+    jobCommitment = 'any' , 
+    timeSincePosting = 0, 
+    salary = 'any', 
+    searchKeywords = []) =>{
 
-    let matchingLocation = this.getData(`jobLocation`, jobLocation === '' ? 'any' : jobLocation)
+    let matchingLocation = this.getData(`jobLocation`, jobLocation)
     let matchingSalary = this.getData(`salary`, salary)
     let matchingTimeCommitment = this.getData(`jobCommitment`, jobCommitment)
 
@@ -243,10 +251,11 @@ class App extends React.Component {
     Promise.all([matchingLocation, matchingSalary, matchingTimeCommitment, matchingTimeSincePosting, ...searchKeywords])
 
       .then( allDataSets => {
-        
+        if(allDataSets[0]  === null) {
+          this.setState({filteredJobs:{}});
+          return;
+        }
         allDataSets = allDataSets.filter(dataSet => dataSet);
-
-        console.log(allDataSets);
 
         let allJobKeys = [];
         let allJobs = {};
@@ -291,16 +300,15 @@ class App extends React.Component {
             } 
           }
         });
-        console.log(filteredJobs);
-        if (jobLocation === '') {          
-          if (jobCommitment === '' && timeSincePosting === 0 && searchKeywords.length === 0 && salary === ''){
+
+        if (jobLocation === 'any') {          
+          if (jobCommitment === 'any' && timeSincePosting === 0 && searchKeywords.length === 0 && salary === 'any'){
             // if it's the first time a user has loaded the page
             // and they hit search, leave the values as they are
-            filteredJobs = this.state.filteredJobs
+            filteredJobs = this.state.allJobs;
           } else if (numberOfParams >= 1 && nonnullDataSets <= 2 ) {
             // if there is more than one param
             // and there aren't any searchkeywords
-
             if (searchKeywords.length <= 1){ //SOMETHING IS GOING ON HERE IN A BAD WAY.
               // return nothing
               filteredJobs = {}
@@ -311,13 +319,13 @@ class App extends React.Component {
         // and one or more of the advanced search fields are filled in
         // and there is only one dataset coming back 
         // return nothing
+
         if (jobLocation === 'any' && 
             (nonnullDataSets < numberOfParams ) && 
-            (jobCommitment === '' || timeSincePosting === 0 || searchKeywords.length === 0) 
+            (jobCommitment === 'any' || timeSincePosting === 0 || searchKeywords.length === 0) 
           ) {
           filteredJobs = {}
         } 
-
         this.setState({ filteredJobs });
       })
       .catch( err => {
