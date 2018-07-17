@@ -17,36 +17,47 @@ class MySavedJobs extends React.Component {
         this.dbRef = firebase.database().ref(`users/${this.props.userId}/savedJobs`)
         this.dbRef.on('value', snapshot => {
             if (snapshot != null){
-             this.setState({ 
-                 savedJobs: snapshot.val(),
-                 firstJob : sortJobsChronologically(snapshot.val())[0],
-                 showDetails: true
-             });
-             this.setState({ savedJobs: snapshot.val() });
-            } 
-        })
+                this.setState({ 
+                    savedJobs: snapshot.val(),
+                    firstJob : sortJobsChronologically(snapshot.val())[0],
+                    showDetails: true
+                });
+            }
+            else {
+                this.setState({
+                    savedJobs: {},
+                    showDetails: false,
+                    firstJob: null
+                });
+            }
+        });
     }
+    
     componentWillUnmount() {
         this.dbRef.off('value');
     }
+
     showJobDetails = (jobId) => {
         this.setState({
             showDetails: true,
             showingJobId: jobId
-        }) 
+        });
     }
 
     render() {
         const sortedSavedJobIds = sortJobsChronologically(this.state.savedJobs); 
         const showingFullJobId = this.state.showingJobId === '' ? this.state.firstJob : this.state.showingJobId;
-        const jobInfo = this.state.savedJobs[`${showingFullJobId}`];
+        let jobInfo = {};
+        if(this.state.savedJobs) {
+            jobInfo = this.state.savedJobs[`${showingFullJobId}`];
+        }
         return (
         <div className="job-feed-container job-feed-container--my-saved">
             <div className="job-feed">
                 {this.state.savedJobs && sortedSavedJobIds
                 .filter(jobId => this.state.savedJobs[jobId].archived === false)
                 .map(jobId => {
-                let job = this.state.savedJobs[jobId];
+                    let job = this.state.savedJobs[jobId];
                     if(job.archived === false){
                         return (
                         <JobPreview 
