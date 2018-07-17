@@ -61,7 +61,7 @@ class Search extends React.Component {
   render() {
     return (
       <div className="search">
-        <form action="submit" onSubmit={(e) => { this.props.search(e, this.state.jobLocation, this.state.jobCommitment, this.state.timeSincePosting, this.state.salary, this.state.searchKeywords, this.state.advancedSearch) }}>
+        <form action="submit" onSubmit={(e) => { this.props.search(e, this.state.jobLocation, this.state.jobCommitment, this.state.timeSincePosting, this.state.salary, this.state.searchKeywords) }}>
           <div className="searchTop">
             {/* <input type="text" name="searchTerm" id="searchTerm" placeholder="Search" onChange={this.handleChange} value={this.state.searchTerm} />  */}
             <select name="jobLocation" id="jobLocation" onChange={this.handleChange} >
