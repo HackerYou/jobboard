@@ -38,7 +38,7 @@ class AddJobForm extends React.Component {
         e.preventDefault();
         let keywords = Array.from(this.state.selectedCheckboxes)
 
-        let timeCreated = moment().format('YYYYMMDD');
+        let timeCreated = parseInt(moment().format('YYYYMMDD'));
 
         dbRef.push({
             jobTitle: this.state.jobTitle,
