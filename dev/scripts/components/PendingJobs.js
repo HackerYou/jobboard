@@ -18,11 +18,20 @@ class PendingJobs extends React.Component {
     componentDidMount() {
         const dbRef = firebase.database().ref(`jobs/pending`)
         dbRef.once('value', snapshot => {
+            if (snapshot != null){
             this.setState({ 
                 pendingJobs : snapshot.val(),
                 firstJob : sortJobsChronologically(snapshot.val())[0],
                 showDetails: true,
             });
+            }
+            else {
+                this.setState({
+                    pendingJobs: {},
+                    showDetails: false,
+                    firstJob: null
+                });
+            }
         })
 
     }
@@ -89,7 +98,10 @@ class PendingJobs extends React.Component {
 
     render() {
         const jobId = this.state.showingJobId === '' ? this.state.firstJob : this.state.showingJobId;
-        const jobInfo = this.state.pendingJobs[`${jobId}`];
+        let jobInfo = {};
+        if(this.state.pendingJobs) {
+            jobInfo = this.state.pendingJobs[`${jobId}`];
+        }
         return <div className="job-feed-container job-feed-container--pending ">
             <div className="job-feed">
                 <TransitionGroup>
