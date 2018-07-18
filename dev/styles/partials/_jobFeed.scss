@@ -85,7 +85,7 @@
 }
 
 .job-preview-recent{
-  border-left:12px solid $primaryRed;
+  border-left: 12px solid $primaryRed;
 }
 
 .job-feed .active{
@@ -119,6 +119,7 @@
   }
   .job-preview{
     padding: 12px 6px;
+    border-left: 6px solid white;
     .right, .left{
       padding: 2px 0 2px 0px;
     }

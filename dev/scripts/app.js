@@ -103,11 +103,12 @@ class App extends React.Component {
     window.removeEventListener('resize', this.updateWindowDimensions);
   }
 
-  updateWindowDimensions(){
+  updateWindowDimensions = () => {
     this.setState({ 
       width: window.innerWidth
     });
   }
+  
   onChangeEmail = (e) =>{
     this.setState({
       email:e.target.value
