@@ -67,6 +67,7 @@ class ApprovedJobs extends React.Component {
                                 addressee={this.props.addressee}
                                 jobPoster={this.props.jobPoster}
                                 salary={this.salary}
+                                width={this.props.width}
                                 />
                             </CSSTransition>
                                 
@@ -75,7 +76,7 @@ class ApprovedJobs extends React.Component {
                     }
                 </TransitionGroup>
             </div>
-            {this.state.showDetails && <FullJob
+            {this.state.showDetails && this.props.width > 630 && <FullJob
                 jobId={showingFullJobId}
                 jobTitle={jobInfo['jobTitle']}
                 jobLocation={jobInfo['jobLocation']}

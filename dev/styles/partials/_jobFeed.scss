@@ -55,7 +55,7 @@
 
 .job-title{
   font-size: 18px;  
-  line-height:20px;  
+  line-height:24px;  
 }
 
 .posted-on{
@@ -76,13 +76,16 @@
 .icon-container{
   padding-top:8px;
   float:right;
+  button.icon{
+    outline:none;
+  }
 }
 .icon-approve{
   height: 20px;
 }
 
 .job-preview-recent{
-  border-left:12px solid $primaryRed;
+  border-left: 12px solid $primaryRed;
 }
 
 .job-feed .active{
@@ -103,4 +106,56 @@
 .fade-enter-active {
   opacity: 1;
   transition: opacity 500ms ease-in;
+}
+
+@media (max-width: 630px){
+  .job-feed{
+      width: 100%;
+      overflow-y: inherit;
+      .showing-job {
+        border-left: 6px solid #231F1F;
+      }
+      
+  }
+  .job-preview{
+    padding: 12px 6px;
+    border-left: 6px solid white;
+    .right, .left{
+      padding: 2px 0 2px 0px;
+    }
+    .right{
+      width: 25px;
+    }
+    .left{
+      width: calc(100% - 25px);
+    }
+    .icon-container{
+      float: none;
+      display: flex;
+      justify-content: flex-end;
+      button.icon{
+        padding: 0px;
+      }
+    }
+    .posted-on{
+      padding-top: 4px;
+      text-align: left;
+    }
+    .company-name{
+      color:$primaryRed;
+    }
+    .job-location, .job-description{
+      font-weight: normal;
+    }
+    .job-description{
+      line-height: 1.4;
+    }
+    .fullJobMobile{
+      clear: both;
+      padding-top: 20px;
+    }
+  }
+  .job-preview-recent {
+    border-left: 6px solid #E40015;
+}
 }

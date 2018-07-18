@@ -133,10 +133,11 @@ class JobPreview extends React.Component {
         <div className="left" onClick={() => { this.props.showJobDetails(this.props.jobId) }}>
           <p className="job-title">{this.props.jobTitle}</p>
           <span className="company-name" >{this.props.companyName}</span> | &nbsp;
-          <span className="" >{this.props.jobLocation}</span>
+          <span className="job-location">{this.props.jobLocation}</span>
+          {this.props.width <= 630 && <p className="posted-on">Posted {moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').add(1, 'days').format('YYYYMMDD') ? 'yesterday' : moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').format('YYYYMMDD') ? moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow(true) : moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow() }</p>}
         </div>
         <div className="right">
-          <p className="posted-on" >Posted {moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').add(1, 'days').format('YYYYMMDD') ? 'yesterday' : moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').format('YYYYMMDD') ? moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow(true) : moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow() }</p>
+          {this.props.width > 630 && <p className="posted-on" >Posted {moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').add(1, 'days').format('YYYYMMDD') ? 'yesterday' : moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').format('YYYYMMDD') ? moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow(true) : moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow() }</p>}
           <div className="icon-container">
             {this.props.admin && this.props.approved === false && <button className="icon" onClick={(e) => { this.approveJob(this.props.jobId) }}>
               <img src="../assets/icon-approve.svg" className="approve-icon"  alt="approve job button" /></button>}
@@ -149,7 +150,11 @@ class JobPreview extends React.Component {
             } 
           </div>
         </div>
-        
+        {this.props.width <= 630 && this.props.active === 'active' &&
+          <div className="fullJobMobile">
+            <p className="job-description">{this.props.jobDescription}</p>
+          </div>
+        }
       </div>
   
     )

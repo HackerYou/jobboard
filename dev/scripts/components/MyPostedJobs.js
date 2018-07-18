@@ -63,7 +63,7 @@ class MyPostedJobs extends React.Component {
                             admin={this.props.admin}
                             addressee={this.props.addressee}
                             jobPoster={this.props.jobPoster}
-
+                            width={this.props.width}
                         />);
                 }
             })
@@ -80,16 +80,16 @@ class MyPostedJobs extends React.Component {
                 <div className="job-feed">
                     {this.renderJobs()}
                 </div>
-                {this.state.showDetails && <FullJob 
-                            jobId={jobId} 
-                            jobTitle={jobInfo['jobTitle']}
-                            jobLocation={jobInfo['jobLocation']}
-                            jobDescription={jobInfo['jobDescription']}
-                            companyName={jobInfo['companyName']}
-                            datePosted={jobInfo['datePosted']}
-                            approved={jobInfo['approved']}
-                            jobCommitment={jobInfo['jobCommitment']}
-                            addressee={jobInfo['addressee']}
+                {this.state.showDetails && this.props.width > 630 && <FullJob 
+                    jobId={jobId} 
+                    jobTitle={jobInfo['jobTitle']}
+                    jobLocation={jobInfo['jobLocation']}
+                    jobDescription={jobInfo['jobDescription']}
+                    companyName={jobInfo['companyName']}
+                    datePosted={jobInfo['datePosted']}
+                    approved={jobInfo['approved']}
+                    jobCommitment={jobInfo['jobCommitment']}
+                    addressee={jobInfo['addressee']}
                 />}
            
             </div>)

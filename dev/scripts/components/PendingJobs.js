@@ -79,6 +79,7 @@ class PendingJobs extends React.Component {
                         addressee={this.props.addressee}
                         jobPoster={this.props.jobPoster}
                         removePendingJob={this.changePendingJobs}
+                        width={this.props.width}
                         salary={job.salary}
                     />
                 </CSSTransition>
@@ -108,7 +109,7 @@ class PendingJobs extends React.Component {
                     {this.renderJobs()}
                 </TransitionGroup>
             </div>
-            {this.state.showDetails && <FullJob
+            {this.state.showDetails && this.props.width > 630 && <FullJob
                 jobId={jobId}
                 jobTitle={jobInfo['jobTitle']}
                 jobLocation={jobInfo['jobLocation']}

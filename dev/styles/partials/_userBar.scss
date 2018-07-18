@@ -33,7 +33,7 @@
     }
     .hamburger-side-nav{
         height: 100px;
-        width: 100px;
+        width: 60px;
         display: flex;
       img{
         align-self: center;
@@ -76,3 +76,28 @@
 
 }
 
+@media (max-width: 767px){
+    .userBar {
+        padding: 0px;
+    }
+}
+@media (max-width: 630px){
+    .full-job{
+        display: none;
+    }
+}
+@media (max-width: 400px){
+    .userBar {
+        .logo {
+            width: 60px;
+            padding: 30px 7px 30px 15px;
+        }
+        .hamburger-side-nav img {
+            width: 35px;
+        }
+        h2{
+            font-size: 20px;
+        }
+    }
+
+}
