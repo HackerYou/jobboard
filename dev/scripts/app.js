@@ -44,7 +44,6 @@ class App extends React.Component {
       width: 0,
       allJobs: {}
     } 
-    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
   history = createHistory(this.props)
@@ -108,7 +107,7 @@ class App extends React.Component {
       width: window.innerWidth
     });
   }
-  
+
   onChangeEmail = (e) =>{
     this.setState({
       email:e.target.value
