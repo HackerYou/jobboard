@@ -68,6 +68,8 @@ class ApprovedJobs extends React.Component {
                                 jobPoster={this.props.jobPoster}
                                 salary={this.salary}
                                 width={this.props.width}
+                                addresseeEmail={job.addresseeEmail}
+                                applicationLink={job.applicationLink}
                                 />
                             </CSSTransition>
                                 

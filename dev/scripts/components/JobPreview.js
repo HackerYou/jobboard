@@ -153,6 +153,10 @@ class JobPreview extends React.Component {
         {this.props.width <= 630 && this.props.active === 'active' &&
           <div className="fullJobMobile">
             <p className="job-description">{this.props.jobDescription}</p>
+            {this.props.applicationLink && <a className="applyNow action" target="_blank" href={this.props.applicationLink}>Apply Now</a>
+          || this.props.addresseeEmail && <a className="applyNow action"
+            href={`mailto:${this.props.addresseeEmail}?subject=${this.props.jobTitle}&body=Hi%20${this.props.addressee}`}>Apply Now</a>
+      }
           </div>
         }
       </div>

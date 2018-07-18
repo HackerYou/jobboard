@@ -79,6 +79,8 @@ class PendingJobs extends React.Component {
                         addressee={this.props.addressee}
                         jobPoster={this.props.jobPoster}
                         removePendingJob={this.changePendingJobs}
+                        addresseeEmail={job.addresseeEmail}
+                        applicationLink={job.applicationLink}
                         width={this.props.width}
                         salary={job.salary}
                     />
