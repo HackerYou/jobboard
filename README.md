@@ -8,3 +8,4 @@ If you are just deploying the functions you can run `firebase deploy --only func
 
 ## Contributing
 
+If you are fixing any issues, or adding new features to this application, please for it and make PR's from there. 
