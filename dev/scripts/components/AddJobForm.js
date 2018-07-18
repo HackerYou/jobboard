@@ -156,14 +156,18 @@ class AddJobForm extends React.Component {
                             <input type="url" name="applicationLink" id="applicationLink" placeholder="Link to Application (Optional)" onChange={this.handleChange} value={this.state.applicationLink} />
                         </div>
                         <div className="jobCommitmentContainer">
-                            <label htmlFor="fullTime">Full Time</label>
-                            <input type="radio" name="jobCommitment" id="fullTime" value="Full Time" onChange={this.handleChange} checked={this.state.jobCommitment === 'Full Time' ? true : false} />
-
-                            <label htmlFor="partTime">Part Time</label>
-                            <input type="radio" name="jobCommitment" id="partTime" value="Part Time" onChange={this.handleChange} checked={this.state.jobCommitment === 'Part Time' ? true : false} />
-
-                            <label htmlFor="contract">Contract</label>
-                            <input type="radio" name="jobCommitment" id="contract" value="Contract" onChange={this.handleChange} checked={this.state.jobCommitment === 'Contract' ? true : false} />
+                            <div>
+                                <label htmlFor="fullTime">Full Time</label>
+                                <input type="radio" name="jobCommitment" id="fullTime" value="Full Time" onChange={this.handleChange} checked={this.state.jobCommitment === 'Full Time' ? true : false} />
+                            </div>
+                            <div>
+                                <label htmlFor="partTime">Part Time</label>
+                                <input type="radio" name="jobCommitment" id="partTime" value="Part Time" onChange={this.handleChange} checked={this.state.jobCommitment === 'Part Time' ? true : false} />
+                            </div>
+                            <div>
+                                <label htmlFor="contract">Contract</label>
+                                <input type="radio" name="jobCommitment" id="contract" value="Contract" onChange={this.handleChange} checked={this.state.jobCommitment === 'Contract' ? true : false} />
+                            </div>
                         </div>
                         <div className="formTextInput">
                             <label htmlFor="salary">Salary</label>

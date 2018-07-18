@@ -176,3 +176,8 @@ h1 {
 .userType{
   display: flex;
 }
+@media (max-width: 767px){
+  .jobForm .formTextInput{
+    width: 100%;
+  }
+}

@@ -30,7 +30,8 @@ toggleSideNav=() =>{
         {this.props.alumni && !this.props.admin && pathnames.indexOf(location.pathname) === -1 && <h2>Find A Job</h2>}
         {location.pathname === "/addJobForm" && <h2>Post A Job</h2>}
         {location.pathname === "/mySavedJobs" && <h2>My Saved Jobs</h2>}
-        {location.pathname === "/myPostedJobs" || this.props.jobPoster && !this.props.admin && !this.props.alumni && pathnames.indexOf(location.pathname) === -1 && <h2>My Approved Jobs</h2>}
+        {location.pathname === "/myPostedJobs" && <h2>My Approved Jobs</h2>}
+        {this.props.jobPoster && !this.props.alumni && pathnames.indexOf(location.pathname) === -1 && <h2>My Approved Jobs</h2>}
 
       </div>
       <div className="actionsUserBar">

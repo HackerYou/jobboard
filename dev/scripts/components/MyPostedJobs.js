@@ -63,6 +63,8 @@ class MyPostedJobs extends React.Component {
                             admin={this.props.admin}
                             addressee={this.props.addressee}
                             jobPoster={this.props.jobPoster}
+                            addresseeEmail={job.addresseeEmail}
+                            applicationLink={job.applicationLink}
                             width={this.props.width}
                         />);
                 }
@@ -90,6 +92,8 @@ class MyPostedJobs extends React.Component {
                     approved={jobInfo['approved']}
                     jobCommitment={jobInfo['jobCommitment']}
                     addressee={jobInfo['addressee']}
+                    addresseeEmail={jobInfo['addresseeEmail']}
+                    applicationLink={jobInfo['applicationLink']}
                 />}
            
             </div>)

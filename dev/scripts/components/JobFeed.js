@@ -78,6 +78,8 @@ class JobFeed extends React.Component {
             addressee={this.props.addressee}
             jobPoster={this.props.jobPoster}
             savedList={this.state.usersSavedJobs.includes(jobId)}
+            addresseeEmail={job.addresseeEmail}
+            applicationLink={job.applicationLink}
             width={this.props.width}
           />
         </CSSTransition>

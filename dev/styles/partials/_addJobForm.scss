@@ -3,6 +3,7 @@
   padding: 60px 100px;
   p {
     padding: 15px 0 0px;
+    line-height: 1.2;
   }
   button {
     position: absolute;
@@ -37,6 +38,9 @@
 
 .jobCommitmentContainer {
   padding: 13px 20px;
+  div{
+    display: inline;
+  }
 }
 
 input[type='radio']:focus {
@@ -62,4 +66,15 @@ input[type='radio']:after {
 }
 input[type='radio']:checked:after {
     background-color: $primaryRed;
+}
+
+@media (max-width: 767px){
+  .jobForm {
+    padding: 30px 15px;
+  }
+  .jobCommitmentContainer {
+    div{
+      display: block;
+    }
+  }
 }
