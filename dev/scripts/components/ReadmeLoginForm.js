@@ -25,9 +25,8 @@ class ReadmeLoginForm extends React.Component {
           //if the token comes back, sign in with it
           firebase.auth().signInWithCustomToken(res.token)
           .catch((error) => {
-            let errorCode = error.code;
-            let errorMessage = error.message;
-            console.error(error.code, error.message)
+            const errorMessage = error.message;
+            this.props.setError(errorMessage);
           })
           .then((res) =>{
             //if the user exists already in the database, don't do anything
