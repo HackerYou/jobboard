@@ -20,7 +20,7 @@ class MyPostedJobs extends React.Component {
             if (snapshot.val() != null){
                 this.setState({ 
                     postedJobs: snapshot.val(),
-                    firstJob : sortJobsChronologically(snapshot.val())[0],
+                    firstJob : sortJobsChronologically(snapshot.val()).filter(jobId => snapshot.val()[jobId].archived === false)[0],
                     showDetails: true
                 });
             }
@@ -38,12 +38,13 @@ class MyPostedJobs extends React.Component {
     }
 
     renderJobs() {
-        const sortedPostedJobIds = sortJobsChronologically(this.state.postedJobs); 
+        const sortedPostedJobIds = sortJobsChronologically(this.state.postedJobs).filter(jobId => this.state.postedJobs[jobId].archived === false); 
         const jobs = this.state.postedJobs ? sortedPostedJobIds
             .filter(jobId => this.state.postedJobs[jobId].archived === false)
             .map(jobId => {
                 let job = this.state.postedJobs[jobId];
-                if (job.archived === false) {
+                console.log(job.jobTitle, job.approved);
+                // if (job.archived === false) {
                     return (
                         <JobPreview
                             showJobDetails={this.showJobDetails}
@@ -67,7 +68,7 @@ class MyPostedJobs extends React.Component {
                             applicationLink={job.applicationLink}
                             width={this.props.width}
                         />);
-                }
+                // }
             })
         : [];
 

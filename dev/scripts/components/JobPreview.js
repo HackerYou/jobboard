@@ -82,6 +82,12 @@ class JobPreview extends React.Component {
         //get the location in the archived list where this  job should live after it's archived 
         const approvedJobRef = firebase.database().ref(`jobs/approved/${this.props.jobId}`)
 
+        //get userId of who posted the job and change its approved status in their posted jobs list
+        const userPostedJobRef = firebase.database().ref(`users/${job.posterId}/postedJobs/${this.props.jobId}`)
+        userPostedJobRef.update({
+          approved: true
+        })
+
         // set the value of that node to be all the job information we got from line 49
         approvedJobRef.set(job)
 
@@ -122,11 +128,37 @@ class JobPreview extends React.Component {
         jobRef.remove()
       })
   }
+  
+  renderDate = () => {
+    console.log(this.props.approved);
+    if(this.props.approved === true){
+      return(
+      <p className="posted-on">
+        Posted { moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').add(1, 'days').format('YYYYMMDD') 
+        ? 
+          'yesterday' 
+        : 
+          moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').format('YYYYMMDD') 
+            ? 
+              moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow(true) 
+            : 
+              moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow() 
+        }
+      </p>
+      );
+    } else {
+      return(
+        <p className="posted-on">Pending...</p>
+      );
+    }
+  }
+
   render() {
 
     const jobPreviewClasses = classnames('job-preview', {
       'showing-job': this.props.active,
-      'job-preview-recent': moment(this.props.datePosted, 'YYYYMMDD').isBefore(moment().subtract(24, 'hours')) === false
+      'job-preview-recent': moment(this.props.datePosted, 'YYYYMMDD').isBefore(moment().subtract(24, 'hours')) === false,
+      'pending' : this.props.approved === false
     });
     return (
       <div className={jobPreviewClasses} >
@@ -134,10 +166,10 @@ class JobPreview extends React.Component {
           <p className="job-title">{this.props.jobTitle}</p>
           <span className="company-name" >{this.props.companyName}</span> | &nbsp;
           <span className="job-location">{this.props.jobLocation}</span>
-          {this.props.width <= 630 && <p className="posted-on">Posted {moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').add(1, 'days').format('YYYYMMDD') ? 'yesterday' : moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').format('YYYYMMDD') ? moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow(true) : moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow() }</p>}
+          {this.props.width <= 630 && this.renderDate()}
         </div>
         <div className="right">
-          {this.props.width > 630 && <p className="posted-on" >Posted {moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').add(1, 'days').format('YYYYMMDD') ? 'yesterday' : moment().format('YYYYMMDD') === moment(this.props.datePosted, 'YYYYMMDD').format('YYYYMMDD') ? moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow(true) : moment(this.props.datePosted, 'YYYYMMDD').endOf('day').fromNow() }</p>}
+          {this.props.width > 630 && this.renderDate()}
           <div className="icon-container">
             {this.props.admin && this.props.approved === false && <button className="icon" onClick={(e) => { this.approveJob(this.props.jobId) }}>
               <img src="../assets/icon-approve.svg" className="approve-icon"  alt="approve job button" /></button>}
