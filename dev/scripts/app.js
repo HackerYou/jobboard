@@ -18,6 +18,7 @@ import ApprovedJobs from './components/ApprovedJobs';
 import MyPostedJobs from './components/MyPostedJobs';
 import MySavedJobs from './components/MySavedJobs';
 import Loading from './components/Loading';
+import Error from './components/Error';
 
 import Search from './components/Search'
 import axios from 'axios';
@@ -44,7 +45,8 @@ class App extends React.Component {
       filteredJobs:{},
       width: 0,
       allJobs: {},
-      loading: false
+      loading: false,
+      error: false
     } 
   }
 
@@ -155,8 +157,8 @@ class App extends React.Component {
           } 
         });
       })
-      .catch(err => {
-        console.error(err);
+      .catch(() => {
+        this.setState({error: true})
       });
 
   }
@@ -242,8 +244,8 @@ class App extends React.Component {
         res = res.data;
         return res
       })
-      .catch(err =>{
-        console.log(err)
+      .catch(() =>{
+        this.setState({error: true})
       })
     
   }
@@ -343,8 +345,8 @@ class App extends React.Component {
         } 
         this.setState({ filteredJobs, loading: false});
       })
-      .catch( err => {
-        console.log(err)
+      .catch( () => {
+        this.setState({error:true})
       }); 
   }
 
@@ -353,11 +355,16 @@ class App extends React.Component {
     this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords)
   } 
 
+  setError = () => {
+    this.setState({error: true});
+  }
+
   render() {
     return (
             <Router history={this.history}>
               <div className="wrapper">
                 {this.state.loading && <Loading />}
+                {this.state.error && <Error />}
                 {this.state.loggedIn ? 
                   <div>
                     <UserBar  userId={this.state.userId} 
@@ -371,7 +378,7 @@ class App extends React.Component {
                               width={this.state.width}/>
                     <div className="tab-container">
                       <Switch>
-                        <Route exact path="/addJobForm" render={() => <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.closePostAJob} />} />
+                        <Route exact path="/addJobForm" render={() => <AddJobForm editing={this.state.editing} userId={this.state.userId} close={this.closePostAJob} />} setError={this.setError}/>
 
                         {this.state.admin && 
                           <Switch>

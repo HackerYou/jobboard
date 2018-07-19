@@ -78,7 +78,11 @@ class ApprovedJobs extends React.Component {
                     }
                 </TransitionGroup>
             </div>
-            {this.state.showDetails && this.props.width > 630 && <FullJob
+            {(
+                this.state.showDetails && 
+                this.props.width > 630 &&
+                jobInfo
+            ) && <FullJob
                 jobId={showingFullJobId}
                 jobTitle={jobInfo['jobTitle']}
                 jobLocation={jobInfo['jobLocation']}

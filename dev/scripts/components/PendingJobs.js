@@ -105,13 +105,18 @@ class PendingJobs extends React.Component {
         if(this.state.pendingJobs) {
             jobInfo = this.state.pendingJobs[`${jobId}`];
         }
+
         return <div className="job-feed-container job-feed-container--pending ">
             <div className="job-feed">
                 <TransitionGroup>
                     {this.renderJobs()}
                 </TransitionGroup>
             </div>
-            {this.state.showDetails && this.props.width > 630 && <FullJob
+            {(
+                this.state.showDetails && 
+                this.props.width > 630 &&
+                jobInfo
+            ) && <FullJob
                 jobId={jobId}
                 jobTitle={jobInfo['jobTitle']}
                 jobLocation={jobInfo['jobLocation']}

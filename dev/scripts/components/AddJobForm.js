@@ -94,6 +94,7 @@ class AddJobForm extends React.Component {
               showSuccessmessage: true,
             });
         })
+        .catch(this.props.setError)
     }
 
     handleChange = (e) => {
