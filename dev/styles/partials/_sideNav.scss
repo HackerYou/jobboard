@@ -41,3 +41,13 @@
       height: 100px;
     }
 }
+
+@media (max-width: 450px){
+  .side-nav{
+    width: 100%;
+    min-width: 300px;
+  }
+  .userBar .side-nav-ex{
+    width: 50px;
+  }
+}

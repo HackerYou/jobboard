@@ -92,3 +92,21 @@
   height:100%;
   transition: opacity 500ms ease-in;
 }
+
+@media (max-width: 950px){
+  .search .searchTop{
+    padding: 10px 20px 38px;
+  }
+}
+@media (max-width: 650px){
+  .search .advanced .selectContainer{
+    flex-direction: column;
+  }
+  .search .advanced .selectContainer select {
+    width: calc(100% - 40px);
+    margin: 5px 0px;
+  }
+  .keywords-container{
+    padding: 20px 10px 20px 20px;
+  }
+}
