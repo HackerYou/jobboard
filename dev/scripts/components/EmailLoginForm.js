@@ -18,19 +18,10 @@ class EmailLoginForm extends React.Component {
     let email = this.state.email
     let password = this.state.password
     let userSubmittedName = this.state.userSubmittedName;
-
-    firebase.auth().signInWithEmailAndPassword(email, password).catch( (error) => {
-      let errorCode = error.code;
-      let errorMessage = error.message;
-
-      if (error.code === `auth/user-not-found`) {
-          let errorCode = error.code;
-          let errorMessage = error.message;
-          console.log(errorCode, errorMessage)
-      }
-      
+    firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
+      const errorMessage = error.message;
+      this.props.setError(errorMessage)
     }).then(this.setUserInDB.bind(null,userSubmittedName))
-  
   }
 
   createNewUser = (e) =>{
@@ -40,31 +31,30 @@ class EmailLoginForm extends React.Component {
     let userSubmittedName = this.state.userSubmittedName;
 
     firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) => {
-      let errorCode = error.code;
-      let errorMessage = error.message;
-      console.log(errorCode, errorMessage)
+      const errorMessage = error.message;
+      this.props.setError(errorMessage)
     })
     .then(this.setUserInDB.bind(null, userSubmittedName))
   }
 
   setUserInDB = (userSubmittedName,res) => {
-      //get the information at the user's uid node in the user database
-      const userRef = firebase.database().ref(`users/${res.user.uid}`)
+    //get the information at the user's uid node in the user database
+    const userRef = firebase.database().ref(`users/${res.user.uid}`)
 
-      //if the user exists already in the database, return
-      userRef.on('value', function (snapshot) {
+    //if the user exists already in the database, return
+    userRef.on('value', function (snapshot) {
 
-        if (snapshot.val() === null){
-          // else, create a user in the database 
-          userRef.set({
-            'name': userSubmittedName,
-            'jobPoster': true,
-            'alumni': false,
-            'admin': false
-          })
-        }
-      });
-    }
+      if (snapshot.val() === null){
+        // else, create a user in the database 
+        userRef.set({
+          'name': userSubmittedName,
+          'jobPoster': true,
+          'alumni': false,
+          'admin': false
+        })
+      }
+    });
+  }
   onChangeEmail = (e) => {
     this.setState({
       email: e.target.value

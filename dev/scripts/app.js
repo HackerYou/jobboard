@@ -46,7 +46,8 @@ class App extends React.Component {
       width: 0,
       allJobs: {},
       loading: false,
-      error: false
+      error: false,
+      errorMessage: null
     } 
   }
 
@@ -355,8 +356,18 @@ class App extends React.Component {
     this.findJobInDatabase(jobLocation, jobCommitment, timeSincePosting, salary, searchKeywords)
   } 
 
-  setError = () => {
-    this.setState({error: true});
+  setError = (message) => {
+    this.setState({
+      error: true,
+      errorMessage: message
+    });
+  }
+
+  unsetError = () => {
+    this.setState({
+      error: false,
+      errorMessage: null
+    });
   }
 
   render() {
@@ -364,7 +375,7 @@ class App extends React.Component {
             <Router history={this.history}>
               <div className="wrapper">
                 {this.state.loading && <Loading />}
-                {this.state.error && <Error />}
+                {this.state.error && <Error message={this.state.errorMessage} closeFn={this.unsetError}/>}
                 {this.state.loggedIn ? 
                   <div>
                     <UserBar  userId={this.state.userId} 
@@ -443,8 +454,8 @@ class App extends React.Component {
                         </div>
                       )} />
 
-                      <Route exact path="/alumniLogin" component={ReadmeLoginForm} />
-                      <Route path="/posterLogin" render={()=> (<EmailLoginForm loginWithGoogle={this.loginWithGoogle} /> )}
+                      <Route exact path="/alumniLogin" render={(props) => <ReadmeLoginForm {...props} setError={this.setError} />} />
+                      <Route path="/posterLogin" render={()=> (<EmailLoginForm setError={this.setError} loginWithGoogle={this.loginWithGoogle} /> )}
                       />
                   </div>
                   }
