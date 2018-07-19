@@ -82,7 +82,11 @@ class MyPostedJobs extends React.Component {
                 <div className="job-feed">
                     {this.renderJobs()}
                 </div>
-                {this.state.showDetails && this.props.width > 630 && <FullJob 
+                {(
+                    this.state.showDetails && 
+                    this.props.width > 630 &&
+                    jobInfo
+                )&& <FullJob 
                     jobId={jobId} 
                     jobTitle={jobInfo['jobTitle']}
                     jobLocation={jobInfo['jobLocation']}

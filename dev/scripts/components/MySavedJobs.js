@@ -88,7 +88,11 @@ class MySavedJobs extends React.Component {
                 })}
                 {this.state.savedJobs == null ? <h3 className="message-no-jobs"> You don't have any saved jobs yet!</h3> :null}
             </div>
-            {this.state.showDetails && this.props.width > 630 && <FullJob 
+            {(
+                this.state.showDetails && 
+                this.props.width > 630 &&
+                jobInfo
+            ) && <FullJob 
                         jobId={showingFullJobId} 
                         jobTitle={jobInfo['jobTitle']}
                         jobLocation={jobInfo['jobLocation']}
