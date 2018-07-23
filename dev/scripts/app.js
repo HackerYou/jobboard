@@ -270,7 +270,10 @@ class App extends React.Component {
 
       .then( allDataSets => {
         if(allDataSets[0]  === null) {
-          this.setState({filteredJobs:{}});
+          this.setState({
+            filteredJobs:{},
+            loading:false
+          });
           return;
         }
         allDataSets = allDataSets.filter(dataSet => dataSet);
@@ -344,10 +347,15 @@ class App extends React.Component {
           ) {
           filteredJobs = {}
         } 
-        this.setState({ filteredJobs, loading: false});
+        this.setState({ 
+          filteredJobs, 
+          loading: false});
       })
       .catch( () => {
-        this.setState({error:true})
+        this.setState({
+          error:true,
+          loading: false
+        });
       }); 
   }
 
