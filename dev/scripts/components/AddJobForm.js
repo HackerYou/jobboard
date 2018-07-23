@@ -145,7 +145,7 @@ class AddJobForm extends React.Component {
                         </div>
                         <div className="formTextInput">
                             <label htmlFor="addressee">Addressee for Cover Letter or Application (Optional) </label>
-                            <input type="text" name="addressee" id="addressee" placeholder="Addressee for Cover Letter or Application  (Optional)" required="false" onChange={this.handleChange} value={this.state.addressee} />
+                            <input type="text" name="addressee" id="addressee" placeholder="Addressee for Cover Letter or Application  (Optional)" onChange={this.handleChange} value={this.state.addressee} />
                         </div>
                        
                         <div className="formTextInput">
