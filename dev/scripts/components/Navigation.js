@@ -11,7 +11,7 @@ class Navigation extends React.Component {
     super(props);
     this.state={
       isChecked:false,
-      disabled: false
+      disabled: true
     }
   }
 
@@ -38,14 +38,14 @@ class Navigation extends React.Component {
     return(
       <nav className="side-nav">
         <input
-          className={this.state.disabled ? "user-name-enabled" : "user-name-disabled"}
+          className={this.state.disabled ? "user-name-disabled" : "user-name-enabled"}
           type="text"
           name="name"
-          disabled={this.state.disabled ? "" : "disabled"}
+          disabled={this.state.disabled && "disabled"}
           onChange={this.handleChange}
           value={this.props.userName}
         />
-        <button className="edit-name" onClick={() => this.editClick()}>{this.state.disabled ? "Save name ▼" : "Edit name ▲"}</button>
+        <button className="edit-name" onClick={() => this.editClick()}>{this.state.disabled ? "Edit name ▲" : "Save name ▼"}</button>
         {this.props.admin && this.props.width <= 630 && <NavLink exact to="/" >Pending Jobs</NavLink>}
         {this.props.admin && this.props.width <= 630 && <NavLink  to="/approved">Approved Jobs</NavLink>}
         {this.props.admin && this.props.width <= 630 && <NavLink  to="/jobFeed">Job Feed</NavLink>}
