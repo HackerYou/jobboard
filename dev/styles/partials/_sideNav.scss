@@ -34,11 +34,30 @@
       }
 
     }
-    .user-name{
+    .edit-name {
+      text-align: center;
+      font-size: 15px;
+      margin-bottom: 50px;
+      border-bottom: 1px solid #EEEFF1;
+      background: $secondaryGrey;
+      width: 150px;
+      height: 40px;
+    }
+    .user-name-disabled, 
+    .user-name-enabled {
       font-size: 20px;
       text-align: center;
       width: 100%;
-      height: 100px;
+      height: 70px;
+      line-height: 4;
+      border-width: 2px;
+    }
+    .user-name-disabled {
+      background: none;
+      border: none;
+    }
+    .user-name-enabled {
+      background-color: white;
     }
 }
 

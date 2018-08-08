@@ -41,8 +41,8 @@ class App extends React.Component {
     this.state = {
       loggedIn: false,
       userId: '', 
-      provider:'',
-      filteredJobs:{},
+      provider: '',
+      filteredJobs: {},
       width: 0,
       allJobs: {},
       loading: false,
@@ -72,36 +72,72 @@ class App extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user !== null) {
         this.userRef = firebase.database().ref(`users/${user.uid}`)
-        this.setState({
-          loggedIn: true,
-          userId: user.uid,
-          userName: user.displayName
-        }, () => {
-          this.userRef.on('value', snapshot => {
-            let resp = snapshot.val()
-            if (resp != null){
-              this.setState({
-                admin: resp.admin,
-                alumni: resp.alumni,
-                jobPoster: resp.jobPoster,
-                userName: resp.name
-              });
-            }
+        if (!user.displayName) {
+          this.setState({ 
+            loggedIn: true,
+            userId: user.uid,
+            userName: user.uid
+          }, () => {
+            this.userRef.on('value', snapshot => {
+              let resp = snapshot.val()
+              if (resp != null) {
+                this.setState({
+                  admin: resp.admin,
+                  alumni: resp.alumni,
+                  jobPoster: resp.jobPoster,
+                  userName: resp.name
+                });
+              }
+            });
           });
-          this.history.push('/');
-        });
+        } else if (user.displayName) {
+          this.setState({
+            loggedIn: true,
+            userId: user.uid,
+            userName: user.displayName
+          }, () => {
+            this.userRef.on('value', snapshot => {
+              let resp = snapshot.val()
+              if (resp != null){
+                this.setState({
+                  admin: resp.admin,
+                  alumni: resp.alumni,
+                  jobPoster: resp.jobPoster,
+                });
+              }
+            });
+            this.history.push('/');
+          });
+        }
       } else {
         this.setState({
           loggedIn: false,
           userId: '',
           userName: '',
-          admin:'',
-          alumni:'',
-          jobPoster:''
+          admin: '',
+          alumni: '',
+          jobPoster: ''
         });
       }
     });
   } 
+  
+  updateUserName = (key, updatedUser) => {
+    // copy of states userName value
+    const userNameCurrent = { userName: this.state.userName };
+    // update it to what user is typing for editing their name
+    userNameCurrent[key] = updatedUser;
+    // set state of userName to updated value
+    this.setState({ userName: userNameCurrent[key].userName });
+    
+    // grab currentUser from firebase then update the displayName property in auth
+    const user = firebase.auth().currentUser;
+    user.updateProfile({ displayName: userNameCurrent[key].userName });
+    
+    // update the name property in database
+    const userRef = firebase.database().ref(`users/${user.uid}`);
+    userRef.update({ 'name': userNameCurrent[key].userName });
+  }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateWindowDimensions);
@@ -388,6 +424,7 @@ class App extends React.Component {
                   <div>
                     <UserBar  userId={this.state.userId} 
                               userName={this.state.userName} 
+                              updateUserName={this.updateUserName}
                               loggedIn={this.state.loggedIn} 
                               provider={this.state.provider} 
                               jobPoster={this.state.jobPoster} 
@@ -463,7 +500,12 @@ class App extends React.Component {
                       )} />
 
                       <Route exact path="/alumniLogin" render={(props) => <ReadmeLoginForm {...props} setError={this.setError} />} />
-                      <Route path="/posterLogin" render={()=> (<EmailLoginForm setError={this.setError} loginWithGoogle={this.loginWithGoogle} /> )}
+                      <Route path="/posterLogin" render={()=> (
+                        <EmailLoginForm 
+                          setError={this.setError} 
+                          loginWithGoogle={this.loginWithGoogle} 
+                        /> 
+                      )}
                       />
                   </div>
                   }

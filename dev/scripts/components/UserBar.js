@@ -7,7 +7,7 @@ class UserBar extends React.Component {
   constructor(props){
     super(props);
     this.state={
-      navOpen:false
+      navOpen: false
     }
   }
 toggleSideNav=() =>{
@@ -30,14 +30,26 @@ toggleSideNav=() =>{
         {this.props.alumni && !this.props.admin && pathnames.indexOf(location.pathname) === -1 && <h2>Find A Job</h2>}
         {location.pathname === "/addJobForm" && <h2>Post A Job</h2>}
         {location.pathname === "/mySavedJobs" && <h2>My Saved Jobs</h2>}
-        {location.pathname === "/myPostedJobs" && <h2>My Posted Jobs</h2>}
-        {this.props.jobPoster && !this.props.alumni && pathnames.indexOf(location.pathname) === -1 && <h2>My Posted Jobs</h2>}
+        {location.pathname === "/myPostedJobs" && <h2>{this.props.userName}'s Posted Jobs</h2>}
+        {this.props.jobPoster && !this.props.alumni && pathnames.indexOf(location.pathname) === -1 && <h2>{this.props.userName}'s Posted Jobs</h2>}
 
       </div>
       <div className="actionsUserBar">
         <TabNav admin={this.props.admin} jobPoster={this.props.jobPoster} alumni={this.props.alumni} width={this.props.width}/>
         <div className={this.state.navOpen ? `side-nav-ex` : `hamburger-side-nav`}><img src={this.state.navOpen ? `../assets/icon-x.svg` : `../assets/icon-menu.svg`} alt={this.state.navOpen ? `Close icon` : `Menu icon`}  onClick={this.toggleSideNav}/></div>
-        {this.state.navOpen && <Navigation admin={this.props.admin} userName={this.props.userName}  jobPoster={this.props.jobPoster} alumni={this.props.alumni} signOut={this.props.signOut} toggleSideNav={this.toggleSideNav} width={this.props.width}/> }
+          {this.state.navOpen && 
+          <Navigation 
+            userId={this.props.userId} 
+            index={this.props.userId} 
+            admin={this.props.admin} 
+            updateUserName={this.props.updateUserName} 
+            userName={this.props.userName} 
+            jobPoster={this.props.jobPoster} 
+            alumni={this.props.alumni} 
+            signOut={this.props.signOut} 
+            toggleSideNav={this.toggleSideNav} 
+            width={this.props.width}/> 
+          }
       </div>
     </div>
     )
