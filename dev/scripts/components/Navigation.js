@@ -1,16 +1,24 @@
 import React from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import PropTypes from "prop-types";
 
 class Navigation extends React.Component {
+  static propTypes = {
+    updateUserName: PropTypes.func
+  }
+
   constructor(props){
     super(props);
     this.state={
-      isChecked:false
+      isChecked:false,
+      disabled: false
     }
   }
-  componentDidMount(){
 
-  }
+  editClick = () => {
+    this.setState({ disabled: !this.state.disabled })
+  } 
+
   toggleCheckboxChange = () => {
     this.setState(({ isChecked }) => (
       {
@@ -20,10 +28,24 @@ class Navigation extends React.Component {
 
     this.props.handleCheckboxChange(this.props.word);
   }
+
+  handleChange = event => {
+    const updatedName = { userName: event.currentTarget.value };
+    this.props.updateUserName(this.props.index, updatedName);
+  };
+
   render(){
     return(
       <nav className="side-nav">
-        <p className="user-name">{this.props.userName}</p>
+        <input
+          className={this.state.disabled ? "user-name-enabled" : "user-name-disabled"}
+          type="text"
+          name="name"
+          disabled={this.state.disabled ? "" : "disabled"}
+          onChange={this.handleChange}
+          value={this.props.userName}
+        />
+        <button className="edit-name" onClick={() => this.editClick()}>{this.state.disabled ? "Save name ▼" : "Edit name ▲"}</button>
         {this.props.admin && this.props.width <= 630 && <NavLink exact to="/" >Pending Jobs</NavLink>}
         {this.props.admin && this.props.width <= 630 && <NavLink  to="/approved">Approved Jobs</NavLink>}
         {this.props.admin && this.props.width <= 630 && <NavLink  to="/jobFeed">Job Feed</NavLink>}
