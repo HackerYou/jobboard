@@ -18,7 +18,7 @@ class ReadmeLoginForm extends React.Component {
   }
   signInWithReadme = (e) =>{
     e.preventDefault();
-    fetch(`https://readme-api.hackeryou.com/v2/user/firebaseAuth?email=${this.state.email}&password=${this.state.password}`)
+    fetch(`https://readme-api.hackeryou.com/v2/user/firebaseAuth?email=${this.state.email}&password=${encodeURIComponent(this.state.password)}`)
       .then(res => res.json())
       .then(res => {
         if (res.token) {

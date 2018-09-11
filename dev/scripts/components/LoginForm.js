@@ -27,7 +27,7 @@ class LoginForm extends React.Component {
   }
   handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`https://notes-api.hackeryou.com/v2/user/firebaseAuth?email=${this.email.value}&password=${this.password.value}`)
+    fetch(`https://notes-api.hackeryou.com/v2/user/firebaseAuth?email=${this.email.value}&password=${encodeURIComponent(this.password.value)}`)
       .then(res => res.json())
       .then(res => {
         firebase.auth().signInWithCustomToken(res.token)
@@ -36,7 +36,7 @@ class LoginForm extends React.Component {
   };
   loginWithReadme = (e) => {
     e.preventDefault();
-    fetch(`https://notes-api.hackeryou.com/v2/user/firebaseAuth?email=${this.state.email}&password=${this.state.password}`)
+    fetch(`https://notes-api.hackeryou.com/v2/user/firebaseAuth?email=${this.state.email}&password=${encodeURIComponent(this.state.password)}`)
       .then(res => res.json())
       .then(res => {
         firebase.auth().signInWithCustomToken(res.token)
